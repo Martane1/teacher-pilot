@@ -1,0 +1,514 @@
+# -*- coding: utf-8 -*-
+"""
+Formulário de Professor do Sistema DIRENS
+"""
+
+import tkinter as tk
+from tkinter import ttk, messagebox
+from datetime import datetime
+import logging
+
+from core.validators import ValidatorManager
+from recursos.constants import CARGAS_HORARIAS, CARREIRAS, POS_GRADUACAO, ESTADOS
+
+class TeacherFormWindow:
+    """Janela do formulário de professor"""
+    
+    def __init__(self, parent, teacher_manager, school, teacher_data=None, callback=None):
+        """Inicializa o formulário"""
+        self.parent = parent
+        self.teacher_manager = teacher_manager
+        self.school = school
+        self.teacher_data = teacher_data
+        self.callback = callback
+        self.validator = ValidatorManager()
+        
+        # Determina se é edição ou novo
+        self.is_edit = teacher_data is not None
+        
+        # Cria a janela
+        self.window = tk.Toplevel(parent)
+        self.window.title("Editar Professor" if self.is_edit else "Novo Professor")
+        self.window.geometry("600x700")
+        self.window.resizable(False, False)
+        
+        # Modal
+        self.window.grab_set()
+        self.window.focus_set()
+        
+        # Centraliza
+        self.center_window()
+        
+        # Cria a interface
+        self.create_widgets()
+        
+        # Preenche dados se for edição
+        if self.is_edit:
+            self.populate_fields()
+    
+    def center_window(self):
+        """Centraliza a janela"""
+        self.window.update_idletasks()
+        
+        parent_x = self.parent.winfo_x()
+        parent_y = self.parent.winfo_y()
+        parent_width = self.parent.winfo_width()
+        parent_height = self.parent.winfo_height()
+        
+        width = 600
+        height = 700
+        
+        x = parent_x + (parent_width - width) // 2
+        y = parent_y + (parent_height - height) // 2
+        
+        self.window.geometry(f"{width}x{height}+{x}+{y}")
+    
+    def create_widgets(self):
+        """Cria os widgets do formulário"""
+        # Frame principal com scrollbar
+        canvas = tk.Canvas(self.window)
+        scrollbar = ttk.Scrollbar(self.window, orient="vertical", command=canvas.yview)
+        scrollable_frame = ttk.Frame(canvas)
+        
+        scrollable_frame.bind(
+            "<Configure>",
+            lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
+        )
+        
+        canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+        canvas.configure(yscrollcommand=scrollbar.set)
+        
+        # Layout
+        canvas.pack(side="left", fill="both", expand=True)
+        scrollbar.pack(side="right", fill="y")
+        
+        # Frame do conteúdo
+        main_frame = ttk.Frame(scrollable_frame, padding="20")
+        main_frame.pack(fill=tk.BOTH, expand=True)
+        
+        # Título
+        title_text = "Editar Professor" if self.is_edit else "Novo Professor"
+        ttk.Label(
+            main_frame,
+            text=title_text,
+            font=("Arial", 16, "bold")
+        ).pack(pady=(0, 20))
+        
+        # Dados pessoais
+        self.create_personal_section(main_frame)
+        
+        # Dados profissionais
+        self.create_professional_section(main_frame)
+        
+        # Dados acadêmicos
+        self.create_academic_section(main_frame)
+        
+        # Botões
+        self.create_buttons(main_frame)
+        
+        # Status
+        self.status_var = tk.StringVar()
+        ttk.Label(main_frame, textvariable=self.status_var, foreground="red").pack(pady=10)
+        
+        # Configurar rolagem com mouse
+        def _on_mousewheel(event):
+            canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+        
+        canvas.bind_all("<MouseWheel>", _on_mousewheel)
+    
+    def create_personal_section(self, parent):
+        """Cria seção de dados pessoais"""
+        personal_frame = ttk.LabelFrame(parent, text="Dados Pessoais", padding="15")
+        personal_frame.pack(fill=tk.X, pady=(0, 15))
+        personal_frame.grid_columnconfigure(1, weight=1)
+        
+        row = 0
+        
+        # SIAPE
+        ttk.Label(personal_frame, text="SIAPE:*").grid(row=row, column=0, sticky=tk.W, pady=5)
+        self.siape_var = tk.StringVar()
+        siape_entry = ttk.Entry(personal_frame, textvariable=self.siape_var, width=20)
+        siape_entry.grid(row=row, column=1, sticky=tk.W, pady=5)
+        
+        # Desabilita SIAPE em edição
+        if self.is_edit:
+            siape_entry.config(state='readonly')
+        
+        row += 1
+        
+        # Nome completo
+        ttk.Label(personal_frame, text="Nome Completo:*").grid(row=row, column=0, sticky=tk.W, pady=5)
+        self.nome_var = tk.StringVar()
+        nome_entry = ttk.Entry(personal_frame, textvariable=self.nome_var, width=50)
+        nome_entry.grid(row=row, column=1, sticky=(tk.W, tk.E), pady=5, columnspan=2)
+        
+        # Bind para converter para maiúscula
+        self.nome_var.trace('w', self.on_name_change)
+        
+        row += 1
+        
+        # CPF
+        ttk.Label(personal_frame, text="CPF:*").grid(row=row, column=0, sticky=tk.W, pady=5)
+        self.cpf_var = tk.StringVar()
+        ttk.Entry(personal_frame, textvariable=self.cpf_var, width=20).grid(row=row, column=1, sticky=tk.W, pady=5)
+        
+        row += 1
+        
+        # Data de nascimento
+        ttk.Label(personal_frame, text="Data Nascimento:*").grid(row=row, column=0, sticky=tk.W, pady=5)
+        self.data_nascimento_var = tk.StringVar()
+        data_nasc_entry = ttk.Entry(personal_frame, textvariable=self.data_nascimento_var, width=15)
+        data_nasc_entry.grid(row=row, column=1, sticky=tk.W, pady=5)
+        ttk.Label(personal_frame, text="(DD-MM-AAAA)", foreground="gray").grid(row=row, column=2, sticky=tk.W, padx=5)
+        
+        row += 1
+        
+        # Sexo
+        ttk.Label(personal_frame, text="Sexo:*").grid(row=row, column=0, sticky=tk.W, pady=5)
+        self.sexo_var = tk.StringVar()
+        sexo_frame = ttk.Frame(personal_frame)
+        sexo_frame.grid(row=row, column=1, sticky=tk.W, pady=5)
+        ttk.Radiobutton(sexo_frame, text="Masculino", variable=self.sexo_var, value="M").pack(side=tk.LEFT)
+        ttk.Radiobutton(sexo_frame, text="Feminino", variable=self.sexo_var, value="F").pack(side=tk.LEFT, padx=10)
+        
+        row += 1
+        
+        # Estado civil
+        ttk.Label(personal_frame, text="Estado Civil:").grid(row=row, column=0, sticky=tk.W, pady=5)
+        self.estado_civil_var = tk.StringVar()
+        ttk.Combobox(
+            personal_frame,
+            textvariable=self.estado_civil_var,
+            values=["Solteiro(a)", "Casado(a)", "Divorciado(a)", "Viúvo(a)", "União Estável"],
+            state="readonly",
+            width=20
+        ).grid(row=row, column=1, sticky=tk.W, pady=5)
+    
+    def create_professional_section(self, parent):
+        """Cria seção de dados profissionais"""
+        prof_frame = ttk.LabelFrame(parent, text="Dados Profissionais", padding="15")
+        prof_frame.pack(fill=tk.X, pady=(0, 15))
+        prof_frame.grid_columnconfigure(1, weight=1)
+        
+        row = 0
+        
+        # Carga horária
+        ttk.Label(prof_frame, text="Carga Horária:*").grid(row=row, column=0, sticky=tk.W, pady=5)
+        self.carga_horaria_var = tk.StringVar()
+        ttk.Combobox(
+            prof_frame,
+            textvariable=self.carga_horaria_var,
+            values=CARGAS_HORARIAS,
+            state="readonly",
+            width=15
+        ).grid(row=row, column=1, sticky=tk.W, pady=5)
+        
+        row += 1
+        
+        # Carreira
+        ttk.Label(prof_frame, text="Carreira:*").grid(row=row, column=0, sticky=tk.W, pady=5)
+        self.carreira_var = tk.StringVar()
+        ttk.Combobox(
+            prof_frame,
+            textvariable=self.carreira_var,
+            values=CARREIRAS,
+            state="readonly",
+            width=15
+        ).grid(row=row, column=1, sticky=tk.W, pady=5)
+        
+        row += 1
+        
+        # Data de ingresso
+        ttk.Label(prof_frame, text="Data Ingresso:*").grid(row=row, column=0, sticky=tk.W, pady=5)
+        self.data_ingresso_var = tk.StringVar()
+        data_ing_entry = ttk.Entry(prof_frame, textvariable=self.data_ingresso_var, width=15)
+        data_ing_entry.grid(row=row, column=1, sticky=tk.W, pady=5)
+        ttk.Label(prof_frame, text="(DD-MM-AAAA)", foreground="gray").grid(row=row, column=2, sticky=tk.W, padx=5)
+        
+        row += 1
+        
+        # Status
+        ttk.Label(prof_frame, text="Status:").grid(row=row, column=0, sticky=tk.W, pady=5)
+        self.status_prof_var = tk.StringVar()
+        ttk.Combobox(
+            prof_frame,
+            textvariable=self.status_prof_var,
+            values=["Ativo", "Afastado", "Licença", "Aposentado"],
+            state="readonly",
+            width=15
+        ).grid(row=row, column=1, sticky=tk.W, pady=5)
+        
+        row += 1
+        
+        # Área de atuação
+        ttk.Label(prof_frame, text="Área de Atuação:").grid(row=row, column=0, sticky=tk.W, pady=5)
+        self.area_atuacao_var = tk.StringVar()
+        ttk.Entry(prof_frame, textvariable=self.area_atuacao_var, width=40).grid(row=row, column=1, sticky=(tk.W, tk.E), pady=5)
+    
+    def create_academic_section(self, parent):
+        """Cria seção de dados acadêmicos"""
+        acad_frame = ttk.LabelFrame(parent, text="Dados Acadêmicos", padding="15")
+        acad_frame.pack(fill=tk.X, pady=(0, 15))
+        acad_frame.grid_columnconfigure(1, weight=1)
+        
+        row = 0
+        
+        # Pós-graduação
+        ttk.Label(acad_frame, text="Pós-graduação:*").grid(row=row, column=0, sticky=tk.W, pady=5)
+        self.pos_graduacao_var = tk.StringVar()
+        ttk.Combobox(
+            acad_frame,
+            textvariable=self.pos_graduacao_var,
+            values=POS_GRADUACAO,
+            state="readonly",
+            width=20
+        ).grid(row=row, column=1, sticky=tk.W, pady=5)
+        
+        row += 1
+        
+        # Graduação
+        ttk.Label(acad_frame, text="Graduação:").grid(row=row, column=0, sticky=tk.W, pady=5)
+        self.graduacao_var = tk.StringVar()
+        ttk.Entry(acad_frame, textvariable=self.graduacao_var, width=40).grid(row=row, column=1, sticky=(tk.W, tk.E), pady=5)
+        
+        row += 1
+        
+        # Instituição de graduação
+        ttk.Label(acad_frame, text="Instituição Graduação:").grid(row=row, column=0, sticky=tk.W, pady=5)
+        self.instituicao_grad_var = tk.StringVar()
+        ttk.Entry(acad_frame, textvariable=self.instituicao_grad_var, width=40).grid(row=row, column=1, sticky=(tk.W, tk.E), pady=5)
+        
+        row += 1
+        
+        # Especialização/Mestrado/Doutorado
+        ttk.Label(acad_frame, text="Curso Pós-graduação:").grid(row=row, column=0, sticky=tk.W, pady=5)
+        self.curso_pos_var = tk.StringVar()
+        ttk.Entry(acad_frame, textvariable=self.curso_pos_var, width=40).grid(row=row, column=1, sticky=(tk.W, tk.E), pady=5)
+        
+        row += 1
+        
+        # Instituição pós
+        ttk.Label(acad_frame, text="Instituição Pós:").grid(row=row, column=0, sticky=tk.W, pady=5)
+        self.instituicao_pos_var = tk.StringVar()
+        ttk.Entry(acad_frame, textvariable=self.instituicao_pos_var, width=40).grid(row=row, column=1, sticky=(tk.W, tk.E), pady=5)
+    
+    def create_buttons(self, parent):
+        """Cria os botões do formulário"""
+        button_frame = ttk.Frame(parent)
+        button_frame.pack(pady=20)
+        
+        # Botão salvar
+        save_text = "Atualizar" if self.is_edit else "Salvar"
+        ttk.Button(
+            button_frame,
+            text=save_text,
+            command=self.save_teacher,
+            width=15
+        ).pack(side=tk.LEFT, padx=5)
+        
+        # Botão cancelar
+        ttk.Button(
+            button_frame,
+            text="Cancelar",
+            command=self.window.destroy,
+            width=15
+        ).pack(side=tk.LEFT, padx=5)
+        
+        # Botão limpar (apenas para novo)
+        if not self.is_edit:
+            ttk.Button(
+                button_frame,
+                text="Limpar",
+                command=self.clear_form,
+                width=15
+            ).pack(side=tk.LEFT, padx=5)
+    
+    def on_name_change(self, *args):
+        """Converte nome para maiúscula"""
+        current = self.nome_var.get()
+        if current != current.upper():
+            # Salva posição do cursor
+            cursor_pos = 0
+            try:
+                # Tenta obter a posição do cursor (pode falhar em alguns casos)
+                widget = self.window.focus_get()
+                if hasattr(widget, 'index'):
+                    cursor_pos = widget.index(tk.INSERT)
+            except:
+                pass
+            
+            # Atualiza valor
+            self.nome_var.set(current.upper())
+            
+            # Restaura posição do cursor
+            try:
+                widget = self.window.focus_get()
+                if hasattr(widget, 'icursor'):
+                    widget.icursor(cursor_pos)
+            except:
+                pass
+    
+    def populate_fields(self):
+        """Preenche os campos com dados do professor"""
+        if not self.teacher_data:
+            return
+        
+        # Dados pessoais
+        self.siape_var.set(self.teacher_data.get('siape', ''))
+        self.nome_var.set(self.teacher_data.get('nome', ''))
+        self.cpf_var.set(self.teacher_data.get('cpf', ''))
+        self.data_nascimento_var.set(self.teacher_data.get('data_nascimento', ''))
+        self.sexo_var.set(self.teacher_data.get('sexo', ''))
+        self.estado_civil_var.set(self.teacher_data.get('estado_civil', ''))
+        
+        # Dados profissionais
+        self.carga_horaria_var.set(self.teacher_data.get('carga_horaria', ''))
+        self.carreira_var.set(self.teacher_data.get('carreira', ''))
+        self.data_ingresso_var.set(self.teacher_data.get('data_ingresso', ''))
+        self.status_prof_var.set(self.teacher_data.get('status', 'Ativo'))
+        self.area_atuacao_var.set(self.teacher_data.get('area_atuacao', ''))
+        
+        # Dados acadêmicos
+        self.pos_graduacao_var.set(self.teacher_data.get('pos_graduacao', ''))
+        self.graduacao_var.set(self.teacher_data.get('graduacao', ''))
+        self.instituicao_grad_var.set(self.teacher_data.get('instituicao_graduacao', ''))
+        self.curso_pos_var.set(self.teacher_data.get('curso_pos', ''))
+        self.instituicao_pos_var.set(self.teacher_data.get('instituicao_pos', ''))
+    
+    def clear_form(self):
+        """Limpa todos os campos do formulário"""
+        # Dados pessoais
+        self.siape_var.set('')
+        self.nome_var.set('')
+        self.cpf_var.set('')
+        self.data_nascimento_var.set('')
+        self.sexo_var.set('')
+        self.estado_civil_var.set('')
+        
+        # Dados profissionais
+        self.carga_horaria_var.set('')
+        self.carreira_var.set('')
+        self.data_ingresso_var.set('')
+        self.status_prof_var.set('Ativo')
+        self.area_atuacao_var.set('')
+        
+        # Dados acadêmicos
+        self.pos_graduacao_var.set('')
+        self.graduacao_var.set('')
+        self.instituicao_grad_var.set('')
+        self.curso_pos_var.set('')
+        self.instituicao_pos_var.set('')
+        
+        self.status_var.set('')
+    
+    def validate_form(self):
+        """Valida os dados do formulário"""
+        errors = []
+        
+        # Campos obrigatórios
+        required_fields = {
+            'SIAPE': self.siape_var.get().strip(),
+            'Nome': self.nome_var.get().strip(),
+            'CPF': self.cpf_var.get().strip(),
+            'Data de Nascimento': self.data_nascimento_var.get().strip(),
+            'Sexo': self.sexo_var.get(),
+            'Carga Horária': self.carga_horaria_var.get(),
+            'Carreira': self.carreira_var.get(),
+            'Data de Ingresso': self.data_ingresso_var.get().strip(),
+            'Pós-graduação': self.pos_graduacao_var.get()
+        }
+        
+        for field, value in required_fields.items():
+            if not value:
+                errors.append(f"{field} é obrigatório")
+        
+        if errors:
+            return errors
+        
+        # Validações específicas
+        siape = self.siape_var.get().strip()
+        if not self.validator.validate_siape(siape):
+            errors.append("SIAPE deve ter exatamente 7 dígitos numéricos")
+        
+        cpf = self.cpf_var.get().strip()
+        if not self.validator.validate_cpf(cpf):
+            errors.append("CPF inválido")
+        
+        data_nasc = self.data_nascimento_var.get().strip()
+        if not self.validator.validate_date(data_nasc):
+            errors.append("Data de nascimento inválida (use DD-MM-AAAA)")
+        
+        data_ing = self.data_ingresso_var.get().strip()
+        if not self.validator.validate_date(data_ing):
+            errors.append("Data de ingresso inválida (use DD-MM-AAAA)")
+        
+        # Verifica se SIAPE já existe (apenas para novo professor)
+        if not self.is_edit:
+            if self.teacher_manager.teacher_exists(siape, self.school):
+                errors.append("SIAPE já cadastrado nesta escola")
+        
+        return errors
+    
+    def save_teacher(self):
+        """Salva os dados do professor"""
+        # Valida formulário
+        errors = self.validate_form()
+        if errors:
+            self.status_var.set(errors[0])
+            return
+        
+        # Prepara dados
+        teacher_data = {
+            'siape': self.siape_var.get().strip(),
+            'nome': self.nome_var.get().strip().upper(),
+            'cpf': self.cpf_var.get().strip(),
+            'data_nascimento': self.data_nascimento_var.get().strip(),
+            'sexo': self.sexo_var.get(),
+            'estado_civil': self.estado_civil_var.get(),
+            'carga_horaria': self.carga_horaria_var.get(),
+            'carreira': self.carreira_var.get(),
+            'data_ingresso': self.data_ingresso_var.get().strip(),
+            'status': self.status_prof_var.get() or 'Ativo',
+            'area_atuacao': self.area_atuacao_var.get().strip(),
+            'pos_graduacao': self.pos_graduacao_var.get(),
+            'graduacao': self.graduacao_var.get().strip(),
+            'instituicao_graduacao': self.instituicao_grad_var.get().strip(),
+            'curso_pos': self.curso_pos_var.get().strip(),
+            'instituicao_pos': self.instituicao_pos_var.get().strip(),
+            'escola': self.school,
+            'data_criacao': datetime.now().isoformat() if not self.is_edit else self.teacher_data.get('data_criacao'),
+            'data_atualizacao': datetime.now().isoformat()
+        }
+        
+        try:
+            if self.is_edit:
+                # Atualizar professor existente
+                success = self.teacher_manager.update_teacher(
+                    teacher_data, 
+                    self.school,
+                    'usuario_atual'  # TODO: pegar usuário atual
+                )
+            else:
+                # Criar novo professor
+                success = self.teacher_manager.create_teacher(
+                    teacher_data,
+                    'usuario_atual'  # TODO: pegar usuário atual
+                )
+            
+            if success:
+                action = "atualizado" if self.is_edit else "criado"
+                messagebox.showinfo("Sucesso", f"Professor {action} com sucesso!")
+                
+                # Chama callback se definido
+                if self.callback:
+                    self.callback()
+                
+                # Fecha janela
+                self.window.destroy()
+            else:
+                self.status_var.set("Erro ao salvar dados do professor")
+                
+        except Exception as e:
+            logging.error(f"Erro ao salvar professor: {e}")
+            self.status_var.set("Erro interno do sistema")
+            messagebox.showerror("Erro", f"Erro ao salvar professor:\n{e}")
