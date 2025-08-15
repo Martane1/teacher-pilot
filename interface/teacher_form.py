@@ -170,71 +170,71 @@ class TeacherFormWindow:
         nome_entry.grid(row=0, column=0, sticky="we")
         nome_entry.focus_set()  # Foca automaticamente
         
-        # Sistema de acentos por substituição automática
-        def handle_key_event(event):
-            print(f"TECLA: {event.keysym} | CHAR: '{event.char}' | CODE: {event.keycode}")
+        # Funções para adicionar acentos com botões
+        def add_acute_accent():
+            """Adiciona acento agudo (´) na última letra digitada"""
+            text = self.nome_var.get()
+            cursor_pos = nome_entry.index(tk.INSERT)
             
-            # Detecta caracteres acentuados diretos (se funcionarem)
-            if event.char and ord(event.char) > 127:
-                print(f">>> ACENTO DETECTADO: '{event.char}' (Unicode: {ord(event.char)})")
-                return None
-            
-            # Sistema de substituição: digita 'a = á, 'e = é, etc.
-            if event.char and len(event.char) == 1:
-                current_text = self.nome_var.get()
-                cursor_pos = nome_entry.index(tk.INSERT)
+            if cursor_pos > 0:
+                last_char = text[cursor_pos-1:cursor_pos]
+                accent_map = {'a': 'á', 'e': 'é', 'i': 'í', 'o': 'ó', 'u': 'ú', 
+                             'A': 'Á', 'E': 'É', 'I': 'Í', 'O': 'Ó', 'U': 'Ú'}
                 
-                # Verifica se é uma letra que pode ter acento
-                vowels = 'aeiouAEIOUcCnN'
-                if event.char in vowels and cursor_pos > 0:
-                    # Verifica se o caractere anterior é um acento
-                    prev_char = current_text[cursor_pos-1:cursor_pos] if cursor_pos > 0 else ''
-                    
-                    if prev_char == "'":  # Acento agudo: 'a = á
-                        accent_map = {
-                            'a': 'á', 'e': 'é', 'i': 'í', 'o': 'ó', 'u': 'ú',
-                            'A': 'Á', 'E': 'É', 'I': 'Í', 'O': 'Ó', 'U': 'Ú'
-                        }
-                        if event.char in accent_map:
-                            # Remove o ' anterior e insere letra acentuada
-                            new_text = current_text[:cursor_pos-1] + accent_map[event.char] + current_text[cursor_pos:]
-                            self.nome_var.set(new_text)
-                            nome_entry.icursor(cursor_pos)
-                            print(f">>> SUBSTITUIÇÃO: '{prev_char}{event.char}' → '{accent_map[event.char]}'")
-                            return 'break'
-                    
-                    elif prev_char == "~":  # Til: ~a = ã
-                        til_map = {'a': 'ã', 'o': 'õ', 'A': 'Ã', 'O': 'Õ', 'n': 'ñ', 'N': 'Ñ'}
-                        if event.char in til_map:
-                            new_text = current_text[:cursor_pos-1] + til_map[event.char] + current_text[cursor_pos:]
-                            self.nome_var.set(new_text)
-                            nome_entry.icursor(cursor_pos)
-                            print(f">>> SUBSTITUIÇÃO: '{prev_char}{event.char}' → '{til_map[event.char]}'")
-                            return 'break'
-                    
-                    elif prev_char == ",":  # Cedilha: ,c = ç
-                        if event.char.lower() == 'c':
-                            cedilha = 'ç' if event.char.islower() else 'Ç'
-                            new_text = current_text[:cursor_pos-1] + cedilha + current_text[cursor_pos:]
-                            self.nome_var.set(new_text)
-                            nome_entry.icursor(cursor_pos)
-                            print(f">>> SUBSTITUIÇÃO: ',{event.char}' → '{cedilha}'")
-                            return 'break'
+                if last_char in accent_map:
+                    new_text = text[:cursor_pos-1] + accent_map[last_char] + text[cursor_pos:]
+                    self.nome_var.set(new_text)
+                    nome_entry.icursor(cursor_pos)
+        
+        def add_tilde():
+            """Adiciona til (~) na última letra digitada"""
+            text = self.nome_var.get()
+            cursor_pos = nome_entry.index(tk.INSERT)
             
-            return None  # Permite processamento normal
+            if cursor_pos > 0:
+                last_char = text[cursor_pos-1:cursor_pos]
+                tilde_map = {'a': 'ã', 'o': 'õ', 'A': 'Ã', 'O': 'Õ'}
+                
+                if last_char in tilde_map:
+                    new_text = text[:cursor_pos-1] + tilde_map[last_char] + text[cursor_pos:]
+                    self.nome_var.set(new_text)
+                    nome_entry.icursor(cursor_pos)
         
-        nome_entry.bind('<KeyPress>', handle_key_event)
+        def add_cedilla():
+            """Adiciona cedilha (ç) no C"""
+            text = self.nome_var.get()
+            cursor_pos = nome_entry.index(tk.INSERT)
+            
+            if cursor_pos > 0:
+                last_char = text[cursor_pos-1:cursor_pos]
+                if last_char.lower() == 'c':
+                    cedilla = 'ç' if last_char.islower() else 'Ç'
+                    new_text = text[:cursor_pos-1] + cedilla + text[cursor_pos:]
+                    self.nome_var.set(new_text)
+                    nome_entry.icursor(cursor_pos)
         
-        # Botão de teste
-        test_button = ttk.Button(
-            nome_frame, 
-            text="Teste Acentos",
-            command=lambda: self.nome_var.set("José María Conceição Araújo"),
-            width=12
-        )
-        test_button.grid(row=0, column=1, padx=(5, 0))
+        # Frame com botões de acento
+        accent_frame = ttk.Frame(nome_frame)
+        accent_frame.grid(row=0, column=1, padx=(5, 0))
         
-        row += 1
+        # Instruções
+        ttk.Label(nome_frame, text="Digite a letra, depois clique no acento:", 
+                 font=('Arial', 8), foreground='blue').grid(row=1, column=0, columnspan=2, sticky='w', pady=(2, 0))
+        
+        # Botões de acento
+        ttk.Button(accent_frame, text="´", command=add_acute_accent, width=3,
+                  ).grid(row=0, column=0, padx=1)
+        ttk.Button(accent_frame, text="~", command=add_tilde, width=3,
+                  ).grid(row=0, column=1, padx=1)  
+        ttk.Button(accent_frame, text="ç", command=add_cedilla, width=3,
+                  ).grid(row=0, column=2, padx=1)
+        
+        # Botão de exemplo
+        ttk.Button(accent_frame, text="Exemplo", width=7,
+                  command=lambda: self.nome_var.set("José María Conceição"),
+                  ).grid(row=0, column=3, padx=2)
+        
+        row += 2  # Pula duas linhas por causa das instruções
         
         # CPF removido por questões de segurança
         
