@@ -52,14 +52,19 @@ class MainWindow:
         self.status_var.set("Pronto")
         self.count_var.set("0 de 0 professores")
         
-        # Bind para busca em tempo real
-        self.search_var.trace('w', self.on_search_change)
-        
         # Cria a interface
         self.create_widgets()
         
         # Configura fechamento
         self.root.protocol("WM_DELETE_WINDOW", self.on_close)
+        
+        # Bind para busca em tempo real (depois da criação da interface)
+        self.search_var.trace('w', self.on_search_change)
+        
+        # Bind dos filtros (depois da criação da interface)
+        self.filter_pos.trace('w', self.apply_filters)
+        self.filter_carga.trace('w', self.apply_filters)
+        self.filter_carreira.trace('w', self.apply_filters)
         
         # Carrega dados iniciais (depois da criação da interface)
         self.refresh_data()
@@ -255,10 +260,7 @@ class MainWindow:
         self.count_var = tk.StringVar()
         ttk.Label(search_row, textvariable=self.count_var).pack(side=tk.RIGHT, padx=10)
         
-        # Configurar eventos de filtro
-        self.filter_pos.trace('w', self.apply_filters)
-        self.filter_carga.trace('w', self.apply_filters)
-        self.filter_carreira.trace('w', self.apply_filters)
+        # Configurar eventos de filtro (movido para __init__)
         
         # Definir valores padrão
         self.filter_pos.set("Todos")
