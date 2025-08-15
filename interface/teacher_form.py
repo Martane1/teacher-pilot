@@ -175,7 +175,12 @@ class TeacherFormWindow:
         row += 1
         
         # Nome completo
-        ttk.Label(personal_frame, text="Nome Completo:*").grid(row=row, column=0, sticky=tk.W, pady=5)
+        nome_label = ttk.Label(personal_frame, text="Nome Completo:*")
+        nome_label.grid(row=row, column=0, sticky=tk.W, pady=5)
+        
+        # Label de instruções para acentos
+        ttk.Label(personal_frame, text="(Digite aa=á, ee=é, ii=í, oo=ó, uu=ú, a~=ã, o~=õ, c,=ç)", 
+                  font=('Arial', 8), foreground='gray').grid(row=row, column=2, sticky=tk.W, padx=5)
         
         # Frame para o campo de nome
         nome_frame = tk.Frame(personal_frame)
@@ -207,8 +212,8 @@ class TeacherFormWindow:
             # Remove limitações de entrada
             self.nome_text.configure(state='normal')
             
-            # Bind para sincronizar com a variável
-            self.nome_text.bind('<KeyRelease>', self.sync_nome_var)
+            # Bind para capturar digitação e converter acentos
+            self.nome_text.bind('<KeyRelease>', self.process_accent_input)
             self.nome_text.bind('<Button-1>', self.sync_nome_var)
             self.nome_text.bind('<FocusOut>', self.sync_nome_var)
             
@@ -449,6 +454,55 @@ class TeacherFormWindow:
                 command=self.clear_form,
                 width=15
             ).pack(side=tk.LEFT, padx=5)
+    
+    def process_accent_input(self, event=None):
+        """Processa entrada de texto e converte sequências para acentos"""
+        try:
+            # Obtém texto atual
+            current_text = self.nome_text.get('1.0', 'end-1c')
+            
+            # Dicionário de conversões simples
+            conversions = {
+                'aa': 'á', 'AA': 'Á',  # a agudo
+                'ee': 'é', 'EE': 'É',  # e agudo  
+                'ii': 'í', 'II': 'Í',  # i agudo
+                'oo': 'ó', 'OO': 'Ó',  # o agudo
+                'uu': 'ú', 'UU': 'Ú',  # u agudo
+                'a~': 'ã', 'A~': 'Ã',  # a til
+                'o~': 'õ', 'O~': 'Õ',  # o til
+                'c,': 'ç', 'C,': 'Ç',  # cedilha
+                'a^': 'â', 'A^': 'Â',  # a circunflexo
+                'e^': 'ê', 'E^': 'Ê',  # e circunflexo
+                'o^': 'ô', 'O^': 'Ô',  # o circunflexo
+            }
+            
+            # Aplica conversões
+            modified = False
+            for sequence, accent in conversions.items():
+                if sequence in current_text:
+                    current_text = current_text.replace(sequence, accent)
+                    modified = True
+            
+            # Se houve modificação, atualiza o campo
+            if modified:
+                # Salva posição do cursor
+                cursor_pos = self.nome_text.index(tk.INSERT)
+                
+                # Atualiza texto
+                self.nome_text.delete('1.0', tk.END)
+                self.nome_text.insert('1.0', current_text)
+                
+                # Restaura cursor (aproximadamente)
+                try:
+                    self.nome_text.mark_set(tk.INSERT, cursor_pos)
+                except:
+                    pass
+            
+            # Sincroniza com variável
+            self.sync_nome_var()
+            
+        except Exception as e:
+            print(f"Erro ao processar acentos: {e}")
     
     def sync_nome_var(self, event=None):
         """Sincroniza o conteúdo do Text com a StringVar"""
