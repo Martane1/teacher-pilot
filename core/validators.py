@@ -190,12 +190,7 @@ class ValidatorManager:
             except Exception:
                 pass
         
-        # Valida consistência de formação
-        pos_graduacao = data.get('pos_graduacao')
-        graduacao = data.get('graduacao', '').strip()
-        
-        if pos_graduacao in ['ESPECIALIZAÇÃO', 'MESTRADO', 'DOUTORADO'] and not graduacao:
-            errors.append("Graduação é obrigatória para pós-graduação")
+        # Validação de graduação removida - campos removidos do formulário
         
         return errors
     

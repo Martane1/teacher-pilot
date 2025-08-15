@@ -4,9 +4,24 @@
 
 This is a desktop application for managing teachers in the DIRENS (Diretoria de Ensino da Aeronáutica) educational system. Built with Python and Tkinter, it provides a comprehensive interface for managing teacher data across multiple Brazilian Air Force educational institutions. The system handles teacher registration, data validation, backup management, statistics generation, and export capabilities with a focus on Brazilian Air Force educational requirements.
 
+## Recent Changes
+
+**August 15, 2025**
+- Simplified teacher registration form by removing unnecessary academic fields:
+  - Removed "Graduação" (Graduation) field
+  - Removed "Instituição da Graduação" (Graduation Institution) field  
+  - Removed "Curso Pós-graduação" (Post-graduation Course) field
+  - Removed "Instituição Pós" (Post-graduation Institution) field
+- Added comprehensive accent support for Portuguese characters:
+  - Added accent buttons (´, ^, ~, ç) to both name field and search field
+  - Support for á, é, í, ó, ú, â, ê, ô, ã, õ, ç characters
+- Updated validation system to accommodate simplified form structure
+- Improved form layout and window sizing for better usability
+
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
+Accent Input: User requires ability to input Portuguese accent characters (á, é, í, ó, ú, â, ê, ô, ã, õ, ç) in name fields and search functionality using button-based accent system.
 
 ## System Architecture
 
