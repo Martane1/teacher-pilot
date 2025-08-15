@@ -151,8 +151,8 @@ class TeacherFormWindow:
         nome_entry = ttk.Entry(personal_frame, textvariable=self.nome_var, width=50)
         nome_entry.grid(row=row, column=1, sticky="we", pady=5, columnspan=2)
         
-        # Bind para converter para maiúscula preservando acentos
-        self.nome_var.trace('w', self.on_name_change)
+        # Bind para converter maiúscula apenas quando sai do campo
+        nome_entry.bind('<FocusOut>', self.on_name_focus_out)
         
         row += 1
         
@@ -378,34 +378,12 @@ class TeacherFormWindow:
                 width=15
             ).pack(side=tk.LEFT, padx=5)
     
-    def on_name_change(self, *args):
-        """Converte nome para maiúscula preservando acentos"""
+    def on_name_focus_out(self, event):
+        """Converte nome para maiúscula quando sai do campo"""
         current = self.nome_var.get()
-        
-        # Converte para maiúscula preservando acentos portugueses
-        upper_with_accents = current.upper()
-        
-        if current != upper_with_accents:
-            # Salva posição do cursor
-            cursor_pos = 0
-            try:
-                # Tenta obter a posição do cursor (pode falhar em alguns casos)
-                widget = self.window.focus_get()
-                if widget and hasattr(widget, 'index'):
-                    cursor_pos = widget.index(tk.INSERT)
-            except:
-                pass
-            
-            # Atualiza valor com maiúscula preservando acentos
-            self.nome_var.set(upper_with_accents)
-            
-            # Restaura posição do cursor
-            try:
-                widget = self.window.focus_get()
-                if widget and hasattr(widget, 'icursor'):
-                    widget.icursor(cursor_pos)
-            except:
-                pass
+        if current:
+            # Converte para maiúscula preservando todos os acentos
+            self.nome_var.set(current.upper())
     
     def populate_fields(self):
         """Preenche os campos com dados do professor"""

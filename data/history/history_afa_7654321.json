@@ -13,7 +13,18 @@
       "old_value": null,
       "new_value": "Novo professor criado",
       "notes": "Professor MARATANE SILVA criado com SIAPE 7654321"
+    },
+    {
+      "siape": "7654321",
+      "escola": "AFA",
+      "action": "UPDATE",
+      "user": "admin",
+      "timestamp": "2025-08-15T17:20:37.788588",
+      "field": "email",
+      "old_value": "",
+      "new_value": "ivan@fab.mil.br",
+      "notes": "Campo email alterado"
     }
   ],
-  "last_updated": "2025-08-15T16:00:37.226141"
+  "last_updated": "2025-08-15T17:20:37.794545"
 }
