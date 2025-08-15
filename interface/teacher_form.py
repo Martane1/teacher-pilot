@@ -176,35 +176,55 @@ class TeacherFormWindow:
         
         # Nome completo
         ttk.Label(personal_frame, text="Nome Completo:*").grid(row=row, column=0, sticky=tk.W, pady=5)
-        self.nome_var = tk.StringVar()
         
-        # Entry com configurações específicas para Unicode
-        nome_entry = tk.Entry(
-            personal_frame, 
-            textvariable=self.nome_var, 
+        # Frame para o campo de nome
+        nome_frame = tk.Frame(personal_frame)
+        nome_frame.grid(row=row, column=1, sticky="we", pady=5, columnspan=2)
+        nome_frame.grid_columnconfigure(0, weight=1)
+        
+        # Usa Text widget que tem melhor suporte Unicode
+        self.nome_text = tk.Text(
+            nome_frame,
+            height=1,
             width=50,
-            font=('DejaVu Sans', 10),  # Fonte com melhor suporte Unicode
+            font=('Arial', 10),
             relief='solid',
             borderwidth=1,
             highlightthickness=1,
-            highlightcolor='blue'
+            highlightcolor='blue',
+            wrap=tk.NONE,
+            undo=True,
+            maxundo=20
         )
-        nome_entry.grid(row=row, column=1, sticky="we", pady=5, columnspan=2)
+        self.nome_text.grid(row=0, column=0, sticky="we")
         
-        # Configurações para aceitar Unicode
+        # Scrollbar horizontal (se necessário)
+        nome_scroll = tk.Scrollbar(nome_frame, orient=tk.HORIZONTAL, command=self.nome_text.xview)
+        self.nome_text.config(xscrollcommand=nome_scroll.set)
+        
+        # Configurações avançadas para Unicode
         try:
-            # Define encoding explicito
-            nome_entry.configure(validate='none')  # Remove todas as validações
-            # Permite todos os eventos de teclado
-            nome_entry.bind('<Key>', lambda e: None)  # Não bloqueia nada
-            # Armazena referência para usar depois
-            self.nome_entry_ref = nome_entry
+            # Remove limitações de entrada
+            self.nome_text.configure(state='normal')
             
-            # Teste direto: tenta inserir um caractere acentuado
-            nome_entry.insert(0, '')
-            nome_entry.delete(0, tk.END)
+            # Bind para sincronizar com a variável
+            self.nome_text.bind('<KeyRelease>', self.sync_nome_var)
+            self.nome_text.bind('<Button-1>', self.sync_nome_var)
+            self.nome_text.bind('<FocusOut>', self.sync_nome_var)
+            
+            # Desabilita quebra de linha
+            self.nome_text.bind('<Return>', lambda e: 'break')
+            self.nome_text.bind('<KP_Enter>', lambda e: 'break')
+            
+            # Cria variável para compatibilidade
+            self.nome_var = tk.StringVar()
+            
+            # Teste Unicode - insere e remove caractere acentuado
+            self.nome_text.insert('1.0', 'áéíóú')
+            self.nome_text.delete('1.0', tk.END)
+            
         except Exception as e:
-            print(f"Configuração Unicode: {e}")
+            print(f"Erro na configuração do campo nome: {e}")
         
         row += 1
         
@@ -430,17 +450,30 @@ class TeacherFormWindow:
                 width=15
             ).pack(side=tk.LEFT, padx=5)
     
-    def test_unicode_support(self):
-        """Testa se Unicode funciona no campo"""
+    def sync_nome_var(self, event=None):
+        """Sincroniza o conteúdo do Text com a StringVar"""
         try:
-            if hasattr(self, 'nome_entry_ref'):
-                # Testa inserir caracteres acentuados diretamente
-                test_chars = 'áéíóúçãõ'
-                current = self.nome_var.get()
-                self.nome_var.set(current + test_chars)
-                print(f"Teste Unicode: inseridos {test_chars}")
+            # Obtém todo o texto do widget Text
+            content = self.nome_text.get('1.0', 'end-1c')  # Remove \n final
+            
+            # Remove quebras de linha se houver
+            content = content.replace('\n', ' ').replace('\r', ' ')
+            
+            # Atualiza a variável
+            self.nome_var.set(content)
+            
         except Exception as e:
-            print(f"Erro no teste Unicode: {e}")
+            print(f"Erro ao sincronizar nome: {e}")
+    
+    def get_nome_value(self):
+        """Obtém o valor atual do nome"""
+        try:
+            if hasattr(self, 'nome_text'):
+                content = self.nome_text.get('1.0', 'end-1c')
+                return content.replace('\n', ' ').replace('\r', ' ').strip()
+            return self.nome_var.get().strip()
+        except:
+            return ''
     
     def populate_fields(self):
         """Preenche os campos com dados do professor"""
@@ -449,7 +482,13 @@ class TeacherFormWindow:
         
         # Dados pessoais
         self.siape_var.set(self.teacher_data.get('siape', ''))
-        self.nome_var.set(self.teacher_data.get('nome', ''))
+        
+        # Define nome no widget Text
+        nome_value = self.teacher_data.get('nome', '')
+        if hasattr(self, 'nome_text'):
+            self.nome_text.delete('1.0', tk.END)
+            self.nome_text.insert('1.0', nome_value)
+        self.nome_var.set(nome_value)
         self.data_nascimento_var.set(self.teacher_data.get('data_nascimento', ''))
         self.sexo_var.set(self.teacher_data.get('sexo', ''))
         
@@ -494,6 +533,8 @@ class TeacherFormWindow:
         """Limpa todos os campos do formulário"""
         # Dados pessoais
         self.siape_var.set('')
+        if hasattr(self, 'nome_text'):
+            self.nome_text.delete('1.0', tk.END)
         self.nome_var.set('')
         self.data_nascimento_var.set('')
         self.sexo_var.set('')
@@ -526,7 +567,7 @@ class TeacherFormWindow:
         # Campos obrigatórios
         required_fields = {
             'SIAPE': self.siape_var.get().strip(),
-            'Nome': self.nome_var.get().strip(),
+            'Nome': self.get_nome_value(),
             'Data de Nascimento': self.data_nascimento_var.get().strip(),
             'Sexo': self.sexo_var.get(),
             'Email Institucional': self.email_nome_var.get().strip(),
@@ -549,6 +590,13 @@ class TeacherFormWindow:
         siape = self.siape_var.get().strip()
         if not self.validator.validate_siape(siape):
             errors.append("SIAPE deve ter exatamente 7 dígitos numéricos")
+        
+        # Valida nome obtido do widget Text
+        nome_valor = self.get_nome_value()
+        if len(nome_valor) < 2:
+            errors.append("Nome deve ter pelo menos 2 caracteres")
+        elif len(nome_valor) > 100:
+            errors.append("Nome muito longo (máximo 100 caracteres)")
         
         data_nasc = self.data_nascimento_var.get().strip()
         if not self.validator.validate_date(data_nasc):
@@ -612,7 +660,7 @@ class TeacherFormWindow:
             
         teacher_data = {
             'siape': self.siape_var.get().strip(),
-            'nome': self.nome_var.get().strip().upper(),  # Converte para maiúscula só ao salvar
+            'nome': self.get_nome_value().upper(),  # Converte para maiúscula só ao salvar
             'data_nascimento': self.data_nascimento_var.get().strip(),
             'sexo': self.sexo_var.get(),
             'email': self.email_nome_var.get().strip() + '@fab.mil.br',
