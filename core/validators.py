@@ -108,7 +108,7 @@ class ValidatorManager:
     def validate_required_fields(self, data):
         """Valida campos obrigatórios"""
         required_fields = [
-            'siape', 'nome', 'cpf', 'data_nascimento', 'sexo',
+            'siape', 'nome', 'data_nascimento', 'sexo',
             'carga_horaria', 'carreira', 'data_ingresso', 'pos_graduacao'
         ]
         
@@ -217,9 +217,7 @@ class ValidatorManager:
             if not self.validate_siape(siape):
                 all_errors.append("SIAPE deve ter exatamente 7 dígitos numéricos")
             
-            cpf = data.get('cpf', '').strip()
-            if not self.validate_cpf(cpf):
-                all_errors.append("CPF inválido")
+            # CPF removido por questões de segurança e privacidade
             
             data_nasc = data.get('data_nascimento', '').strip()
             if not self.validate_date(data_nasc):
@@ -292,11 +290,7 @@ class ValidatorManager:
                 siape = re.sub(r'\D', '', str(cleaned_data['siape']))
                 cleaned_data['siape'] = siape
             
-            # Formata CPF
-            if 'cpf' in cleaned_data:
-                cpf = re.sub(r'\D', '', str(cleaned_data['cpf']))
-                if len(cpf) == 11:
-                    cleaned_data['cpf'] = f"{cpf[:3]}.{cpf[3:6]}.{cpf[6:9]}-{cpf[9:]}"
+            # CPF removido por questões de segurança e privacidade
             
             # Formata telefone
             if 'telefone' in cleaned_data and cleaned_data['telefone']:
@@ -307,7 +301,7 @@ class ValidatorManager:
                     cleaned_data['telefone'] = f"({phone[:2]}) {phone[2:6]}-{phone[6:]}"
             
             # Remove campos vazios opcionais
-            optional_fields = ['email', 'telefone', 'estado_civil', 'area_atuacao',
+            optional_fields = ['email', 'telefone', 'area_atuacao',
                              'graduacao', 'instituicao_graduacao', 'curso_pos', 'instituicao_pos']
             
             for field in optional_fields:

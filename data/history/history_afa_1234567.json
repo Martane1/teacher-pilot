@@ -13,7 +13,29 @@
       "old_value": null,
       "new_value": "Novo professor criado",
       "notes": "Professor IVAN MARTANE criado com SIAPE 1234567"
+    },
+    {
+      "siape": "1234567",
+      "escola": "AFA",
+      "action": "UPDATE",
+      "user": "admin",
+      "timestamp": "2025-08-15T15:48:13.811053",
+      "field": "estado_civil",
+      "old_value": "Casado(a)",
+      "new_value": "Solteiro(a)",
+      "notes": "Campo estado_civil alterado"
+    },
+    {
+      "siape": "1234567",
+      "escola": "AFA",
+      "action": "UPDATE",
+      "user": "admin",
+      "timestamp": "2025-08-15T15:48:13.811709",
+      "field": "pos_graduacao",
+      "old_value": "GRADUAÇÃO",
+      "new_value": "DOUTORADO",
+      "notes": "Campo pos_graduacao alterado"
     }
   ],
-  "last_updated": "2025-08-15T14:13:14.148515"
+  "last_updated": "2025-08-15T15:48:13.811776"
 }

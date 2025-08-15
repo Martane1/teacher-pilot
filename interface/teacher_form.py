@@ -156,12 +156,7 @@ class TeacherFormWindow:
         
         row += 1
         
-        # CPF
-        ttk.Label(personal_frame, text="CPF:*").grid(row=row, column=0, sticky=tk.W, pady=5)
-        self.cpf_var = tk.StringVar()
-        ttk.Entry(personal_frame, textvariable=self.cpf_var, width=20).grid(row=row, column=1, sticky=tk.W, pady=5)
-        
-        row += 1
+        # CPF removido por questões de segurança
         
         # Data de nascimento
         ttk.Label(personal_frame, text="Data Nascimento:*").grid(row=row, column=0, sticky=tk.W, pady=5)
@@ -182,16 +177,7 @@ class TeacherFormWindow:
         
         row += 1
         
-        # Estado civil
-        ttk.Label(personal_frame, text="Estado Civil:").grid(row=row, column=0, sticky=tk.W, pady=5)
-        self.estado_civil_var = tk.StringVar()
-        ttk.Combobox(
-            personal_frame,
-            textvariable=self.estado_civil_var,
-            values=["Solteiro(a)", "Casado(a)", "Divorciado(a)", "Viúvo(a)", "União Estável"],
-            state="readonly",
-            width=20
-        ).grid(row=row, column=1, sticky=tk.W, pady=5)
+        # Estado civil removido por questões de privacidade
     
     def create_professional_section(self, parent):
         """Cria seção de dados profissionais"""
@@ -365,10 +351,8 @@ class TeacherFormWindow:
         # Dados pessoais
         self.siape_var.set(self.teacher_data.get('siape', ''))
         self.nome_var.set(self.teacher_data.get('nome', ''))
-        self.cpf_var.set(self.teacher_data.get('cpf', ''))
         self.data_nascimento_var.set(self.teacher_data.get('data_nascimento', ''))
         self.sexo_var.set(self.teacher_data.get('sexo', ''))
-        self.estado_civil_var.set(self.teacher_data.get('estado_civil', ''))
         
         # Dados profissionais
         self.carga_horaria_var.set(self.teacher_data.get('carga_horaria', ''))
@@ -389,10 +373,8 @@ class TeacherFormWindow:
         # Dados pessoais
         self.siape_var.set('')
         self.nome_var.set('')
-        self.cpf_var.set('')
         self.data_nascimento_var.set('')
         self.sexo_var.set('')
-        self.estado_civil_var.set('')
         
         # Dados profissionais
         self.carga_horaria_var.set('')
@@ -418,7 +400,6 @@ class TeacherFormWindow:
         required_fields = {
             'SIAPE': self.siape_var.get().strip(),
             'Nome': self.nome_var.get().strip(),
-            'CPF': self.cpf_var.get().strip(),
             'Data de Nascimento': self.data_nascimento_var.get().strip(),
             'Sexo': self.sexo_var.get(),
             'Carga Horária': self.carga_horaria_var.get(),
@@ -438,10 +419,6 @@ class TeacherFormWindow:
         siape = self.siape_var.get().strip()
         if not self.validator.validate_siape(siape):
             errors.append("SIAPE deve ter exatamente 7 dígitos numéricos")
-        
-        cpf = self.cpf_var.get().strip()
-        if not self.validator.validate_cpf(cpf):
-            errors.append("CPF inválido")
         
         data_nasc = self.data_nascimento_var.get().strip()
         if not self.validator.validate_date(data_nasc):
@@ -470,10 +447,8 @@ class TeacherFormWindow:
         teacher_data = {
             'siape': self.siape_var.get().strip(),
             'nome': self.nome_var.get().strip().upper(),
-            'cpf': self.cpf_var.get().strip(),
             'data_nascimento': self.data_nascimento_var.get().strip(),
             'sexo': self.sexo_var.get(),
-            'estado_civil': self.estado_civil_var.get(),
             'carga_horaria': self.carga_horaria_var.get(),
             'carreira': self.carreira_var.get(),
             'data_ingresso': self.data_ingresso_var.get().strip(),
