@@ -164,6 +164,28 @@ class DataManager:
             logging.error(f"Erro ao listar professores: {e}")
             return []
     
+    def get_all_teachers(self):
+        """Lista todos os professores de todas as escolas"""
+        try:
+            data = self.load_json(self.teachers_file)
+            
+            all_teachers = []
+            teachers_data = data.get("teachers", {})
+            
+            # Itera por todas as escolas
+            for school, school_teachers in teachers_data.items():
+                for teacher in school_teachers.values():
+                    # Adiciona informação da escola ao professor
+                    teacher_with_school = teacher.copy()
+                    teacher_with_school['escola'] = school
+                    all_teachers.append(teacher_with_school)
+            
+            return all_teachers
+            
+        except Exception as e:
+            logging.error(f"Erro ao listar todos os professores: {e}")
+            return []
+    
     def update_teacher(self, teacher_data):
         """Atualiza dados de um professor"""
         try:

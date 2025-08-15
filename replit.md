@@ -27,6 +27,11 @@ This is a desktop application for managing teachers in the DIRENS (Diretoria de 
   - Reduced to only 3 fields: Código, Nome da Disciplina, Requisito Específico
   - Larger text area for "Requisito Específico" field with scrollbar
   - Updated form validation for new simplified structure
+- **DIRENS Global View functionality**:
+  - When logged into DIRENS, displays ALL teachers from ALL schools
+  - Added "Escola" column to show which school each teacher belongs to  
+  - Maintains existing functionality for individual schools (shows only their teachers)
+  - Updated data management to support cross-school teacher retrieval
 
 ## User Preferences
 

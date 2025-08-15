@@ -74,6 +74,13 @@ class MainWindow:
         # Carrega dados iniciais (depois da criação da interface)
         self.refresh_data()
     
+    def get_teachers_data(self, include_deleted=False):
+        """Obtém dados de professores - todos se DIRENS, ou apenas da escola atual"""
+        if self.sistema.current_school == "DIRENS":
+            return self.teacher_manager.get_all_teachers(include_deleted=include_deleted)
+        else:
+            return self.teacher_manager.get_teachers_by_school(self.sistema.current_school, include_deleted=include_deleted)
+    
     def create_widgets(self):
         """Cria os widgets da interface"""
         # Menu principal
@@ -375,25 +382,44 @@ class MainWindow:
         tree_frame = ttk.Frame(list_frame)
         tree_frame.pack(fill=tk.BOTH, expand=True)
         
-        # Colunas da lista
-        columns = (
-            "SIAPE", "Nome", "Data Nascimento", "Carga Horária",
-            "Carreira", "Pós-graduação", "Data Ingresso", "Status"
-        )
+        # Colunas da lista (inclui escola para DIRENS)
+        if self.sistema.current_school == "DIRENS":
+            columns = (
+                "SIAPE", "Escola", "Nome", "Data Nascimento", "Carga Horária",
+                "Carreira", "Pós-graduação", "Data Ingresso", "Status"
+            )
+        else:
+            columns = (
+                "SIAPE", "Nome", "Data Nascimento", "Carga Horária",
+                "Carreira", "Pós-graduação", "Data Ingresso", "Status"
+            )
         
         self.tree = ttk.Treeview(tree_frame, columns=columns, show="headings", height=20)
         
         # Configurar colunas
-        column_widths = {
-            "SIAPE": 100,
-            "Nome": 250,
-            "Data Nascimento": 120,
-            "Carga Horária": 100,
-            "Carreira": 100,
-            "Pós-graduação": 130,
-            "Data Ingresso": 120,
-            "Status": 100
-        }
+        if self.sistema.current_school == "DIRENS":
+            column_widths = {
+                "SIAPE": 80,
+                "Escola": 80,
+                "Nome": 200,
+                "Data Nascimento": 110,
+                "Carga Horária": 100,
+                "Carreira": 80,
+                "Pós-graduação": 110,
+                "Data Ingresso": 110,
+                "Status": 80
+            }
+        else:
+            column_widths = {
+                "SIAPE": 100,
+                "Nome": 250,
+                "Data Nascimento": 120,
+                "Carga Horária": 100,
+                "Carreira": 100,
+                "Pós-graduação": 130,
+                "Data Ingresso": 120,
+                "Status": 100
+            }
         
         for col in columns:
             self.tree.heading(col, text=col, command=lambda c=col: self.sort_column(c))
@@ -449,23 +475,39 @@ class MainWindow:
                 self.tree.delete(item)
             
             # Carrega professores da escola atual
-            professores = self.teacher_manager.get_teachers_by_school(self.sistema.current_school)
+            professores = self.get_teachers_data()
             
             # Aplica filtros
             professores_filtrados = self.apply_current_filters(professores)
             
             # Adiciona à lista
             for professor in professores_filtrados:
-                self.tree.insert('', tk.END, values=(
-                    professor.get('siape', ''),
-                    professor.get('nome', ''),
-                    professor.get('data_nascimento', ''),
-                    professor.get('carga_horaria', ''),
-                    professor.get('carreira', ''),
-                    professor.get('pos_graduacao', ''),
-                    professor.get('data_ingresso', ''),
-                    professor.get('status', 'Ativo')
-                ))
+                if self.sistema.current_school == "DIRENS":
+                    # Inclui coluna da escola
+                    escola_nome = professor.get('escola', '').upper()
+                    self.tree.insert('', tk.END, values=(
+                        professor.get('siape', ''),
+                        escola_nome,
+                        professor.get('nome', ''),
+                        professor.get('data_nascimento', ''),
+                        professor.get('carga_horaria', ''),
+                        professor.get('carreira', ''),
+                        professor.get('pos_graduacao', ''),
+                        professor.get('data_ingresso', ''),
+                        professor.get('status', 'Ativo')
+                    ))
+                else:
+                    # Formato normal sem escola
+                    self.tree.insert('', tk.END, values=(
+                        professor.get('siape', ''),
+                        professor.get('nome', ''),
+                        professor.get('data_nascimento', ''),
+                        professor.get('carga_horaria', ''),
+                        professor.get('carreira', ''),
+                        professor.get('pos_graduacao', ''),
+                        professor.get('data_ingresso', ''),
+                        professor.get('status', 'Ativo')
+                    ))
             
             # Atualiza contador - exclui aposentados do cômputo
             professores_ativos = [p for p in professores if p.get('status', 'Ativo') != 'Aposentado']
@@ -676,7 +718,7 @@ class MainWindow:
         try:
             self.status_var.set("Exportando CSV...")
             
-            professores = self.teacher_manager.get_teachers_by_school(self.sistema.current_school)
+            professores = self.get_teachers_data()
             filepath = self.export_manager.export_csv(professores, self.sistema.current_school)
             
             self.status_var.set("CSV exportado com sucesso")
@@ -691,7 +733,7 @@ class MainWindow:
         """Abre janela de seleção de campos e exporta PDF"""
         try:
             # Obtém lista de professores
-            professores = self.teacher_manager.get_teachers_by_school(self.sistema.current_school)
+            professores = self.get_teachers_data()
             
             if not professores:
                 messagebox.showwarning("Aviso", "Nenhum professor encontrado para exportar.")

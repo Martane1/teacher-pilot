@@ -184,6 +184,21 @@ class TeacherManager:
             logging.error(f"Erro ao listar professores: {e}")
             return []
     
+    def get_all_teachers(self, include_deleted=False):
+        """Lista todos os professores de todas as escolas"""
+        try:
+            teachers = self.data_manager.get_all_teachers()
+            
+            if not include_deleted:
+                # Filtra professores não excluídos
+                teachers = [t for t in teachers if t.get('status') != 'Excluído']
+            
+            return teachers
+            
+        except Exception as e:
+            logging.error(f"Erro ao listar todos os professores: {e}")
+            return []
+    
     def search_teachers(self, school, search_term, filters=None):
         """Busca professores com filtros"""
         try:
