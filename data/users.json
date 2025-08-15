@@ -1,10 +1,19 @@
 {
+  "direns": {
+    "admin": {
+      "password": "f129f66f739f3122b6bdfe797e33c1a1aa8e0056f4bfa0b4169ea21a0b32640b",
+      "level": "admin",
+      "created_at": "2025-08-15T19:45:00.000000",
+      "last_login": null,
+      "active": true
+    }
+  },
   "afa": {
     "admin": {
       "password": "f129f66f739f3122b6bdfe797e33c1a1aa8e0056f4bfa0b4169ea21a0b32640b",
       "level": "admin",
       "created_at": "2025-08-15T13:29:14.722807",
-      "last_login": "2025-08-15T22:31:24.144919",
+      "last_login": "2025-08-15T23:20:21.396785",
       "active": true
     }
   },
