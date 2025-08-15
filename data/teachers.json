@@ -1,7 +1,33 @@
 {
-  "teachers": {},
+  "teachers": {
+    "AFA": {
+      "1234567": {
+        "siape": "1234567",
+        "nome": "IVAN MARTANE",
+        "cpf": "13276496755",
+        "data_nascimento": "23-08-1990",
+        "sexo": "M",
+        "estado_civil": "Casado(a)",
+        "carga_horaria": "20H",
+        "carreira": "MS",
+        "data_ingresso": "10-08-2009",
+        "status": "Ativo",
+        "area_atuacao": "CORTE",
+        "pos_graduacao": "GRADUAÇÃO",
+        "graduacao": "CORTE",
+        "instituicao_graduacao": "CORTE1",
+        "curso_pos": "CORTE2",
+        "instituicao_pos": "CORTE3",
+        "escola": "AFA",
+        "data_criacao": "2025-08-15T14:13:14.145658",
+        "data_atualizacao": "2025-08-15T14:13:14.145664",
+        "criado_por": "usuario_atual"
+      }
+    }
+  },
   "metadata": {
     "created_at": "2025-08-15T12:55:31.485325",
-    "version": "1.0"
+    "version": "1.0",
+    "last_updated": "2025-08-15T14:13:14.145879"
   }
 }

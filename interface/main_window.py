@@ -468,7 +468,13 @@ class MainWindow:
     
     def new_teacher(self):
         """Abre formulário para novo professor"""
-        TeacherFormWindow(self.root, self.teacher_manager, self.sistema.current_school, callback=self.refresh_data)
+        TeacherFormWindow(
+            self.root, 
+            self.teacher_manager, 
+            self.sistema.current_school, 
+            callback=self.refresh_data,
+            current_user=self.sistema.current_user
+        )
     
     def edit_teacher(self):
         """Edita o professor selecionado"""
@@ -488,8 +494,11 @@ class MainWindow:
                 self.teacher_manager, 
                 self.sistema.current_school,
                 teacher_data=professor_completo,
-                callback=self.refresh_data
+                callback=self.refresh_data,
+                current_user=self.sistema.current_user
             )
+        else:
+            messagebox.showerror("Erro", "Não foi possível carregar os dados do professor")
     
     def delete_teacher(self):
         """Exclui o professor selecionado"""

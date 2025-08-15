@@ -14,13 +14,14 @@ from recursos.constants import CARGAS_HORARIAS, CARREIRAS, POS_GRADUACAO, ESTADO
 class TeacherFormWindow:
     """Janela do formulário de professor"""
     
-    def __init__(self, parent, teacher_manager, school, teacher_data=None, callback=None):
+    def __init__(self, parent, teacher_manager, school, teacher_data=None, callback=None, current_user='admin'):
         """Inicializa o formulário"""
         self.parent = parent
         self.teacher_manager = teacher_manager
         self.school = school
         self.teacher_data = teacher_data
         self.callback = callback
+        self.current_user = current_user
         self.validator = ValidatorManager()
         
         # Determina se é edição ou novo
@@ -140,7 +141,7 @@ class TeacherFormWindow:
         ttk.Label(personal_frame, text="Nome Completo:*").grid(row=row, column=0, sticky=tk.W, pady=5)
         self.nome_var = tk.StringVar()
         nome_entry = ttk.Entry(personal_frame, textvariable=self.nome_var, width=50)
-        nome_entry.grid(row=row, column=1, sticky=(tk.W, tk.E), pady=5, columnspan=2)
+        nome_entry.grid(row=row, column=1, sticky="we", pady=5, columnspan=2)
         
         # Bind para converter para maiúscula
         self.nome_var.trace('w', self.on_name_change)
@@ -243,7 +244,7 @@ class TeacherFormWindow:
         # Área de atuação
         ttk.Label(prof_frame, text="Área de Atuação:").grid(row=row, column=0, sticky=tk.W, pady=5)
         self.area_atuacao_var = tk.StringVar()
-        ttk.Entry(prof_frame, textvariable=self.area_atuacao_var, width=40).grid(row=row, column=1, sticky=(tk.W, tk.E), pady=5)
+        ttk.Entry(prof_frame, textvariable=self.area_atuacao_var, width=40).grid(row=row, column=1, sticky="we", pady=5)
     
     def create_academic_section(self, parent):
         """Cria seção de dados acadêmicos"""
@@ -269,28 +270,28 @@ class TeacherFormWindow:
         # Graduação
         ttk.Label(acad_frame, text="Graduação:").grid(row=row, column=0, sticky=tk.W, pady=5)
         self.graduacao_var = tk.StringVar()
-        ttk.Entry(acad_frame, textvariable=self.graduacao_var, width=40).grid(row=row, column=1, sticky=(tk.W, tk.E), pady=5)
+        ttk.Entry(acad_frame, textvariable=self.graduacao_var, width=40).grid(row=row, column=1, sticky="we", pady=5)
         
         row += 1
         
         # Instituição de graduação
         ttk.Label(acad_frame, text="Instituição Graduação:").grid(row=row, column=0, sticky=tk.W, pady=5)
         self.instituicao_grad_var = tk.StringVar()
-        ttk.Entry(acad_frame, textvariable=self.instituicao_grad_var, width=40).grid(row=row, column=1, sticky=(tk.W, tk.E), pady=5)
+        ttk.Entry(acad_frame, textvariable=self.instituicao_grad_var, width=40).grid(row=row, column=1, sticky="we", pady=5)
         
         row += 1
         
         # Especialização/Mestrado/Doutorado
         ttk.Label(acad_frame, text="Curso Pós-graduação:").grid(row=row, column=0, sticky=tk.W, pady=5)
         self.curso_pos_var = tk.StringVar()
-        ttk.Entry(acad_frame, textvariable=self.curso_pos_var, width=40).grid(row=row, column=1, sticky=(tk.W, tk.E), pady=5)
+        ttk.Entry(acad_frame, textvariable=self.curso_pos_var, width=40).grid(row=row, column=1, sticky="we", pady=5)
         
         row += 1
         
         # Instituição pós
         ttk.Label(acad_frame, text="Instituição Pós:").grid(row=row, column=0, sticky=tk.W, pady=5)
         self.instituicao_pos_var = tk.StringVar()
-        ttk.Entry(acad_frame, textvariable=self.instituicao_pos_var, width=40).grid(row=row, column=1, sticky=(tk.W, tk.E), pady=5)
+        ttk.Entry(acad_frame, textvariable=self.instituicao_pos_var, width=40).grid(row=row, column=1, sticky="we", pady=5)
     
     def create_buttons(self, parent):
         """Cria os botões do formulário"""
@@ -332,7 +333,7 @@ class TeacherFormWindow:
             try:
                 # Tenta obter a posição do cursor (pode falhar em alguns casos)
                 widget = self.window.focus_get()
-                if hasattr(widget, 'index'):
+                if widget and hasattr(widget, 'index'):
                     cursor_pos = widget.index(tk.INSERT)
             except:
                 pass
@@ -343,7 +344,7 @@ class TeacherFormWindow:
             # Restaura posição do cursor
             try:
                 widget = self.window.focus_get()
-                if hasattr(widget, 'icursor'):
+                if widget and hasattr(widget, 'icursor'):
                     widget.icursor(cursor_pos)
             except:
                 pass
@@ -476,7 +477,7 @@ class TeacherFormWindow:
             'curso_pos': self.curso_pos_var.get().strip(),
             'instituicao_pos': self.instituicao_pos_var.get().strip(),
             'escola': self.school,
-            'data_criacao': datetime.now().isoformat() if not self.is_edit else self.teacher_data.get('data_criacao'),
+            'data_criacao': datetime.now().isoformat() if not self.is_edit else (self.teacher_data.get('data_criacao') if self.teacher_data else datetime.now().isoformat()),
             'data_atualizacao': datetime.now().isoformat()
         }
         
@@ -486,13 +487,13 @@ class TeacherFormWindow:
                 success = self.teacher_manager.update_teacher(
                     teacher_data, 
                     self.school,
-                    'usuario_atual'  # TODO: pegar usuário atual
+                    self.current_user
                 )
             else:
                 # Criar novo professor
                 success = self.teacher_manager.create_teacher(
                     teacher_data,
-                    'usuario_atual'  # TODO: pegar usuário atual
+                    self.current_user
                 )
             
             if success:
