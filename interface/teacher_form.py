@@ -414,27 +414,6 @@ class TeacherFormWindow:
         
         row += 1
         
-        # Graduação
-        ttk.Label(acad_frame, text="Graduação:").grid(row=row, column=0, sticky=tk.W, pady=5)
-        self.graduacao_var = tk.StringVar()
-        ttk.Entry(acad_frame, textvariable=self.graduacao_var, width=40).grid(row=row, column=1, sticky="we", pady=5)
-        
-        row += 1
-        
-        # Instituição de graduação
-        ttk.Label(acad_frame, text="Instituição Graduação:").grid(row=row, column=0, sticky=tk.W, pady=5)
-        self.instituicao_grad_var = tk.StringVar()
-        ttk.Entry(acad_frame, textvariable=self.instituicao_grad_var, width=40).grid(row=row, column=1, sticky="we", pady=5)
-        
-        row += 1
-        
-        # Especialização/Mestrado/Doutorado
-        ttk.Label(acad_frame, text="Curso Pós-graduação:").grid(row=row, column=0, sticky=tk.W, pady=5)
-        self.curso_pos_var = tk.StringVar()
-        ttk.Entry(acad_frame, textvariable=self.curso_pos_var, width=40).grid(row=row, column=1, sticky="we", pady=5)
-        
-        row += 1
-        
         # Instituição pós
         ttk.Label(acad_frame, text="Instituição Pós:").grid(row=row, column=0, sticky=tk.W, pady=5)
         self.instituicao_pos_var = tk.StringVar()
@@ -520,9 +499,6 @@ class TeacherFormWindow:
         
         # Dados acadêmicos
         self.pos_graduacao_var.set(self.teacher_data.get('pos_graduacao', ''))
-        self.graduacao_var.set(self.teacher_data.get('graduacao', ''))
-        self.instituicao_grad_var.set(self.teacher_data.get('instituicao_graduacao', ''))
-        self.curso_pos_var.set(self.teacher_data.get('curso_pos', ''))
         self.instituicao_pos_var.set(self.teacher_data.get('instituicao_pos', ''))
     
     def clear_form(self):
@@ -547,9 +523,6 @@ class TeacherFormWindow:
         
         # Dados acadêmicos
         self.pos_graduacao_var.set('')
-        self.graduacao_var.set('')
-        self.instituicao_grad_var.set('')
-        self.curso_pos_var.set('')
         self.instituicao_pos_var.set('')
         
         self.status_var.set('')
@@ -666,9 +639,6 @@ class TeacherFormWindow:
             'status': self.status_prof_var.get() or 'Ativo',
             'area_atuacao': self.area_atuacao_var.get().strip(),
             'pos_graduacao': self.pos_graduacao_var.get(),
-            'graduacao': self.graduacao_var.get().strip(),
-            'instituicao_graduacao': self.instituicao_grad_var.get().strip(),
-            'curso_pos': self.curso_pos_var.get().strip(),
             'instituicao_pos': self.instituicao_pos_var.get().strip(),
             'escola': self.school,
             'data_criacao': datetime.now().isoformat() if not self.is_edit else (self.teacher_data.get('data_criacao') if self.teacher_data else datetime.now().isoformat()),

@@ -292,6 +292,21 @@ class MainWindow:
                     self.search_var.set(new_text)
                     search_entry.icursor(cursor_pos)
         
+        def add_search_circumflex():
+            """Adiciona acento circunflexo (^) na última letra digitada no campo de busca"""
+            text = self.search_var.get()
+            cursor_pos = search_entry.index(tk.INSERT)
+            
+            if cursor_pos > 0:
+                last_char = text[cursor_pos-1:cursor_pos]
+                circumflex_map = {'a': 'â', 'e': 'ê', 'o': 'ô', 
+                                 'A': 'Â', 'E': 'Ê', 'O': 'Ô'}
+                
+                if last_char in circumflex_map:
+                    new_text = text[:cursor_pos-1] + circumflex_map[last_char] + text[cursor_pos:]
+                    self.search_var.set(new_text)
+                    search_entry.icursor(cursor_pos)
+        
         def add_search_cedilla():
             """Adiciona cedilha (ç) no C no campo de busca"""
             text = self.search_var.get()
@@ -311,6 +326,7 @@ class MainWindow:
         
         # Botões de acento
         ttk.Button(accent_frame, text="´", command=add_search_acute_accent, width=3).pack(side=tk.LEFT, padx=1)
+        ttk.Button(accent_frame, text="^", command=add_search_circumflex, width=3).pack(side=tk.LEFT, padx=1)
         ttk.Button(accent_frame, text="~", command=add_search_tilde, width=3).pack(side=tk.LEFT, padx=1)
         ttk.Button(accent_frame, text="ç", command=add_search_cedilla, width=3).pack(side=tk.LEFT, padx=1)
         
