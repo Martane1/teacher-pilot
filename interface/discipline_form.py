@@ -24,7 +24,7 @@ class DisciplineFormWindow:
         # Cria a janela
         self.window = tk.Toplevel(parent)
         self.window.title("Editar Disciplina" if self.is_edit else "Nova Disciplina")
-        self.window.geometry("500x300")
+        self.window.geometry("600x400")
         self.window.resizable(True, True)
         
         # Centraliza
@@ -49,8 +49,8 @@ class DisciplineFormWindow:
         parent_width = self.parent.winfo_width()
         parent_height = self.parent.winfo_height()
         
-        width = 500
-        height = 300
+        width = 600
+        height = 400
         
         x = parent_x + (parent_width - width) // 2
         y = parent_y + (parent_height - height) // 2
@@ -118,11 +118,20 @@ class DisciplineFormWindow:
         row += 1
         
         # Requisito específico
-        ttk.Label(form_frame, text="Requisito Específico:*").grid(row=row, column=0, sticky=tk.W, pady=5)
-        self.requisito_especifico_var = tk.StringVar()
-        ttk.Entry(form_frame, textvariable=self.requisito_especifico_var, width=50).grid(
-            row=row, column=1, columnspan=2, sticky="we", pady=5
-        )
+        ttk.Label(form_frame, text="Requisito Específico:*").grid(row=row, column=0, sticky=tk.NW, pady=5)
+        
+        # Frame para requisito específico com scrollbar
+        requisito_frame = ttk.Frame(form_frame)
+        requisito_frame.grid(row=row, column=1, columnspan=2, sticky="we", pady=5)
+        requisito_frame.grid_columnconfigure(0, weight=1)
+        
+        self.requisito_especifico_text = tk.Text(requisito_frame, height=6, width=50, wrap=tk.WORD)
+        requisito_scroll = ttk.Scrollbar(requisito_frame, orient=tk.VERTICAL, command=self.requisito_especifico_text.yview)
+        
+        self.requisito_especifico_text.configure(yscrollcommand=requisito_scroll.set)
+        
+        self.requisito_especifico_text.grid(row=0, column=0, sticky="we")
+        requisito_scroll.grid(row=0, column=1, sticky="ns")
         
         # Configurar expansão das colunas
         form_frame.grid_columnconfigure(1, weight=1)
@@ -172,13 +181,17 @@ class DisciplineFormWindow:
         
         self.codigo_var.set(self.discipline_data.get('codigo', ''))
         self.nome_var.set(self.discipline_data.get('nome', ''))
-        self.requisito_especifico_var.set(self.discipline_data.get('requisito_especifico', ''))
+        
+        # Requisito específico
+        requisito_especifico = self.discipline_data.get('requisito_especifico', '')
+        self.requisito_especifico_text.delete(1.0, tk.END)
+        self.requisito_especifico_text.insert(1.0, requisito_especifico)
     
     def clear_form(self):
         """Limpa todos os campos do formulário"""
         self.codigo_var.set('')
         self.nome_var.set('')
-        self.requisito_especifico_var.set('')
+        self.requisito_especifico_text.delete(1.0, tk.END)
         
         self.status_message_var.set('')
     
@@ -192,7 +205,7 @@ class DisciplineFormWindow:
         return {
             'codigo': self.codigo_var.get().strip().upper(),
             'nome': self.nome_var.get().strip(),
-            'requisito_especifico': self.requisito_especifico_var.get().strip(),
+            'requisito_especifico': self.requisito_especifico_text.get(1.0, tk.END).strip(),
             'active': True,  # Sempre ativa por padrão
             'created_by': self.current_user,
             'updated_by': self.current_user
