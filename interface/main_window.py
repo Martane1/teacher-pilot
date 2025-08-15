@@ -486,12 +486,23 @@ class MainWindow:
             
             logging.info(f"Editando professor: SIAPE={selected.get('siape')}, Escola={self.sistema.current_school}")
             
-            # Carrega dados completos do professor
-            professor_completo = self.teacher_manager.get_teacher_by_siape(
-                selected['siape'], self.sistema.current_school
-            )
+            # Debug: test both cases 
+            siape = selected['siape']
+            school = self.sistema.current_school
             
-            logging.info(f"Dados carregados: {professor_completo is not None}")
+            # Test direct data access
+            import json
+            with open('data/teachers.json', 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                teachers = data.get("teachers", {})
+                school_teachers = teachers.get(school, {})
+                direct_result = school_teachers.get(siape)
+                logging.info(f"Direct data access: school={school}, teachers_in_school={list(school_teachers.keys())}, found={direct_result is not None}")
+            
+            # Carrega dados completos do professor
+            professor_completo = self.teacher_manager.get_teacher_by_siape(siape, school)
+            
+            logging.info(f"Dados carregados via manager: {professor_completo is not None}")
             
             if professor_completo:
                 TeacherFormWindow(
