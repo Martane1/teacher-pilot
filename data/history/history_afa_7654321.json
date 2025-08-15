@@ -1,0 +1,19 @@
+{
+  "siape": "7654321",
+  "escola": "AFA",
+  "created_at": "2025-08-15T16:00:37.226135",
+  "entries": [
+    {
+      "siape": "7654321",
+      "escola": "AFA",
+      "action": "CREATE",
+      "user": "admin",
+      "timestamp": "2025-08-15T16:00:37.226071",
+      "field": "professor",
+      "old_value": null,
+      "new_value": "Novo professor criado",
+      "notes": "Professor MARATANE SILVA criado com SIAPE 7654321"
+    }
+  ],
+  "last_updated": "2025-08-15T16:00:37.226141"
+}

@@ -35,7 +35,18 @@
       "old_value": "GRADUAÇÃO",
       "new_value": "DOUTORADO",
       "notes": "Campo pos_graduacao alterado"
+    },
+    {
+      "siape": "1234567",
+      "escola": "AFA",
+      "action": "UPDATE",
+      "user": "admin",
+      "timestamp": "2025-08-15T15:55:51.972387",
+      "field": "carga_horaria",
+      "old_value": "20H",
+      "new_value": "40H_DE",
+      "notes": "Campo carga_horaria alterado"
     }
   ],
-  "last_updated": "2025-08-15T15:48:13.811776"
+  "last_updated": "2025-08-15T15:55:51.972499"
 }

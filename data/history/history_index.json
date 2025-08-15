@@ -2,14 +2,20 @@
   "metadata": {
     "created_at": "2025-08-15T13:30:22.734140",
     "version": "1.0",
-    "last_updated": "2025-08-15T15:48:13.811961"
+    "last_updated": "2025-08-15T16:00:37.226397"
   },
   "teachers": {
     "AFA_1234567": {
       "siape": "1234567",
       "escola": "AFA",
       "history_file": "data/history/history_afa_1234567.json",
-      "last_updated": "2025-08-15T15:48:13.811956"
+      "last_updated": "2025-08-15T15:55:51.972803"
+    },
+    "AFA_7654321": {
+      "siape": "7654321",
+      "escola": "AFA",
+      "history_file": "data/history/history_afa_7654321.json",
+      "last_updated": "2025-08-15T16:00:37.226390"
     }
   }
 }

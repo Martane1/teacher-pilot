@@ -81,12 +81,13 @@ class ExportManager:
             filename = f"relatorio_professores_{school.replace(' ', '_')}_{timestamp}.pdf"
             filepath = os.path.join(self.exports_dir, filename)
             
-            # Cria documento PDF
+            # Cria documento PDF em orientação paisagem para acomodar mais campos
+            from reportlab.lib.pagesizes import landscape
             doc = SimpleDocTemplate(
                 filepath,
-                pagesize=A4,
-                rightMargin=30,
-                leftMargin=30,
+                pagesize=landscape(A4),
+                rightMargin=20,
+                leftMargin=20,
                 topMargin=30,
                 bottomMargin=30
             )
@@ -161,20 +162,28 @@ class ExportManager:
                 elements.append(PageBreak())
                 elements.append(Paragraph("LISTA COMPLETA DE PROFESSORES", subtitle_style))
                 
-                # Cabeçalho da tabela
+                # Cabeçalho da tabela com todos os campos
                 table_data = [
-                    ['SIAPE', 'Nome', 'Carreira', 'Carga H.', 'Pós-grad.', 'Status']
+                    ['SIAPE', 'Nome', 'Nasc.', 'Sexo', 'C.H.', 'Carreira', 'Ingresso', 'Status', 'Área', 'Pós-grad.', 'Graduação', 'Inst.Grad', 'Curso Pós', 'Inst.Pós']
                 ]
                 
                 # Dados dos professores
                 for teacher in sorted(teachers, key=lambda x: x.get('nome', '')):
                     table_data.append([
-                        teacher.get('siape', '')[:7],  # Limita tamanho
-                        teacher.get('nome', '')[:30],  # Limita tamanho
-                        teacher.get('carreira', '')[:8],
-                        teacher.get('carga_horaria', '')[:8],
-                        teacher.get('pos_graduacao', '')[:12],
-                        teacher.get('status', 'Ativo')[:10]
+                        teacher.get('siape', '')[:7],  
+                        teacher.get('nome', '')[:25],  
+                        teacher.get('data_nascimento', '')[:10],
+                        teacher.get('sexo', '')[:1],
+                        teacher.get('carga_horaria', '')[:6],
+                        teacher.get('carreira', '')[:6],
+                        teacher.get('data_ingresso', '')[:10],
+                        teacher.get('status', 'Ativo')[:8],
+                        teacher.get('area_atuacao', '')[:15],
+                        teacher.get('pos_graduacao', '')[:10],
+                        teacher.get('graduacao', '')[:15],
+                        teacher.get('instituicao_graduacao', '')[:12],
+                        teacher.get('curso_pos', '')[:12],
+                        teacher.get('instituicao_pos', '')[:12]
                     ])
                 
                 # Cria tabela
@@ -184,9 +193,9 @@ class ExportManager:
                     ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
                     ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
                     ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-                    ('FONTSIZE', (0, 0), (-1, 0), 8),
-                    ('FONTSIZE', (0, 1), (-1, -1), 7),
-                    ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                    ('FONTSIZE', (0, 0), (-1, 0), 7),
+                    ('FONTSIZE', (0, 1), (-1, -1), 6),
+                    ('BOTTOMPADDING', (0, 0), (-1, 0), 8),
                     ('BACKGROUND', (0, 1), (-1, -1), colors.white),
                     ('GRID', (0, 0), (-1, -1), 1, colors.black),
                     ('VALIGN', (0, 0), (-1, -1), 'MIDDLE')
