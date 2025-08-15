@@ -64,36 +64,11 @@ class TeacherFormWindow:
         self.window.geometry("600x700")
         self.window.resizable(False, False)
         
-        # Configurações universais UTF-8 baseadas no sistema
+        # Configuração básica UTF-8
         try:
-            system_name = platform.system().lower()
-            
-            # Configuração básica UTF-8
             self.window.tk.call('encoding', 'system', 'utf-8')
-            
-            if system_name == 'darwin':  # Mac
-                # Configurações específicas para Mac
-                self.window.tk.call('tk', 'appname', 'DIRENS')
-                self.window.option_add('*Font', 'Arial 10')
-                # Habilita input methods no Mac
-                try:
-                    self.window.tk.call('tk_textPaste', self.window)
-                except:
-                    pass
-            elif system_name == 'windows':  # Windows
-                # Configurações específicas para Windows
-                self.window.option_add('*font', 'Arial 10')
-                # Força codificação Windows
-                try:
-                    self.window.tk.call('console', 'eval', 'encoding system utf-8')
-                except:
-                    pass
-            else:  # Linux
-                # Configurações para Linux
-                self.window.option_add('*font', 'DejaVu Sans 10')
-                
         except Exception as e:
-            print(f"Configuração de sistema: {e}")
+            print(f"Configuração UTF-8: {e}")
         
         # Centraliza
         self.center_window()
@@ -210,57 +185,14 @@ class TeacherFormWindow:
         # Nome completo
         ttk.Label(personal_frame, text="Nome Completo:*").grid(row=row, column=0, sticky=tk.W, pady=5)
         
-        # Configuração universal baseada no sistema
+        # Entry simples que permite acentos naturalmente
         self.nome_var = tk.StringVar()
-        system_name = platform.system().lower()
-        
-        # Define fonte baseada no sistema
-        if system_name == 'darwin':  # Mac
-            font_config = ('Arial', 10)
-        elif system_name == 'windows':  # Windows  
-            font_config = ('Arial', 10)
-        else:  # Linux
-            font_config = ('DejaVu Sans', 10)
-        
-        # Entry universal com configurações por sistema
-        nome_entry = tk.Entry(
+        nome_entry = ttk.Entry(
             personal_frame,
             textvariable=self.nome_var,
-            width=50,
-            font=font_config,
-            relief='solid',
-            borderwidth=1
+            width=50
         )
         nome_entry.grid(row=row, column=1, sticky="we", pady=5, columnspan=2)
-        
-        # Configurações específicas por sistema operacional
-        try:
-            if system_name == 'darwin':  # Mac
-                # Mac: habilita composição de caracteres
-                nome_entry.configure(validate='none')
-                # Força processamento de input methods
-                nome_entry.bind('<KeyPress>', self.handle_mac_input)
-                # Configura dead keys para acentos
-                nome_entry.tk.call('set', '::tk::Priv(IMEText)', '')
-                
-            elif system_name == 'windows':  # Windows
-                # Windows: configuração padrão com encoding
-                nome_entry.configure(validate='none')
-                nome_entry.bind('<KeyPress>', self.handle_windows_input)
-                
-            else:  # Linux
-                # Linux: configuração padrão
-                nome_entry.configure(validate='none')
-                nome_entry.bind('<KeyPress>', self.handle_linux_input)
-                
-            # Teste universal: tenta inserir acentos
-            test_text = 'áéíóúãõç'
-            nome_entry.insert(0, test_text)
-            nome_entry.delete(0, tk.END)
-            print(f"Sistema {system_name}: Teste de acentos OK")
-            
-        except Exception as e:
-            print(f"Configuração {system_name}: {e}")
         
         row += 1
         
@@ -486,21 +418,6 @@ class TeacherFormWindow:
                 width=15
             ).pack(side=tk.LEFT, padx=5)
     
-    def handle_mac_input(self, event):
-        """Manipula entrada de texto no Mac"""
-        # No Mac, permite que o sistema processe normalmente
-        # os dead keys e composição de acentos
-        return None  # Não bloqueia o evento
-    
-    def handle_windows_input(self, event):
-        """Manipula entrada de texto no Windows"""
-        # No Windows, processa normalmente
-        return None
-    
-    def handle_linux_input(self, event):
-        """Manipula entrada de texto no Linux"""
-        # No Linux, processa normalmente 
-        return None
     
     def get_nome_value(self):
         """Obtém o valor atual do nome"""
