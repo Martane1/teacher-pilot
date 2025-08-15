@@ -15,6 +15,7 @@ from interface.backup_window import BackupWindow
 from interface.statistics_window import StatisticsWindow
 from interface.discipline_form import DisciplineFormWindow
 from interface.schools_window import SchoolsWindow
+from interface.column_order_window import ColumnOrderWindow
 from core.teacher_manager import TeacherManager
 from core.export_manager import ExportManager
 from core.discipline_manager import DisciplineManager
@@ -131,6 +132,8 @@ class MainWindow:
         menubar.add_cascade(label="Ferramentas", menu=tools_menu)
         tools_menu.add_command(label="Todas as Escolas", command=self.show_all_schools)
         tools_menu.add_separator()
+        tools_menu.add_command(label="Configurar Colunas", command=self.configure_columns)
+        tools_menu.add_separator()
         tools_menu.add_command(label="Estatísticas", command=self.show_statistics)
         tools_menu.add_command(label="Backups", command=self.show_backups)
         tools_menu.add_command(label="Atualizar", command=self.refresh_data, accelerator="F5")
@@ -213,6 +216,14 @@ class MainWindow:
             toolbar,
             text="Exportar PDF",
             command=self.export_pdf
+        ).pack(side=tk.LEFT, padx=2)
+        
+        ttk.Separator(toolbar, orient=tk.VERTICAL).pack(side=tk.LEFT, fill=tk.Y, padx=5)
+        
+        ttk.Button(
+            toolbar,
+            text="Configurar Colunas",
+            command=self.configure_columns
         ).pack(side=tk.LEFT, padx=2)
         
         # Informações do usuário (direita)
@@ -382,17 +393,21 @@ class MainWindow:
         tree_frame = ttk.Frame(list_frame)
         tree_frame.pack(fill=tk.BOTH, expand=True)
         
-        # Colunas da lista (inclui escola para DIRENS)
+        # Colunas padrão da lista (inclui escola para DIRENS)
         if self.sistema.current_school == "DIRENS":
-            columns = (
+            default_columns = (
                 "SIAPE", "Escola", "Nome", "Data Nascimento", "Carga Horária",
                 "Carreira", "Pós-graduação", "Data Ingresso", "Status"
             )
         else:
-            columns = (
+            default_columns = (
                 "SIAPE", "Nome", "Data Nascimento", "Carga Horária",
                 "Carreira", "Pós-graduação", "Data Ingresso", "Status"
             )
+        
+        # Obtém ordem salva das colunas
+        columns = ColumnOrderWindow.get_saved_column_order(self.sistema.current_school, default_columns)
+        self.current_columns = columns
         
         self.tree = ttk.Treeview(tree_frame, columns=columns, show="headings", height=20)
         
@@ -482,32 +497,22 @@ class MainWindow:
             
             # Adiciona à lista
             for professor in professores_filtrados:
-                if self.sistema.current_school == "DIRENS":
-                    # Inclui coluna da escola
-                    escola_nome = professor.get('escola', '').upper()
-                    self.tree.insert('', tk.END, values=(
-                        professor.get('siape', ''),
-                        escola_nome,
-                        professor.get('nome', ''),
-                        professor.get('data_nascimento', ''),
-                        professor.get('carga_horaria', ''),
-                        professor.get('carreira', ''),
-                        professor.get('pos_graduacao', ''),
-                        professor.get('data_ingresso', ''),
-                        professor.get('status', 'Ativo')
-                    ))
-                else:
-                    # Formato normal sem escola
-                    self.tree.insert('', tk.END, values=(
-                        professor.get('siape', ''),
-                        professor.get('nome', ''),
-                        professor.get('data_nascimento', ''),
-                        professor.get('carga_horaria', ''),
-                        professor.get('carreira', ''),
-                        professor.get('pos_graduacao', ''),
-                        professor.get('data_ingresso', ''),
-                        professor.get('status', 'Ativo')
-                    ))
+                # Cria dicionário de valores para todas as colunas possíveis
+                professor_values = {
+                    "SIAPE": professor.get('siape', ''),
+                    "Escola": professor.get('escola', '').upper() if self.sistema.current_school == "DIRENS" else '',
+                    "Nome": professor.get('nome', ''),
+                    "Data Nascimento": professor.get('data_nascimento', ''),
+                    "Carga Horária": professor.get('carga_horaria', ''),
+                    "Carreira": professor.get('carreira', ''),
+                    "Pós-graduação": professor.get('pos_graduacao', ''),
+                    "Data Ingresso": professor.get('data_ingresso', ''),
+                    "Status": professor.get('status', 'Ativo')
+                }
+                
+                # Monta valores na ordem das colunas configuradas
+                values = [professor_values.get(col, '') for col in self.current_columns]
+                self.tree.insert('', tk.END, values=values)
             
             # Atualiza contador - exclui aposentados do cômputo
             professores_ativos = [p for p in professores if p.get('status', 'Ativo') != 'Aposentado']
@@ -712,6 +717,112 @@ class MainWindow:
     def show_all_schools(self):
         """Mostra janela com todas as escolas"""
         SchoolsWindow(self.root)
+    
+    def configure_columns(self):
+        """Abre janela de configuração da ordem das colunas"""
+        try:
+            # Determina colunas padrão para escola atual
+            if self.sistema.current_school == "DIRENS":
+                default_columns = (
+                    "SIAPE", "Escola", "Nome", "Data Nascimento", "Carga Horária",
+                    "Carreira", "Pós-graduação", "Data Ingresso", "Status"
+                )
+            else:
+                default_columns = (
+                    "SIAPE", "Nome", "Data Nascimento", "Carga Horária",
+                    "Carreira", "Pós-graduação", "Data Ingresso", "Status"
+                )
+            
+            # Abre janela de configuração com callback para atualizar interface
+            ColumnOrderWindow(
+                parent=self.root,
+                current_columns=default_columns,
+                school=self.sistema.current_school,
+                callback=self.apply_column_order
+            )
+            
+        except Exception as e:
+            logging.error(f"Erro ao configurar colunas: {e}")
+            messagebox.showerror("Erro", f"Erro ao configurar colunas:\n{e}")
+    
+    def apply_column_order(self, new_column_order):
+        """Aplica nova ordem das colunas e atualiza a interface"""
+        try:
+            # Atualiza ordem das colunas
+            self.current_columns = new_column_order
+            
+            # Recria a árvore com nova ordem
+            self.recreate_tree_with_new_columns()
+            
+            # Atualiza dados
+            self.refresh_data()
+            
+            self.status_var.set("Ordem das colunas aplicada com sucesso")
+            
+        except Exception as e:
+            logging.error(f"Erro ao aplicar ordem das colunas: {e}")
+            messagebox.showerror("Erro", f"Erro ao aplicar nova ordem:\n{e}")
+    
+    def recreate_tree_with_new_columns(self):
+        """Recria a árvore com nova ordem das colunas"""
+        try:
+            # Obtém o frame pai da árvore
+            tree_parent = self.tree.master
+            
+            # Destrói árvore atual
+            self.tree.destroy()
+            
+            # Recria árvore com nova ordem
+            self.tree = ttk.Treeview(tree_parent, columns=self.current_columns, show="headings", height=20)
+            
+            # Configurar larguras das colunas
+            if self.sistema.current_school == "DIRENS":
+                column_widths = {
+                    "SIAPE": 80,
+                    "Escola": 80,
+                    "Nome": 200,
+                    "Data Nascimento": 110,
+                    "Carga Horária": 100,
+                    "Carreira": 80,
+                    "Pós-graduação": 110,
+                    "Data Ingresso": 110,
+                    "Status": 80
+                }
+            else:
+                column_widths = {
+                    "SIAPE": 100,
+                    "Nome": 250,
+                    "Data Nascimento": 120,
+                    "Carga Horária": 100,
+                    "Carreira": 100,
+                    "Pós-graduação": 130,
+                    "Data Ingresso": 120,
+                    "Status": 100
+                }
+            
+            # Configurar cabeçalhos e colunas
+            for col in self.current_columns:
+                self.tree.heading(col, text=col, command=lambda c=col: self.sort_column(c))
+                self.tree.column(col, width=column_widths.get(col, 100), minwidth=50)
+            
+            # Reconectar scrollbars
+            v_scrollbar = tree_parent.children['!scrollbar']
+            h_scrollbar = tree_parent.children['!scrollbar2']
+            
+            self.tree.configure(yscrollcommand=v_scrollbar.set, xscrollcommand=h_scrollbar.set)
+            v_scrollbar.configure(command=self.tree.yview)
+            h_scrollbar.configure(command=self.tree.xview)
+            
+            # Reposicionar árvore
+            self.tree.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
+            
+            # Reconectar eventos
+            self.tree.bind('<Double-1>', lambda e: self.edit_teacher())
+            self.tree.bind('<Return>', lambda e: self.edit_teacher())
+            
+        except Exception as e:
+            logging.error(f"Erro ao recriar árvore: {e}")
+            raise e
     
     def export_csv(self):
         """Exporta para CSV"""
