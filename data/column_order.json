@@ -1,0 +1,16 @@
+{
+  "DIRENS": {
+    "column_order": [
+      "SIAPE",
+      "Escola",
+      "Nome",
+      "Data Nascimento",
+      "Data Ingresso",
+      "Carga Horária",
+      "Carreira",
+      "Pós-graduação",
+      "Status"
+    ],
+    "last_updated": "2025-08-15T23:37:18.142168"
+  }
+}

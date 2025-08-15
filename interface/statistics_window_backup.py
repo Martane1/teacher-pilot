@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Janela de Estatísticas com Suporte DIRENS - Sistema DIRENS
+Janela de Estatísticas - Sistema DIRENS
 """
 
 import tkinter as tk
@@ -11,26 +11,21 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import numpy as np
 
-from recursos.constants import CARGAS_HORARIAS, CARREIRAS, POS_GRADUACAO, ESCOLAS
+from recursos.constants import CARGAS_HORARIAS, CARREIRAS, POS_GRADUACAO
 
 class StatisticsWindow:
-    """Janela para visualização de estatísticas com suporte DIRENS"""
+    """Janela para visualização de estatísticas"""
     
     def __init__(self, parent, teacher_manager, school):
         """Inicializa a janela de estatísticas"""
         self.parent = parent
         self.teacher_manager = teacher_manager
         self.school = school
-        self.is_direns = (school == "DIRENS")
         
         # Cria a janela
         self.window = tk.Toplevel(parent)
-        title = f"Estatísticas - {school}"
-        if self.is_direns:
-            title += " (Consolidado de Todas as Escolas)"
-        
-        self.window.title(title)
-        self.window.geometry("1200x800" if self.is_direns else "1000x700")
+        self.window.title(f"Estatísticas - {school}")
+        self.window.geometry("1000x700")
         self.window.resizable(True, True)
         
         # Modal
@@ -55,8 +50,8 @@ class StatisticsWindow:
         parent_width = self.parent.winfo_width()
         parent_height = self.parent.winfo_height()
         
-        width = 1200 if self.is_direns else 1000
-        height = 800 if self.is_direns else 700
+        width = 1000
+        height = 700
         
         x = parent_x + (parent_width - width) // 2
         y = parent_y + (parent_height - height) // 2
@@ -73,13 +68,9 @@ class StatisticsWindow:
         header_frame = ttk.Frame(main_frame)
         header_frame.pack(fill=tk.X, pady=(0, 10))
         
-        title_text = f"Estatísticas - {self.school}"
-        if self.is_direns:
-            title_text += " (Consolidado)"
-        
         ttk.Label(
             header_frame,
-            text=title_text,
+            text=f"Estatísticas - {self.school}",
             font=("Arial", 16, "bold")
         ).pack(side=tk.LEFT)
         
@@ -108,10 +99,6 @@ class StatisticsWindow:
         # Aba de detalhes
         self.create_details_tab()
         
-        # Aba por escola (somente para DIRENS)
-        if self.is_direns:
-            self.create_by_school_tab()
-        
         # Botão fechar
         ttk.Button(
             main_frame,
@@ -136,10 +123,6 @@ class StatisticsWindow:
         self.create_stat_card(cards_frame, "Com Mestrado", "professores_mestrado", 1, 1)
         self.create_stat_card(cards_frame, "Carreira EBTT", "professores_ebtt", 1, 2)
         
-        # Card adicional para DIRENS (número de escolas)
-        if self.is_direns:
-            self.create_stat_card(cards_frame, "Escolas Ativas", "escolas_ativas", 2, 0)
-        
         # Tabela de distribuição
         table_frame = ttk.LabelFrame(summary_frame, text="Distribuição por Categoria", padding="10")
         table_frame.pack(fill=tk.BOTH, expand=True)
@@ -162,7 +145,7 @@ class StatisticsWindow:
     def create_stat_card(self, parent, title, var_name, row, col):
         """Cria um card de estatística"""
         card_frame = ttk.LabelFrame(parent, text=title, padding="10")
-        card_frame.grid(row=row, column=col, padx=5, pady=5, sticky="we")
+        card_frame.grid(row=row, column=col, padx=5, pady=5, sticky=(tk.W, tk.E))
         
         # Variável para o valor
         var = tk.StringVar()
@@ -219,18 +202,6 @@ class StatisticsWindow:
             width=15
         ).pack(side=tk.LEFT, padx=(0, 20))
         
-        # Filtro adicional por escola para DIRENS
-        if self.is_direns:
-            ttk.Label(filter_frame, text="Escola:").pack(side=tk.LEFT, padx=(0, 5))
-            self.detail_escola_var = tk.StringVar()
-            self.escola_combo = ttk.Combobox(
-                filter_frame,
-                textvariable=self.detail_escola_var,
-                state="readonly",
-                width=10
-            )
-            self.escola_combo.pack(side=tk.LEFT, padx=(0, 20))
-        
         ttk.Button(
             filter_frame,
             text="Aplicar Filtros",
@@ -241,30 +212,18 @@ class StatisticsWindow:
         list_frame = ttk.Frame(details_frame)
         list_frame.pack(fill=tk.BOTH, expand=True)
         
-        # Configura colunas baseado se é DIRENS ou não
-        if self.is_direns:
-            columns = ("SIAPE", "Escola", "Nome", "Carreira", "Carga Horária", "Pós-graduação", "Status")
-            column_widths = {
-                "SIAPE": 80,
-                "Escola": 80,
-                "Nome": 200,
-                "Carreira": 100,
-                "Carga Horária": 120,
-                "Pós-graduação": 130,
-                "Status": 100
-            }
-        else:
-            columns = ("SIAPE", "Nome", "Carreira", "Carga Horária", "Pós-graduação", "Status")
-            column_widths = {
-                "SIAPE": 100,
-                "Nome": 250,
-                "Carreira": 100,
-                "Carga Horária": 120,
-                "Pós-graduação": 130,
-                "Status": 100
-            }
-        
+        columns = ("SIAPE", "Nome", "Carreira", "Carga Horária", "Pós-graduação", "Status")
         self.details_tree = ttk.Treeview(list_frame, columns=columns, show="headings", height=15)
+        
+        # Configurar colunas
+        column_widths = {
+            "SIAPE": 100,
+            "Nome": 250,
+            "Carreira": 100,
+            "Carga Horária": 120,
+            "Pós-graduação": 130,
+            "Status": 100
+        }
         
         for col in columns:
             self.details_tree.heading(col, text=col)
@@ -276,9 +235,9 @@ class StatisticsWindow:
         
         self.details_tree.configure(yscrollcommand=v_scroll.set, xscrollcommand=h_scroll.set)
         
-        self.details_tree.grid(row=0, column=0, sticky="nsew")
-        v_scroll.grid(row=0, column=1, sticky="ns")
-        h_scroll.grid(row=1, column=0, sticky="ew")
+        self.details_tree.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
+        v_scroll.grid(row=0, column=1, sticky=(tk.N, tk.S))
+        h_scroll.grid(row=1, column=0, sticky=(tk.W, tk.E))
         
         list_frame.grid_rowconfigure(0, weight=1)
         list_frame.grid_columnconfigure(0, weight=1)
@@ -286,70 +245,18 @@ class StatisticsWindow:
         # Definir valores padrão dos filtros
         self.detail_pos_var.set("Todos")
         self.detail_carreira_var.set("Todos")
-        if self.is_direns:
-            self.detail_escola_var.set("Todas")
-    
-    def create_by_school_tab(self):
-        """Cria aba com estatísticas por escola (somente DIRENS)"""
-        by_school_frame = ttk.Frame(self.notebook, padding="10")
-        self.notebook.add(by_school_frame, text="Por Escola")
-        
-        # Título
-        ttk.Label(
-            by_school_frame,
-            text="Estatísticas por Escola",
-            font=("Arial", 14, "bold")
-        ).pack(pady=(0, 20))
-        
-        # Tabela comparativa de todas as escolas
-        comparison_frame = ttk.LabelFrame(by_school_frame, text="Comparativo Geral", padding="10")
-        comparison_frame.pack(fill=tk.BOTH, expand=True)
-        
-        # Treeview para comparação
-        comp_columns = ("Escola", "Total", "Ativos", "Doutorado", "Mestrado", "40H DE", "EBTT")
-        self.comparison_tree = ttk.Treeview(comparison_frame, columns=comp_columns, show="headings", height=15)
-        
-        # Configurar colunas
-        comp_widths = {
-            "Escola": 100,
-            "Total": 60,
-            "Ativos": 60,
-            "Doutorado": 80,
-            "Mestrado": 80,
-            "40H DE": 60,
-            "EBTT": 60
-        }
-        
-        for col in comp_columns:
-            self.comparison_tree.heading(col, text=col)
-            self.comparison_tree.column(col, width=comp_widths.get(col, 80), anchor=tk.CENTER)
-        
-        # Scrollbar para comparação
-        comp_scroll = ttk.Scrollbar(comparison_frame, orient=tk.VERTICAL, command=self.comparison_tree.yview)
-        self.comparison_tree.configure(yscrollcommand=comp_scroll.set)
-        
-        self.comparison_tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
-        comp_scroll.pack(side=tk.RIGHT, fill=tk.Y)
     
     def load_statistics(self):
         """Carrega as estatísticas"""
         try:
             # Carrega dados dos professores
-            if self.is_direns:
-                professores_todos = self.teacher_manager.get_all_teachers()
-            else:
-                professores_todos = self.teacher_manager.get_teachers_by_school(self.school)
+            professores_todos = self.teacher_manager.get_teachers_by_school(self.school)
             
             # Filtra aposentados do cômputo (mas mantém no registro)
             professores = [p for p in professores_todos if p.get('status', 'Ativo') != 'Aposentado']
             
             if not professores:
-                message = "Nenhum professor ativo encontrado"
-                if self.is_direns:
-                    message += " em todas as escolas"
-                else:
-                    message += " para esta escola"
-                messagebox.showinfo("Informação", message)
+                messagebox.showinfo("Informação", "Nenhum professor ativo encontrado para esta escola")
                 return
             
             # Calcula estatísticas
@@ -360,10 +267,6 @@ class StatisticsWindow:
             
             # Atualiza lista de detalhes
             self.update_details_list(professores)
-            
-            # Atualiza estatísticas por escola (somente DIRENS)
-            if self.is_direns:
-                self.update_by_school_statistics(professores)
             
         except Exception as e:
             logging.error(f"Erro ao carregar estatísticas: {e}")
@@ -387,11 +290,6 @@ class StatisticsWindow:
         self.professores_doutorado_var.set(str(doutorado))
         self.professores_mestrado_var.set(str(mestrado))
         self.professores_ebtt_var.set(str(ebtt))
-        
-        # Card adicional para DIRENS
-        if self.is_direns:
-            escolas_ativas = len(set(p.get('escola', '') for p in professores if p.get('escola')))
-            self.escolas_ativas_var.set(str(escolas_ativas))
         
         # Atualiza tabela de distribuição
         self.update_summary_table(professores, total)
@@ -436,18 +334,6 @@ class StatisticsWindow:
             self.summary_tree.insert('', tk.END, values=(
                 f"  {carreira}", str(count), f"{percent:.1f}%"
             ))
-        
-        # Distribuição por escola (somente DIRENS)
-        if self.is_direns:
-            escola_counter = Counter([p.get('escola', 'Não informado') for p in professores])
-            self.summary_tree.insert('', tk.END, values=("", "", ""))
-            self.summary_tree.insert('', tk.END, values=("POR ESCOLA", "", ""))
-            
-            for escola, count in sorted(escola_counter.items(), key=lambda x: x[1], reverse=True):
-                percent = (count / total) * 100
-                self.summary_tree.insert('', tk.END, values=(
-                    f"  {escola}", str(count), f"{percent:.1f}%"
-                ))
     
     def update_charts(self, professores):
         """Atualiza os gráficos"""
@@ -464,15 +350,9 @@ class StatisticsWindow:
             return
         
         try:
-            # Determina layout dos gráficos
-            if self.is_direns:
-                fig, ((ax1, ax2), (ax3, ax4), (ax5, ax6)) = plt.subplots(3, 2, figsize=(14, 12))
-                title = f'Estatísticas - {self.school} (Consolidado)'
-            else:
-                fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(12, 8))
-                title = f'Estatísticas - {self.school}'
-            
-            fig.suptitle(title, fontsize=16, fontweight='bold')
+            # Cria figura com subplots
+            fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(12, 8))
+            fig.suptitle(f'Estatísticas - {self.school}', fontsize=16, fontweight='bold')
             
             # Gráfico 1: Distribuição por pós-graduação
             pos_data = Counter([p.get('pos_graduacao', 'Não informado') for p in professores])
@@ -505,47 +385,6 @@ class StatisticsWindow:
                 ax4.set_title('Status')
                 ax4.tick_params(axis='x', rotation=45)
             
-            # Gráficos adicionais para DIRENS
-            if self.is_direns:
-                # Gráfico 5: Professores por escola
-                escola_data = Counter([p.get('escola', 'Não informada') for p in professores])
-                if escola_data:
-                    labels5, values5 = zip(*escola_data.most_common())
-                    ax5.bar(range(len(labels5)), values5, color='skyblue')
-                    ax5.set_title('Professores por Escola')
-                    ax5.set_xticks(range(len(labels5)))
-                    ax5.set_xticklabels(labels5, rotation=45, ha='right')
-                
-                # Gráfico 6: Comparativo de qualificação por escola
-                escola_doutorado = {}
-                escola_mestrado = {}
-                
-                for escola in ESCOLAS.keys():
-                    if escola == 'DIRENS':
-                        continue
-                    profs_escola = [p for p in professores if p.get('escola') == escola]
-                    doutorado_count = len([p for p in profs_escola if p.get('pos_graduacao') == 'DOUTORADO'])
-                    mestrado_count = len([p for p in profs_escola if p.get('pos_graduacao') == 'MESTRADO'])
-                    
-                    if profs_escola:  # Só inclui escolas com professores
-                        escola_doutorado[escola] = doutorado_count
-                        escola_mestrado[escola] = mestrado_count
-                
-                if escola_doutorado or escola_mestrado:
-                    escolas = list(escola_doutorado.keys())
-                    doutorado_values = [escola_doutorado.get(e, 0) for e in escolas]
-                    mestrado_values = [escola_mestrado.get(e, 0) for e in escolas]
-                    
-                    x = np.arange(len(escolas))
-                    width = 0.35
-                    
-                    ax6.bar(x - width/2, doutorado_values, width, label='Doutorado', alpha=0.8)
-                    ax6.bar(x + width/2, mestrado_values, width, label='Mestrado', alpha=0.8)
-                    ax6.set_title('Pós-Graduação por Escola')
-                    ax6.set_xticks(x)
-                    ax6.set_xticklabels(escolas, rotation=45, ha='right')
-                    ax6.legend()
-            
             plt.tight_layout()
             
             # Integra com Tkinter
@@ -576,107 +415,21 @@ class StatisticsWindow:
         for item in self.details_tree.get_children():
             self.details_tree.delete(item)
         
-        # Popula filtro de escola para DIRENS
-        if self.is_direns:
-            escolas = sorted(set(p.get('escola', '') for p in professores if p.get('escola')))
-            self.escola_combo['values'] = ["Todas"] + escolas
-        
         # Adiciona professores
         for professor in sorted(professores, key=lambda x: x.get('nome', '')):
-            if self.is_direns:
-                values = (
-                    professor.get('siape', ''),
-                    professor.get('escola', '').upper(),
-                    professor.get('nome', ''),
-                    professor.get('carreira', ''),
-                    professor.get('carga_horaria', ''),
-                    professor.get('pos_graduacao', ''),
-                    professor.get('status', 'Ativo')
-                )
-            else:
-                values = (
-                    professor.get('siape', ''),
-                    professor.get('nome', ''),
-                    professor.get('carreira', ''),
-                    professor.get('carga_horaria', ''),
-                    professor.get('pos_graduacao', ''),
-                    professor.get('status', 'Ativo')
-                )
-            
-            self.details_tree.insert('', tk.END, values=values)
-    
-    def update_by_school_statistics(self, professores):
-        """Atualiza estatísticas por escola"""
-        try:
-            # Atualiza tabela comparativa
-            self.update_comparison_table(professores)
-            
-        except Exception as e:
-            logging.error(f"Erro ao atualizar estatísticas por escola: {e}")
-    
-    def update_comparison_table(self, professores):
-        """Atualiza tabela comparativa"""
-        try:
-            # Limpa tabela
-            for item in self.comparison_tree.get_children():
-                self.comparison_tree.delete(item)
-            
-            # Agrupa professores por escola
-            escolas_stats = {}
-            
-            for escola in ESCOLAS.keys():
-                if escola == 'DIRENS':
-                    continue
-                
-                profs_escola = [p for p in professores if p.get('escola') == escola]
-                
-                if profs_escola:  # Só inclui escolas com professores
-                    escolas_stats[escola] = {
-                        'total': len(profs_escola),
-                        'ativos': len([p for p in profs_escola if p.get('status', 'Ativo') == 'Ativo']),
-                        'doutorado': len([p for p in profs_escola if p.get('pos_graduacao') == 'DOUTORADO']),
-                        'mestrado': len([p for p in profs_escola if p.get('pos_graduacao') == 'MESTRADO']),
-                        '40h_de': len([p for p in profs_escola if p.get('carga_horaria') == '40H_DE']),
-                        'ebtt': len([p for p in profs_escola if p.get('carreira') == 'EBTT'])
-                    }
-            
-            # Ordena por total de professores (decrescente)
-            sorted_escolas = sorted(escolas_stats.items(), key=lambda x: x[1]['total'], reverse=True)
-            
-            # Adiciona linhas à tabela
-            for escola, stats in sorted_escolas:
-                self.comparison_tree.insert('', tk.END, values=(
-                    escola,
-                    stats['total'],
-                    stats['ativos'],
-                    stats['doutorado'],
-                    stats['mestrado'],
-                    stats['40h_de'],
-                    stats['ebtt']
-                ))
-            
-            # Adiciona linha de totais
-            if sorted_escolas:
-                self.comparison_tree.insert('', tk.END, values=(
-                    "TOTAL",
-                    sum(s['total'] for _, s in sorted_escolas),
-                    sum(s['ativos'] for _, s in sorted_escolas),
-                    sum(s['doutorado'] for _, s in sorted_escolas),
-                    sum(s['mestrado'] for _, s in sorted_escolas),
-                    sum(s['40h_de'] for _, s in sorted_escolas),
-                    sum(s['ebtt'] for _, s in sorted_escolas)
-                ))
-            
-        except Exception as e:
-            logging.error(f"Erro ao atualizar tabela comparativa: {e}")
+            self.details_tree.insert('', tk.END, values=(
+                professor.get('siape', ''),
+                professor.get('nome', ''),
+                professor.get('carreira', ''),
+                professor.get('carga_horaria', ''),
+                professor.get('pos_graduacao', ''),
+                professor.get('status', 'Ativo')
+            ))
     
     def apply_detail_filters(self):
         """Aplica filtros na lista de detalhes"""
         try:
-            if self.is_direns:
-                professores = self.teacher_manager.get_all_teachers()
-            else:
-                professores = self.teacher_manager.get_teachers_by_school(self.school)
+            professores = self.teacher_manager.get_teachers_by_school(self.school)
             
             # Aplica filtros
             pos_filter = self.detail_pos_var.get()
@@ -687,12 +440,6 @@ class StatisticsWindow:
             
             if carreira_filter and carreira_filter != "Todos":
                 professores = [p for p in professores if p.get('carreira') == carreira_filter]
-            
-            # Filtro adicional por escola para DIRENS
-            if self.is_direns:
-                escola_filter = self.detail_escola_var.get()
-                if escola_filter and escola_filter != "Todas":
-                    professores = [p for p in professores if p.get('escola') == escola_filter]
             
             # Atualiza lista
             self.update_details_list(professores)
@@ -715,17 +462,15 @@ class StatisticsWindow:
                     ("Arquivos de texto", "*.txt"),
                     ("CSV files", "*.csv"),
                     ("Todos os arquivos", "*.*")
-                ]
+                ],
+                initialname=f"estatisticas_{self.school}_{datetime.now().strftime('%Y%m%d')}.txt"
             )
             
             if not filename:
                 return
             
             # Carrega dados
-            if self.is_direns:
-                professores = self.teacher_manager.get_all_teachers()
-            else:
-                professores = self.teacher_manager.get_teachers_by_school(self.school)
+            professores = self.teacher_manager.get_teachers_by_school(self.school)
             
             # Gera relatório
             report_content = self.generate_report_content(professores)
@@ -744,12 +489,8 @@ class StatisticsWindow:
         """Gera conteúdo do relatório"""
         from datetime import datetime
         
-        escola_title = f"{self.school}"
-        if self.is_direns:
-            escola_title += " (Consolidado de Todas as Escolas)"
-        
         content = f"""RELATÓRIO DE ESTATÍSTICAS - SISTEMA DIRENS
-Escola: {escola_title}
+Escola: {self.school}
 Data: {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}
 
 {'='*60}
@@ -793,18 +534,12 @@ DISTRIBUIÇÃO POR PÓS-GRADUAÇÃO:
             percent = (count / total) * 100 if total > 0 else 0
             content += f"- {carreira}: {count} ({percent:.1f}%)\n"
         
-        # Adiciona estatísticas por escola se for DIRENS
-        if self.is_direns:
-            content += self.generate_school_breakdown_report(professores)
-        
         content += f"\n{'='*60}\n\nLISTA COMPLETA DE PROFESSORES:\n"
         
         # Adiciona lista de professores
         for i, professor in enumerate(sorted(professores, key=lambda x: x.get('nome', '')), 1):
             content += f"\n{i:03d}. {professor.get('nome', '')}\n"
             content += f"     SIAPE: {professor.get('siape', '')}\n"
-            if self.is_direns:
-                content += f"     Escola: {professor.get('escola', '')}\n"
             content += f"     Carreira: {professor.get('carreira', '')}\n"
             content += f"     Carga Horária: {professor.get('carga_horaria', '')}\n"
             content += f"     Pós-graduação: {professor.get('pos_graduacao', '')}\n"
@@ -813,30 +548,5 @@ DISTRIBUIÇÃO POR PÓS-GRADUAÇÃO:
         content += f"\n{'='*60}\n"
         content += f"Relatório gerado pelo Sistema DIRENS v1.0\n"
         content += f"Total de registros: {len(professores)}\n"
-        
-        return content
-    
-    def generate_school_breakdown_report(self, professores):
-        """Gera relatório com breakdown por escola"""
-        content = f"\n\n{'='*60}\n\nESTATÍSTICAS POR ESCOLA:\n\n"
-        
-        # Agrupa por escola
-        escola_data = {}
-        for escola in ESCOLAS.keys():
-            if escola == 'DIRENS':
-                continue
-            profs = [p for p in professores if p.get('escola') == escola]
-            if profs:
-                escola_data[escola] = profs
-        
-        # Gera estatísticas para cada escola
-        for escola, profs in sorted(escola_data.items()):
-            content += f"{escola}:\n"
-            content += f"  • Total: {len(profs)} professores\n"
-            content += f"  • Ativos: {len([p for p in profs if p.get('status') == 'Ativo'])}\n"
-            content += f"  • Doutorado: {len([p for p in profs if p.get('pos_graduacao') == 'DOUTORADO'])}\n"
-            content += f"  • Mestrado: {len([p for p in profs if p.get('pos_graduacao') == 'MESTRADO'])}\n"
-            content += f"  • 40H DE: {len([p for p in profs if p.get('carga_horaria') == '40H_DE'])}\n"
-            content += f"  • EBTT: {len([p for p in profs if p.get('carreira') == 'EBTT'])}\n\n"
         
         return content
