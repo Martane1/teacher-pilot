@@ -5,15 +5,23 @@ Formulário de Professor do Sistema DIRENS
 
 import sys
 import locale
+import os
 
-# Configura locale para UTF-8
+# Força configuração UTF-8 mais agressiva
+os.environ['LC_ALL'] = 'C.UTF-8'
+os.environ['LANG'] = 'C.UTF-8'
+os.environ['LANGUAGE'] = 'C.UTF-8'
+
 try:
     locale.setlocale(locale.LC_ALL, 'C.UTF-8')
 except:
     try:
-        locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
+        locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
     except:
-        pass
+        try:
+            locale.setlocale(locale.LC_ALL, '')
+        except:
+            pass
 
 import tkinter as tk
 from tkinter import ttk, messagebox
@@ -45,11 +53,14 @@ class TeacherFormWindow:
         self.window.geometry("600x700")
         self.window.resizable(False, False)
         
-        # Configura encoding para UTF-8
+        # Configurações agressivas para UTF-8
         try:
             self.window.tk.call('encoding', 'system', 'utf-8')
-        except:
-            pass
+            # Configura input method para aceitar caracteres especiais
+            self.window.tk.call('set', '::tk::Priv(IMEText)', '')
+            self.window.option_add('*font', 'Arial 10')
+        except Exception as e:
+            print(f"Aviso: {e}")
         
         # Centraliza
         self.center_window()
@@ -166,10 +177,34 @@ class TeacherFormWindow:
         # Nome completo
         ttk.Label(personal_frame, text="Nome Completo:*").grid(row=row, column=0, sticky=tk.W, pady=5)
         self.nome_var = tk.StringVar()
-        nome_entry = ttk.Entry(personal_frame, textvariable=self.nome_var, width=50)
+        
+        # Entry com configurações específicas para Unicode
+        nome_entry = tk.Entry(
+            personal_frame, 
+            textvariable=self.nome_var, 
+            width=50,
+            font=('DejaVu Sans', 10),  # Fonte com melhor suporte Unicode
+            relief='solid',
+            borderwidth=1,
+            highlightthickness=1,
+            highlightcolor='blue'
+        )
         nome_entry.grid(row=row, column=1, sticky="we", pady=5, columnspan=2)
         
-        # SEM NENHUMA VALIDAÇÃO OU INTERCEPTAÇÃO - deixa digitar livremente
+        # Configurações para aceitar Unicode
+        try:
+            # Define encoding explicito
+            nome_entry.configure(validate='none')  # Remove todas as validações
+            # Permite todos os eventos de teclado
+            nome_entry.bind('<Key>', lambda e: None)  # Não bloqueia nada
+            # Armazena referência para usar depois
+            self.nome_entry_ref = nome_entry
+            
+            # Teste direto: tenta inserir um caractere acentuado
+            nome_entry.insert(0, '')
+            nome_entry.delete(0, tk.END)
+        except Exception as e:
+            print(f"Configuração Unicode: {e}")
         
         row += 1
         
@@ -395,7 +430,17 @@ class TeacherFormWindow:
                 width=15
             ).pack(side=tk.LEFT, padx=5)
     
-    # Agora o campo aceita digitação livre de acentos
+    def test_unicode_support(self):
+        """Testa se Unicode funciona no campo"""
+        try:
+            if hasattr(self, 'nome_entry_ref'):
+                # Testa inserir caracteres acentuados diretamente
+                test_chars = 'áéíóúçãõ'
+                current = self.nome_var.get()
+                self.nome_var.set(current + test_chars)
+                print(f"Teste Unicode: inseridos {test_chars}")
+        except Exception as e:
+            print(f"Erro no teste Unicode: {e}")
     
     def populate_fields(self):
         """Preenche os campos com dados do professor"""
