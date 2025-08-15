@@ -46,6 +46,12 @@ class MainWindow:
         self.filter_carreira = tk.StringVar()
         self.search_var = tk.StringVar()
         
+        # Variáveis de interface
+        self.status_var = tk.StringVar()
+        self.count_var = tk.StringVar()
+        self.status_var.set("Pronto")
+        self.count_var.set("0 de 0 professores")
+        
         # Bind para busca em tempo real
         self.search_var.trace('w', self.on_search_change)
         
@@ -315,8 +321,7 @@ class MainWindow:
         status_frame = ttk.Frame(self.root)
         status_frame.pack(fill=tk.X, side=tk.BOTTOM)
         
-        self.status_var = tk.StringVar()
-        self.status_var.set("Pronto")
+        # Status var já inicializada no __init__
         
         ttk.Label(status_frame, textvariable=self.status_var).pack(side=tk.LEFT, padx=10, pady=5)
         
