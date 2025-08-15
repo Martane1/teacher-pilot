@@ -456,7 +456,7 @@ class MainWindow:
             return None
         
         return {
-            'siape': values[0],
+            'siape': str(values[0]),  # Ensure SIAPE is always string
             'nome': values[1],
             'data_nascimento': values[2],
             'carga_horaria': values[3],
@@ -505,7 +505,7 @@ class MainWindow:
                 
                 # Try both string and int versions
                 siape_str = str(siape)
-                siape_int = int(siape) if siape.isdigit() else None
+                siape_int = int(siape) if str(siape).isdigit() else None
                 
                 result_str = school_teachers.get(siape_str)
                 result_int = school_teachers.get(siape_int) if siape_int else None

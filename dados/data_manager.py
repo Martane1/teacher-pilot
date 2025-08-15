@@ -135,6 +135,9 @@ class DataManager:
     def get_teacher_by_siape(self, siape, school):
         """Busca professor por SIAPE e escola"""
         try:
+            # Ensure SIAPE is string for consistent lookup
+            siape = str(siape)
+            
             data = self.load_json(self.teachers_file)
             
             teachers = data.get("teachers", {})
