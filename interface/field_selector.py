@@ -27,7 +27,6 @@ class FieldSelectorWindow:
             'status': 'Status',
             'area_atuacao': 'Área de Atuação',
             'pos_graduacao': 'Pós-graduação',
-            'graduacao': 'Graduação',
             'email': 'Email',
             'telefone': 'Telefone'
         }

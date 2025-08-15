@@ -110,7 +110,7 @@ class ValidatorManager:
         """Valida campos obrigatórios"""
         required_fields = [
             'siape', 'nome', 'data_nascimento', 'sexo',
-            'email', 'telefone_celular', 'carga_horaria', 'carreira', 'data_ingresso', 'pos_graduacao', 'graduacao'
+            'email', 'telefone_celular', 'carga_horaria', 'carreira', 'data_ingresso', 'pos_graduacao'
         ]
         
         missing_fields = []
@@ -190,12 +190,7 @@ class ValidatorManager:
             except Exception:
                 pass
         
-        # Valida consistência de formação
-        pos_graduacao = data.get('pos_graduacao')
-        graduacao = data.get('graduacao', '').strip()
-        
-        if pos_graduacao in ['ESPECIALIZAÇÃO', 'MESTRADO', 'DOUTORADO'] and not graduacao:
-            errors.append("Graduação é obrigatória para pós-graduação")
+        # Validação de graduação removida - informação já contemplada na pós-graduação
         
         return errors
     
@@ -323,7 +318,7 @@ class ValidatorManager:
         
         try:
             # Limpa e formata campos de texto
-            text_fields = ['nome', 'graduacao', 'area_atuacao']
+            text_fields = ['nome', 'area_atuacao']
             
             for field in text_fields:
                 if field in cleaned_data and cleaned_data[field]:
