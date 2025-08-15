@@ -250,10 +250,13 @@ class StatisticsWindow:
         """Carrega as estatísticas"""
         try:
             # Carrega dados dos professores
-            professores = self.teacher_manager.get_teachers_by_school(self.school)
+            professores_todos = self.teacher_manager.get_teachers_by_school(self.school)
+            
+            # Filtra aposentados do cômputo (mas mantém no registro)
+            professores = [p for p in professores_todos if p.get('status', 'Ativo') != 'Aposentado']
             
             if not professores:
-                messagebox.showinfo("Informação", "Nenhum professor encontrado para esta escola")
+                messagebox.showinfo("Informação", "Nenhum professor ativo encontrado para esta escola")
                 return
             
             # Calcula estatísticas

@@ -6,22 +6,18 @@
         "nome": "IVAN MARTANE",
         "data_nascimento": "23-08-1990",
         "sexo": "M",
-        "estado": "SP",
         "email": "ivan.martane@fab.mil.br",
-        "telefone": "61-9-1234-5678",
+        "telefone_celular": "61-9-1234-5678",
+        "telefone_fixo": "61-1234-5678",
         "carga_horaria": "40H_DE",
         "carreira": "MS",
         "data_ingresso": "15-08-2012",
         "status": "Ativo",
         "area_atuacao": "CORTE",
         "pos_graduacao": "DOUTORADO",
-        "graduacao": "CORTE",
-        "instituicao_graduacao": "CORTE1",
-        "curso_pos": "CORTE2",
-        "instituicao_pos": "CORTE3",
         "escola": "AFA",
         "data_criacao": "2025-08-15T14:13:14.145658",
-        "data_atualizacao": "2025-08-15T15:55:51.970952",
+        "data_atualizacao": "2025-08-15T19:07:29.386819",
         "atualizado_por": "admin",
         "criado_por": "usuario_atual"
       },
@@ -85,16 +81,13 @@
         "carga_horaria": "20H",
         "carreira": "MS",
         "data_ingresso": "24-12-2024",
-        "status": "Ativo",
+        "status": "Aposentado",
         "area_atuacao": "PQD",
         "pos_graduacao": "DOUTORADO",
-        "graduacao": "PQD_EAD",
-        "instituicao_graduacao": "PQD",
-        "curso_pos": "PQD_EAD_PLUS",
-        "instituicao_pos": "PQD_A DISTANCIA",
         "escola": "AFA",
         "data_criacao": "2025-08-15T16:51:09.520958",
-        "data_atualizacao": "2025-08-15T16:51:09.520965",
+        "data_atualizacao": "2025-08-15T19:13:54.526731",
+        "atualizado_por": "admin",
         "criado_por": "admin"
       }
     }
@@ -102,6 +95,6 @@
   "metadata": {
     "created_at": "2025-08-15T12:55:31.485325",
     "version": "1.0",
-    "last_updated": "2025-08-15T18:25:09.140182"
+    "last_updated": "2025-08-15T19:13:54.527371"
   }
 }

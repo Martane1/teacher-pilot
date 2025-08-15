@@ -46,7 +46,73 @@
       "old_value": "20H",
       "new_value": "40H_DE",
       "notes": "Campo carga_horaria alterado"
+    },
+    {
+      "siape": "1234567",
+      "escola": "AFA",
+      "action": "UPDATE",
+      "user": "admin",
+      "timestamp": "2025-08-15T19:07:29.389255",
+      "field": "estado",
+      "old_value": "SP",
+      "new_value": "",
+      "notes": "Campo estado alterado"
+    },
+    {
+      "siape": "1234567",
+      "escola": "AFA",
+      "action": "UPDATE",
+      "user": "admin",
+      "timestamp": "2025-08-15T19:07:29.390232",
+      "field": "telefone",
+      "old_value": "61-9-1234-5678",
+      "new_value": "",
+      "notes": "Campo telefone alterado"
+    },
+    {
+      "siape": "1234567",
+      "escola": "AFA",
+      "action": "UPDATE",
+      "user": "admin",
+      "timestamp": "2025-08-15T19:07:29.390827",
+      "field": "graduacao",
+      "old_value": "CORTE",
+      "new_value": "",
+      "notes": "Campo graduacao alterado"
+    },
+    {
+      "siape": "1234567",
+      "escola": "AFA",
+      "action": "UPDATE",
+      "user": "admin",
+      "timestamp": "2025-08-15T19:07:29.391542",
+      "field": "instituicao_graduacao",
+      "old_value": "CORTE1",
+      "new_value": "",
+      "notes": "Campo instituicao_graduacao alterado"
+    },
+    {
+      "siape": "1234567",
+      "escola": "AFA",
+      "action": "UPDATE",
+      "user": "admin",
+      "timestamp": "2025-08-15T19:07:29.400521",
+      "field": "curso_pos",
+      "old_value": "CORTE2",
+      "new_value": "",
+      "notes": "Campo curso_pos alterado"
+    },
+    {
+      "siape": "1234567",
+      "escola": "AFA",
+      "action": "UPDATE",
+      "user": "admin",
+      "timestamp": "2025-08-15T19:07:29.402934",
+      "field": "instituicao_pos",
+      "old_value": "CORTE3",
+      "new_value": "",
+      "notes": "Campo instituicao_pos alterado"
     }
   ],
-  "last_updated": "2025-08-15T15:55:51.972499"
+  "last_updated": "2025-08-15T19:07:29.403051"
 }

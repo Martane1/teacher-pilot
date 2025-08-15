@@ -13,7 +13,62 @@
       "old_value": null,
       "new_value": "Novo professor criado",
       "notes": "Professor PQD DE PANTUFA criado com SIAPE 2424242"
+    },
+    {
+      "siape": "2424242",
+      "escola": "AFA",
+      "action": "UPDATE",
+      "user": "admin",
+      "timestamp": "2025-08-15T19:13:54.528466",
+      "field": "status",
+      "old_value": "Ativo",
+      "new_value": "Aposentado",
+      "notes": "Campo status alterado"
+    },
+    {
+      "siape": "2424242",
+      "escola": "AFA",
+      "action": "UPDATE",
+      "user": "admin",
+      "timestamp": "2025-08-15T19:13:54.529383",
+      "field": "graduacao",
+      "old_value": "PQD_EAD",
+      "new_value": "",
+      "notes": "Campo graduacao alterado"
+    },
+    {
+      "siape": "2424242",
+      "escola": "AFA",
+      "action": "UPDATE",
+      "user": "admin",
+      "timestamp": "2025-08-15T19:13:54.529970",
+      "field": "instituicao_graduacao",
+      "old_value": "PQD",
+      "new_value": "",
+      "notes": "Campo instituicao_graduacao alterado"
+    },
+    {
+      "siape": "2424242",
+      "escola": "AFA",
+      "action": "UPDATE",
+      "user": "admin",
+      "timestamp": "2025-08-15T19:13:54.530618",
+      "field": "curso_pos",
+      "old_value": "PQD_EAD_PLUS",
+      "new_value": "",
+      "notes": "Campo curso_pos alterado"
+    },
+    {
+      "siape": "2424242",
+      "escola": "AFA",
+      "action": "UPDATE",
+      "user": "admin",
+      "timestamp": "2025-08-15T19:13:54.531335",
+      "field": "instituicao_pos",
+      "old_value": "PQD_A DISTANCIA",
+      "new_value": "",
+      "notes": "Campo instituicao_pos alterado"
     }
   ],
-  "last_updated": "2025-08-15T16:51:09.523480"
+  "last_updated": "2025-08-15T19:13:54.531416"
 }

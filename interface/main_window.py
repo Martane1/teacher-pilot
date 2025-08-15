@@ -447,10 +447,11 @@ class MainWindow:
                     professor.get('status', 'Ativo')
                 ))
             
-            # Atualiza contador
-            total = len(professores)
+            # Atualiza contador - exclui aposentados do cômputo
+            professores_ativos = [p for p in professores if p.get('status', 'Ativo') != 'Aposentado']
+            total_ativo = len(professores_ativos)
             filtrados = len(professores_filtrados)
-            self.count_var.set(f"{filtrados} de {total} professores")
+            self.count_var.set(f"{filtrados} de {total_ativo} professores ativos")
             
             self.status_var.set("Dados carregados")
             
