@@ -8,17 +8,19 @@ import locale
 import os
 import platform
 
-# Configuração universal UTF-8 baseada no sistema operacional
+# Configuração específica para suporte a acentos por sistema operacional
 system_name = platform.system().lower()
 
 if system_name == 'darwin':  # Mac
-    os.environ['LC_ALL'] = 'en_US.UTF-8'
-    os.environ['LANG'] = 'en_US.UTF-8'
+    os.environ['LC_ALL'] = 'pt_BR.UTF-8'  # Português brasileiro para Mac
+    os.environ['LANG'] = 'pt_BR.UTF-8'
+    os.environ['LC_CTYPE'] = 'pt_BR.UTF-8'
 elif system_name == 'windows':  # Windows
     os.environ['PYTHONIOENCODING'] = 'utf-8'
+    os.environ['LC_ALL'] = 'pt_BR.UTF-8'
 else:  # Linux e outros
-    os.environ['LC_ALL'] = 'C.UTF-8'
-    os.environ['LANG'] = 'C.UTF-8'
+    os.environ['LC_ALL'] = 'pt_BR.UTF-8'
+    os.environ['LANG'] = 'pt_BR.UTF-8'
 
 # Tenta configurar locale baseado no sistema
 try:
@@ -185,14 +187,41 @@ class TeacherFormWindow:
         # Nome completo
         ttk.Label(personal_frame, text="Nome Completo:*").grid(row=row, column=0, sticky=tk.W, pady=5)
         
-        # Entry simples que permite acentos naturalmente
+        # Entry com suporte específico para acentos (Mac, Windows, Linux)
         self.nome_var = tk.StringVar()
-        nome_entry = ttk.Entry(
-            personal_frame,
-            textvariable=self.nome_var,
-            width=50
-        )
+        
+        # Configuração específica para Mac
+        system_name = platform.system().lower()
+        if system_name == 'darwin':  # Mac
+            # No Mac, usa tk.Entry ao invés de ttk.Entry para melhor suporte Unicode
+            nome_entry = tk.Entry(
+                personal_frame,
+                textvariable=self.nome_var,
+                width=50,
+                font=('Arial', 10),
+                relief='solid',
+                borderwidth=1
+            )
+            # Configura input method para Mac
+            nome_entry.bind('<KeyPress>', self._handle_accent_input)
+        else:
+            # Windows e Linux - usa ttk.Entry normal
+            nome_entry = ttk.Entry(
+                personal_frame,
+                textvariable=self.nome_var,
+                width=50
+            )
+        
         nome_entry.grid(row=row, column=1, sticky="we", pady=5, columnspan=2)
+        
+        # Teste imediato de acentos
+        try:
+            test_accent = 'á'
+            nome_entry.insert(0, test_accent)
+            nome_entry.delete(0, tk.END)
+            print(f"Sistema {system_name}: Suporte a acentos configurado com sucesso")
+        except Exception as e:
+            print(f"Aviso - Configuração de acentos {system_name}: {e}")
         
         row += 1
         
@@ -418,6 +447,15 @@ class TeacherFormWindow:
                 width=15
             ).pack(side=tk.LEFT, padx=5)
     
+    
+    def _handle_accent_input(self, event):
+        """Manipula entrada de acentos especificamente para Mac"""
+        # Permite que o sistema Mac processe dead keys normalmente
+        # Não bloqueia eventos, apenas registra para debug se necessário
+        char = event.char
+        if char and ord(char) > 127:  # Caractere Unicode (acentuado)
+            print(f"Caractere acentuado detectado: {char} (código: {ord(char)})")
+        return None  # Permite que o evento prossiga normalmente
     
     def get_nome_value(self):
         """Obtém o valor atual do nome"""

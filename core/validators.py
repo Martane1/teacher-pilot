@@ -4,6 +4,7 @@ Módulo de Validadores - Sistema DIRENS
 """
 
 import re
+import unicodedata
 from datetime import datetime
 import logging
 
@@ -302,11 +303,11 @@ class ValidatorManager:
             elif len(nome) > 100:
                 all_errors.append("Nome muito longo (máximo 100 caracteres)")
             
-            # Validação mais permissiva para acentos (aceita todos os caracteres Unicode de letras)
+            # Validação específica para caracteres portugueses (permite acentos)
             if nome:
-                # Remove espaços e verifica se sobrou alguma coisa
-                nome_clean = ''.join(nome.split())
-                if nome_clean and not all(c.isalpha() or c.isspace() for c in nome):
+                # Aceita letras, espaços e acentos portugueses específicos
+                portuguese_chars = r'^[A-Za-zÀÁÂÃÄÅàáâãäåÈÉÊËèéêëÌÍÎÏìíîïÒÓÔÕÖØòóôõöøÙÚÛÜùúûüÝýÿÇçÑñ\s]+$'
+                if not re.match(portuguese_chars, nome):
                     all_errors.append("Nome deve conter apenas letras e espaços")
             
             return {
