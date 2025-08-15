@@ -27,7 +27,7 @@
       },
       "7654321": {
         "siape": "7654321",
-        "nome": "MARATANE SILVA",
+        "nome": "MARÁTANE SILVA",
         "data_nascimento": "08-08-1988",
         "sexo": "M",
         "email": "ivan@fab.mil.br",
@@ -45,7 +45,7 @@
         "instituicao_pos": "LING LING1",
         "escola": "AFA",
         "data_criacao": "2025-08-15T16:00:37.225097",
-        "data_atualizacao": "2025-08-15T17:24:36.365017",
+        "data_atualizacao": "2025-08-15T18:25:09.139619",
         "atualizado_por": "admin",
         "criado_por": "admin"
       },
@@ -102,6 +102,6 @@
   "metadata": {
     "created_at": "2025-08-15T12:55:31.485325",
     "version": "1.0",
-    "last_updated": "2025-08-15T17:24:36.365721"
+    "last_updated": "2025-08-15T18:25:09.140182"
   }
 }

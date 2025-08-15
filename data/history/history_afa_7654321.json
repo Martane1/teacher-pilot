@@ -24,7 +24,18 @@
       "old_value": "",
       "new_value": "ivan@fab.mil.br",
       "notes": "Campo email alterado"
+    },
+    {
+      "siape": "7654321",
+      "escola": "AFA",
+      "action": "UPDATE",
+      "user": "admin",
+      "timestamp": "2025-08-15T18:25:09.147701",
+      "field": "nome",
+      "old_value": "MARATANE SILVA",
+      "new_value": "MARÁTANE SILVA",
+      "notes": "Campo nome alterado"
     }
   ],
-  "last_updated": "2025-08-15T17:20:37.794545"
+  "last_updated": "2025-08-15T18:25:09.147803"
 }

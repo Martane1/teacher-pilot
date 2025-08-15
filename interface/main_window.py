@@ -254,11 +254,73 @@ class MainWindow:
         search_row.pack(fill=tk.X)
         
         ttk.Label(search_row, text="Buscar (Nome/SIAPE):").pack(side=tk.LEFT, padx=(0, 10))
-        search_entry = ttk.Entry(search_row, textvariable=self.search_var, width=30)
+        
+        # Frame para campo de busca com botões de acento
+        search_frame = ttk.Frame(search_row)
+        search_frame.pack(side=tk.LEFT)
+        
+        search_entry = ttk.Entry(search_frame, textvariable=self.search_var, width=30)
         search_entry.pack(side=tk.LEFT)
         
+        # Funções para adicionar acentos no campo de busca
+        def add_search_acute_accent():
+            """Adiciona acento agudo (´) na última letra digitada no campo de busca"""
+            text = self.search_var.get()
+            cursor_pos = search_entry.index(tk.INSERT)
+            
+            if cursor_pos > 0:
+                last_char = text[cursor_pos-1:cursor_pos]
+                accent_map = {'a': 'á', 'e': 'é', 'i': 'í', 'o': 'ó', 'u': 'ú', 
+                             'A': 'Á', 'E': 'É', 'I': 'Í', 'O': 'Ó', 'U': 'Ú'}
+                
+                if last_char in accent_map:
+                    new_text = text[:cursor_pos-1] + accent_map[last_char] + text[cursor_pos:]
+                    self.search_var.set(new_text)
+                    search_entry.icursor(cursor_pos)
+        
+        def add_search_tilde():
+            """Adiciona til (~) na última letra digitada no campo de busca"""
+            text = self.search_var.get()
+            cursor_pos = search_entry.index(tk.INSERT)
+            
+            if cursor_pos > 0:
+                last_char = text[cursor_pos-1:cursor_pos]
+                tilde_map = {'a': 'ã', 'o': 'õ', 'A': 'Ã', 'O': 'Õ'}
+                
+                if last_char in tilde_map:
+                    new_text = text[:cursor_pos-1] + tilde_map[last_char] + text[cursor_pos:]
+                    self.search_var.set(new_text)
+                    search_entry.icursor(cursor_pos)
+        
+        def add_search_cedilla():
+            """Adiciona cedilha (ç) no C no campo de busca"""
+            text = self.search_var.get()
+            cursor_pos = search_entry.index(tk.INSERT)
+            
+            if cursor_pos > 0:
+                last_char = text[cursor_pos-1:cursor_pos]
+                if last_char.lower() == 'c':
+                    cedilla = 'ç' if last_char.islower() else 'Ç'
+                    new_text = text[:cursor_pos-1] + cedilla + text[cursor_pos:]
+                    self.search_var.set(new_text)
+                    search_entry.icursor(cursor_pos)
+        
+        # Frame com botões de acento
+        accent_frame = ttk.Frame(search_frame)
+        accent_frame.pack(side=tk.LEFT, padx=(5, 0))
+        
+        # Botões de acento
+        ttk.Button(accent_frame, text="´", command=add_search_acute_accent, width=3).pack(side=tk.LEFT, padx=1)
+        ttk.Button(accent_frame, text="~", command=add_search_tilde, width=3).pack(side=tk.LEFT, padx=1)
+        ttk.Button(accent_frame, text="ç", command=add_search_cedilla, width=3).pack(side=tk.LEFT, padx=1)
+        
+        # Instruções para busca
+        instruction_frame = ttk.Frame(search_row)
+        instruction_frame.pack(side=tk.LEFT, padx=(10, 0))
+        ttk.Label(instruction_frame, text="Digite a letra, depois clique no acento", 
+                 font=('Arial', 8), foreground='blue').pack()
+        
         # Contador de registros
-        self.count_var = tk.StringVar()
         ttk.Label(search_row, textvariable=self.count_var).pack(side=tk.RIGHT, padx=10)
         
         # Configurar eventos de filtro (movido para __init__)
