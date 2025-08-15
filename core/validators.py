@@ -302,8 +302,8 @@ class ValidatorManager:
             elif len(nome) > 100:
                 all_errors.append("Nome muito longo (máximo 100 caracteres)")
             
-            # Verifica se nome contém apenas letras e espaços
-            if nome and not re.match(r'^[A-ZÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ\s]+$', nome):
+            # Verifica se nome contém apenas letras e espaços (incluindo todos os acentos portugueses)
+            if nome and not re.match(r'^[A-ZÀ-ÿa-zÀ-ÿÇçÑñ\s]+$', nome, re.IGNORECASE):
                 all_errors.append("Nome deve conter apenas letras e espaços")
             
             return {
