@@ -35,9 +35,8 @@ class LoginWindow:
         # Cria a interface
         self.create_widgets()
         
-        # Foca na janela
-        self.window.focus_set()
-        self.window.grab_set()
+        # Configuração modal depois da criação da interface
+        self.window.after(100, self.make_modal)
     
     def center_window(self):
         """Centraliza a janela na tela"""
@@ -57,7 +56,7 @@ class LoginWindow:
         """Cria os widgets da interface"""
         # Frame principal
         main_frame = ttk.Frame(self.window, padding="20")
-        main_frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
+        main_frame.grid(row=0, column=0, sticky='nsew')
         
         # Configurar grid
         self.window.grid_rowconfigure(0, weight=1)
@@ -82,7 +81,7 @@ class LoginWindow:
         
         # Frame do formulário
         form_frame = ttk.LabelFrame(main_frame, text="Acesso ao Sistema", padding="15")
-        form_frame.grid(row=2, column=0, sticky=(tk.W, tk.E), pady=(0, 20))
+        form_frame.grid(row=2, column=0, sticky='ew', pady=(0, 20))
         form_frame.grid_columnconfigure(1, weight=1)
         
         # Escola
@@ -96,21 +95,21 @@ class LoginWindow:
             state="readonly",
             width=30
         )
-        escola_combo.grid(row=0, column=1, sticky=(tk.W, tk.E), pady=(0, 10))
+        escola_combo.grid(row=0, column=1, sticky='ew', pady=(0, 10))
         
         # Usuário
         ttk.Label(form_frame, text="Usuário:").grid(row=1, column=0, sticky=tk.W, pady=(0, 10))
         
         self.usuario_var = tk.StringVar()
         usuario_entry = ttk.Entry(form_frame, textvariable=self.usuario_var, width=30)
-        usuario_entry.grid(row=1, column=1, sticky=(tk.W, tk.E), pady=(0, 10))
+        usuario_entry.grid(row=1, column=1, sticky='ew', pady=(0, 10))
         
         # Senha
         ttk.Label(form_frame, text="Senha:").grid(row=2, column=0, sticky=tk.W, pady=(0, 10))
         
         self.senha_var = tk.StringVar()
         senha_entry = ttk.Entry(form_frame, textvariable=self.senha_var, show="*", width=30)
-        senha_entry.grid(row=2, column=1, sticky=(tk.W, tk.E), pady=(0, 10))
+        senha_entry.grid(row=2, column=1, sticky='ew', pady=(0, 10))
         
         # Bind Enter key
         senha_entry.bind('<Return>', lambda e: self.login())
@@ -144,7 +143,7 @@ class LoginWindow:
         
         # Informações do sistema
         info_frame = ttk.LabelFrame(main_frame, text="Informações", padding="10")
-        info_frame.grid(row=5, column=0, sticky=(tk.W, tk.E), pady=(20, 0))
+        info_frame.grid(row=5, column=0, sticky='ew', pady=(20, 0))
         
         info_text = tk.Text(info_frame, height=4, width=40, wrap=tk.WORD)
         info_text.grid(row=0, column=0)
@@ -158,8 +157,17 @@ Usuário: admin | Senha: direns2024"""
         info_text.insert(tk.END, info_content)
         info_text.config(state=tk.DISABLED)
         
-        # Foco inicial
-        escola_combo.focus()
+        # Foco inicial - após um delay para garantir que a janela esteja pronta
+        self.window.after(200, lambda: escola_combo.focus_set())
+    
+    def make_modal(self):
+        """Torna a janela modal após estar completamente criada"""
+        try:
+            self.window.grab_set()
+            self.window.focus_set()
+            self.window.lift()
+        except Exception as e:
+            logging.warning(f"Não foi possível tornar janela modal: {e}")
     
     def login(self):
         """Realiza o login"""
