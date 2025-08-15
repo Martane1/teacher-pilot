@@ -3,6 +3,18 @@
 Formulário de Professor do Sistema DIRENS
 """
 
+import sys
+import locale
+
+# Configura locale para UTF-8
+try:
+    locale.setlocale(locale.LC_ALL, 'C.UTF-8')
+except:
+    try:
+        locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
+    except:
+        pass
+
 import tkinter as tk
 from tkinter import ttk, messagebox
 from datetime import datetime
@@ -32,6 +44,12 @@ class TeacherFormWindow:
         self.window.title("Editar Professor" if self.is_edit else "Novo Professor")
         self.window.geometry("600x700")
         self.window.resizable(False, False)
+        
+        # Configura encoding para UTF-8
+        try:
+            self.window.tk.call('encoding', 'system', 'utf-8')
+        except:
+            pass
         
         # Centraliza
         self.center_window()
@@ -148,11 +166,15 @@ class TeacherFormWindow:
         # Nome completo
         ttk.Label(personal_frame, text="Nome Completo:*").grid(row=row, column=0, sticky=tk.W, pady=5)
         self.nome_var = tk.StringVar()
+        # Entry sem validação para permitir todos os caracteres
         nome_entry = ttk.Entry(personal_frame, textvariable=self.nome_var, width=50)
         nome_entry.grid(row=row, column=1, sticky="we", pady=5, columnspan=2)
         
         # Bind para converter maiúscula apenas quando sai do campo
         nome_entry.bind('<FocusOut>', self.on_name_focus_out)
+        
+        # Força encoding UTF-8
+        nome_entry.configure(font=('Arial', 10))
         
         row += 1
         

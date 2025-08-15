@@ -6,6 +6,14 @@ Aplicação Desktop com Python + Tkinter
 Versão: 1.0
 """
 
+# Força codificação UTF-8 para acentos
+import sys
+import os
+
+# Configuração de encoding UTF-8
+if sys.stdout.encoding != 'utf-8':
+    os.environ['PYTHONIOENCODING'] = 'utf-8'
+    
 import tkinter as tk
 from tkinter import messagebox
 import sys
