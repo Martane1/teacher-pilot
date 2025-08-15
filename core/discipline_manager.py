@@ -223,9 +223,8 @@ class DisciplineManager:
         # Campos obrigatórios
         required_fields = {
             'codigo': 'Código',
-            'nome': 'Nome',
-            'area': 'Área do Conhecimento',
-            'carga_horaria': 'Carga Horária'
+            'nome': 'Nome da Disciplina',
+            'requisito_especifico': 'Requisito Específico'
         }
         
         for field, label in required_fields.items():
@@ -250,14 +249,10 @@ class DisciplineManager:
             elif len(nome) > 100:
                 errors.append("Nome deve ter no máximo 100 caracteres")
         
-        carga_horaria = discipline_data.get('carga_horaria', '')
-        if carga_horaria:
-            try:
-                hours = int(carga_horaria)
-                if hours <= 0 or hours > 1000:
-                    errors.append("Carga horária deve estar entre 1 e 1000 horas")
-            except ValueError:
-                errors.append("Carga horária deve ser um número inteiro")
+        requisito_especifico = discipline_data.get('requisito_especifico', '').strip()
+        if requisito_especifico:
+            if len(requisito_especifico) > 200:
+                errors.append("Requisito específico deve ter no máximo 200 caracteres")
         
         return errors
     
@@ -267,27 +262,21 @@ class DisciplineManager:
             all_disciplines = self.get_all_disciplines()
             active_disciplines = self.get_active_disciplines()
             
-            # Contadores por área
-            areas_count = {}
-            total_hours = 0
+            # Contadores por requisito específico
+            requisitos_count = {}
             
             for discipline in active_disciplines:
-                area = discipline.get('area', 'Não informado')
-                areas_count[area] = areas_count.get(area, 0) + 1
-                
-                try:
-                    hours = int(discipline.get('carga_horaria', 0))
-                    total_hours += hours
-                except ValueError:
-                    pass
+                requisito = discipline.get('requisito_especifico', 'Não informado')
+                if requisito:
+                    # Agrupa requisitos similares para evitar muitas categorias únicas
+                    requisito_short = requisito[:50] + '...' if len(requisito) > 50 else requisito
+                    requisitos_count[requisito_short] = requisitos_count.get(requisito_short, 0) + 1
             
             return {
                 'total_disciplines': len(all_disciplines),
                 'active_disciplines': len(active_disciplines),
                 'inactive_disciplines': len(all_disciplines) - len(active_disciplines),
-                'total_hours': total_hours,
-                'areas_distribution': areas_count,
-                'average_hours': total_hours // len(active_disciplines) if active_disciplines else 0
+                'requisitos_distribution': requisitos_count
             }
             
         except Exception as e:

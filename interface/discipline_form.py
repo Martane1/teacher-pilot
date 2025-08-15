@@ -7,8 +7,6 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 import logging
 
-from recursos.constants import AREAS_CONHECIMENTO
-
 class DisciplineFormWindow:
     """Janela do formulário de disciplina"""
     
@@ -26,7 +24,7 @@ class DisciplineFormWindow:
         # Cria a janela
         self.window = tk.Toplevel(parent)
         self.window.title("Editar Disciplina" if self.is_edit else "Nova Disciplina")
-        self.window.geometry("700x600")
+        self.window.geometry("500x300")
         self.window.resizable(True, True)
         
         # Centraliza
@@ -51,8 +49,8 @@ class DisciplineFormWindow:
         parent_width = self.parent.winfo_width()
         parent_height = self.parent.winfo_height()
         
-        width = 700
-        height = 600
+        width = 500
+        height = 300
         
         x = parent_x + (parent_width - width) // 2
         y = parent_y + (parent_height - height) // 2
@@ -111,7 +109,7 @@ class DisciplineFormWindow:
         row += 1
         
         # Nome da disciplina
-        ttk.Label(form_frame, text="Nome:*").grid(row=row, column=0, sticky=tk.W, pady=5)
+        ttk.Label(form_frame, text="Nome da Disciplina:*").grid(row=row, column=0, sticky=tk.W, pady=5)
         self.nome_var = tk.StringVar()
         ttk.Entry(form_frame, textvariable=self.nome_var, width=50).grid(
             row=row, column=1, columnspan=2, sticky="we", pady=5
@@ -119,88 +117,12 @@ class DisciplineFormWindow:
         
         row += 1
         
-        # Área do conhecimento
-        ttk.Label(form_frame, text="Área do Conhecimento:*").grid(row=row, column=0, sticky=tk.W, pady=5)
-        self.area_var = tk.StringVar()
-        ttk.Combobox(
-            form_frame,
-            textvariable=self.area_var,
-            values=AREAS_CONHECIMENTO,
-            state="readonly",
-            width=30
-        ).grid(row=row, column=1, sticky=tk.W, pady=5)
-        
-        row += 1
-        
-        # Carga horária
-        ttk.Label(form_frame, text="Carga Horária:*").grid(row=row, column=0, sticky=tk.W, pady=5)
-        carga_frame = ttk.Frame(form_frame)
-        carga_frame.grid(row=row, column=1, sticky=tk.W, pady=5)
-        
-        self.carga_horaria_var = tk.StringVar()
-        ttk.Entry(carga_frame, textvariable=self.carga_horaria_var, width=10).pack(side=tk.LEFT)
-        ttk.Label(carga_frame, text="horas", foreground="blue").pack(side=tk.LEFT, padx=5)
-        
-        row += 1
-        
-        # Ementa
-        ttk.Label(form_frame, text="Ementa:").grid(row=row, column=0, sticky=tk.NW, pady=5)
-        
-        # Frame para ementa com scrollbar
-        ementa_frame = ttk.Frame(form_frame)
-        ementa_frame.grid(row=row, column=1, columnspan=2, sticky="we", pady=5)
-        ementa_frame.grid_columnconfigure(0, weight=1)
-        
-        self.ementa_text = tk.Text(ementa_frame, height=6, width=50, wrap=tk.WORD)
-        ementa_scroll = ttk.Scrollbar(ementa_frame, orient=tk.VERTICAL, command=self.ementa_text.yview)
-        
-        self.ementa_text.configure(yscrollcommand=ementa_scroll.set)
-        
-        self.ementa_text.grid(row=0, column=0, sticky="we")
-        ementa_scroll.grid(row=0, column=1, sticky="ns")
-        
-        row += 1
-        
-        # Pré-requisitos
-        ttk.Label(form_frame, text="Pré-requisitos:").grid(row=row, column=0, sticky=tk.W, pady=5)
-        self.prerequisitos_var = tk.StringVar()
-        ttk.Entry(form_frame, textvariable=self.prerequisitos_var, width=50).grid(
+        # Requisito específico
+        ttk.Label(form_frame, text="Requisito Específico:*").grid(row=row, column=0, sticky=tk.W, pady=5)
+        self.requisito_especifico_var = tk.StringVar()
+        ttk.Entry(form_frame, textvariable=self.requisito_especifico_var, width=50).grid(
             row=row, column=1, columnspan=2, sticky="we", pady=5
         )
-        
-        row += 1
-        
-        # Observações
-        ttk.Label(form_frame, text="Observações:").grid(row=row, column=0, sticky=tk.NW, pady=5)
-        
-        # Frame para observações
-        obs_frame = ttk.Frame(form_frame)
-        obs_frame.grid(row=row, column=1, columnspan=2, sticky="we", pady=5)
-        obs_frame.grid_columnconfigure(0, weight=1)
-        
-        self.observacoes_text = tk.Text(obs_frame, height=4, width=50, wrap=tk.WORD)
-        obs_scroll = ttk.Scrollbar(obs_frame, orient=tk.VERTICAL, command=self.observacoes_text.yview)
-        
-        self.observacoes_text.configure(yscrollcommand=obs_scroll.set)
-        
-        self.observacoes_text.grid(row=0, column=0, sticky="we")
-        obs_scroll.grid(row=0, column=1, sticky="ns")
-        
-        row += 1
-        
-        # Status
-        ttk.Label(form_frame, text="Status:").grid(row=row, column=0, sticky=tk.W, pady=5)
-        self.status_var = tk.StringVar()
-        ttk.Combobox(
-            form_frame,
-            textvariable=self.status_var,
-            values=["Ativa", "Inativa"],
-            state="readonly",
-            width=15
-        ).grid(row=row, column=1, sticky=tk.W, pady=5)
-        
-        # Define status padrão
-        self.status_var.set("Ativa")
         
         # Configurar expansão das colunas
         form_frame.grid_columnconfigure(1, weight=1)
@@ -250,34 +172,13 @@ class DisciplineFormWindow:
         
         self.codigo_var.set(self.discipline_data.get('codigo', ''))
         self.nome_var.set(self.discipline_data.get('nome', ''))
-        self.area_var.set(self.discipline_data.get('area', ''))
-        self.carga_horaria_var.set(str(self.discipline_data.get('carga_horaria', '')))
-        self.prerequisitos_var.set(self.discipline_data.get('prerequisitos', ''))
-        
-        # Textos
-        ementa = self.discipline_data.get('ementa', '')
-        self.ementa_text.delete(1.0, tk.END)
-        self.ementa_text.insert(1.0, ementa)
-        
-        observacoes = self.discipline_data.get('observacoes', '')
-        self.observacoes_text.delete(1.0, tk.END)
-        self.observacoes_text.insert(1.0, observacoes)
-        
-        # Status
-        active = self.discipline_data.get('active', True)
-        self.status_var.set("Ativa" if active else "Inativa")
+        self.requisito_especifico_var.set(self.discipline_data.get('requisito_especifico', ''))
     
     def clear_form(self):
         """Limpa todos os campos do formulário"""
         self.codigo_var.set('')
         self.nome_var.set('')
-        self.area_var.set('')
-        self.carga_horaria_var.set('')
-        self.prerequisitos_var.set('')
-        self.status_var.set('Ativa')
-        
-        self.ementa_text.delete(1.0, tk.END)
-        self.observacoes_text.delete(1.0, tk.END)
+        self.requisito_especifico_var.set('')
         
         self.status_message_var.set('')
     
@@ -291,12 +192,8 @@ class DisciplineFormWindow:
         return {
             'codigo': self.codigo_var.get().strip().upper(),
             'nome': self.nome_var.get().strip(),
-            'area': self.area_var.get(),
-            'carga_horaria': self.carga_horaria_var.get().strip(),
-            'ementa': self.ementa_text.get(1.0, tk.END).strip(),
-            'prerequisitos': self.prerequisitos_var.get().strip(),
-            'observacoes': self.observacoes_text.get(1.0, tk.END).strip(),
-            'active': self.status_var.get() == "Ativa",
+            'requisito_especifico': self.requisito_especifico_var.get().strip(),
+            'active': True,  # Sempre ativa por padrão
             'created_by': self.current_user,
             'updated_by': self.current_user
         }
