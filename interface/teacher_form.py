@@ -151,8 +151,8 @@ class TeacherFormWindow:
         nome_entry = ttk.Entry(personal_frame, textvariable=self.nome_var, width=50)
         nome_entry.grid(row=row, column=1, sticky="we", pady=5, columnspan=2)
         
-        # Bind para converter para maiúscula
-        self.nome_var.trace('w', self.on_name_change)
+        # Conversão para maiúscula removida para permitir acentos
+        # self.nome_var.trace('w', self.on_name_change)
         
         row += 1
         
@@ -573,7 +573,7 @@ class TeacherFormWindow:
             
         teacher_data = {
             'siape': self.siape_var.get().strip(),
-            'nome': self.nome_var.get().strip().upper(),
+            'nome': self.nome_var.get().strip(),
             'data_nascimento': self.data_nascimento_var.get().strip(),
             'sexo': self.sexo_var.get(),
             'email': self.email_nome_var.get().strip() + '@fab.mil.br',

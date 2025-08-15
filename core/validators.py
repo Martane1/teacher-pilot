@@ -329,12 +329,9 @@ class ValidatorManager:
             
             for field in text_fields:
                 if field in cleaned_data and cleaned_data[field]:
-                    # Remove espaços extras e converte para maiúscula (exceto alguns campos)
+                    # Remove espaços extras (sem conversão forçada para maiúscula)
                     value = str(cleaned_data[field]).strip()
-                    if field == 'nome':
-                        cleaned_data[field] = value.upper()
-                    else:
-                        cleaned_data[field] = value
+                    cleaned_data[field] = value
             
             # Limpa email institucional
             if 'email' in cleaned_data and cleaned_data['email']:
