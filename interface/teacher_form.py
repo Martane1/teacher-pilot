@@ -170,34 +170,57 @@ class TeacherFormWindow:
         nome_entry.grid(row=0, column=0, sticky="we")
         nome_entry.focus_set()  # Foca automaticamente
         
-        # Configuração especial para composição de acentos
+        # Sistema de acentos por substituição automática
         def handle_key_event(event):
             print(f"TECLA: {event.keysym} | CHAR: '{event.char}' | CODE: {event.keycode}")
             
-            # Para Alt+letra (acentos), força a inserção manual
-            if event.state & 0x08:  # Alt pressionado
-                accent_map = {
-                    'a': 'á', 'e': 'é', 'i': 'í', 'o': 'ó', 'u': 'ú',
-                    'A': 'Á', 'E': 'É', 'I': 'Í', 'O': 'Ó', 'U': 'Ú',
-                    'c': 'ç', 'C': 'Ç', 'n': 'ñ', 'N': 'Ñ'
-                }
-                
-                char = event.char.lower() if event.char else ''
-                if char in accent_map:
-                    # Insere o caractere acentuado diretamente
-                    accent_char = accent_map[char]
-                    current_pos = nome_entry.index(tk.INSERT)
-                    current_text = self.nome_var.get()
-                    new_text = current_text[:current_pos] + accent_char + current_text[current_pos:]
-                    self.nome_var.set(new_text)
-                    nome_entry.icursor(current_pos + 1)
-                    print(f">>> ACENTO INSERIDO: '{accent_char}'")
-                    return 'break'  # Bloqueia o processamento normal
-            
-            # Para caracteres acentuados diretos
+            # Detecta caracteres acentuados diretos (se funcionarem)
             if event.char and ord(event.char) > 127:
                 print(f">>> ACENTO DETECTADO: '{event.char}' (Unicode: {ord(event.char)})")
+                return None
+            
+            # Sistema de substituição: digita 'a = á, 'e = é, etc.
+            if event.char and len(event.char) == 1:
+                current_text = self.nome_var.get()
+                cursor_pos = nome_entry.index(tk.INSERT)
                 
+                # Verifica se é uma letra que pode ter acento
+                vowels = 'aeiouAEIOUcCnN'
+                if event.char in vowels and cursor_pos > 0:
+                    # Verifica se o caractere anterior é um acento
+                    prev_char = current_text[cursor_pos-1:cursor_pos] if cursor_pos > 0 else ''
+                    
+                    if prev_char == "'":  # Acento agudo: 'a = á
+                        accent_map = {
+                            'a': 'á', 'e': 'é', 'i': 'í', 'o': 'ó', 'u': 'ú',
+                            'A': 'Á', 'E': 'É', 'I': 'Í', 'O': 'Ó', 'U': 'Ú'
+                        }
+                        if event.char in accent_map:
+                            # Remove o ' anterior e insere letra acentuada
+                            new_text = current_text[:cursor_pos-1] + accent_map[event.char] + current_text[cursor_pos:]
+                            self.nome_var.set(new_text)
+                            nome_entry.icursor(cursor_pos)
+                            print(f">>> SUBSTITUIÇÃO: '{prev_char}{event.char}' → '{accent_map[event.char]}'")
+                            return 'break'
+                    
+                    elif prev_char == "~":  # Til: ~a = ã
+                        til_map = {'a': 'ã', 'o': 'õ', 'A': 'Ã', 'O': 'Õ', 'n': 'ñ', 'N': 'Ñ'}
+                        if event.char in til_map:
+                            new_text = current_text[:cursor_pos-1] + til_map[event.char] + current_text[cursor_pos:]
+                            self.nome_var.set(new_text)
+                            nome_entry.icursor(cursor_pos)
+                            print(f">>> SUBSTITUIÇÃO: '{prev_char}{event.char}' → '{til_map[event.char]}'")
+                            return 'break'
+                    
+                    elif prev_char == ",":  # Cedilha: ,c = ç
+                        if event.char.lower() == 'c':
+                            cedilha = 'ç' if event.char.islower() else 'Ç'
+                            new_text = current_text[:cursor_pos-1] + cedilha + current_text[cursor_pos:]
+                            self.nome_var.set(new_text)
+                            nome_entry.icursor(cursor_pos)
+                            print(f">>> SUBSTITUIÇÃO: ',{event.char}' → '{cedilha}'")
+                            return 'break'
+            
             return None  # Permite processamento normal
         
         nome_entry.bind('<KeyPress>', handle_key_event)
