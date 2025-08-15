@@ -29,7 +29,16 @@ class MainWindow:
         # Configurações da janela
         self.root.title(f"Sistema DIRENS - {sistema.current_school}")
         self.root.geometry("1200x800")
-        self.root.state('zoomed')  # Maximiza no Windows
+        # Maximiza a janela de forma compatível com diferentes sistemas
+        try:
+            self.root.state('zoomed')  # Windows
+        except:
+            try:
+                # Linux/Unix - tenta atributo zoomed
+                self.root.attributes('-zoomed', True)
+            except:
+                # Fallback - apenas maximiza o tamanho da janela
+                self.root.geometry("1400x900")
         
         # Variáveis de filtro
         self.filter_pos = tk.StringVar()
