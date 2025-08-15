@@ -44,12 +44,37 @@
         "data_criacao": "2025-08-15T16:00:37.225097",
         "data_atualizacao": "2025-08-15T16:00:37.225120",
         "criado_por": "admin"
+      },
+      "1234566": {
+        "siape": "1234566",
+        "nome": "TESTE TESTE",
+        "data_nascimento": "01-08-1980",
+        "sexo": "M",
+        "email": "teste@fab.mil.br",
+        "telefone_celular": "21-9-9813-1636",
+        "telefone_fixo": "17-1010-1010",
+        "carga_horaria": "20H",
+        "carreira": "EBTT",
+        "data_ingresso": "20-08-2020",
+        "status": "Excluído",
+        "area_atuacao": "PE PETRO",
+        "pos_graduacao": "GRADUAÇÃO",
+        "graduacao": "PQD EAD",
+        "instituicao_graduacao": "FAB",
+        "curso_pos": "PQD DE PANTUFA",
+        "instituicao_pos": "PP",
+        "escola": "AFA",
+        "data_criacao": "2025-08-15T16:39:54.918197",
+        "data_atualizacao": "2025-08-15T16:39:54.918204",
+        "criado_por": "admin",
+        "data_exclusao": "2025-08-15T16:40:40.849312",
+        "excluido_por": "admin"
       }
     }
   },
   "metadata": {
     "created_at": "2025-08-15T12:55:31.485325",
     "version": "1.0",
-    "last_updated": "2025-08-15T16:00:37.225383"
+    "last_updated": "2025-08-15T16:40:40.849952"
   }
 }

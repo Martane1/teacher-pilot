@@ -635,14 +635,34 @@ Desenvolvido em 2024"""
         """Realiza logout do sistema"""
         response = messagebox.askyesno("Logout", "Deseja realmente sair do sistema?")
         if response:
+            # Destrói a janela principal
             self.root.destroy()
+            
+            # Realiza o logout do sistema
             self.sistema.logout()
             
-            # Reinicia o sistema
+            # Reinicia o sistema completo
+            # Cria uma nova instância do sistema (sem importação circular)
             from interface.login import LoginWindow
+            
+            # Cria nova janela raiz limpa
             new_root = tk.Tk()
             new_root.withdraw()
-            LoginWindow(new_root, self.sistema)
+            
+            # Configura a nova janela
+            new_root.title("Sistema DIRENS - Controle de Professores")
+            new_root.geometry("1200x800")
+            
+            # Cria uma nova instância do sistema para evitar problemas
+            import copy
+            novo_sistema = copy.copy(self.sistema)
+            novo_sistema.current_user = None
+            novo_sistema.current_school = None
+            
+            # Cria nova tela de login
+            LoginWindow(new_root, novo_sistema)
+            
+            # Inicia o loop
             new_root.mainloop()
     
     def on_close(self):
