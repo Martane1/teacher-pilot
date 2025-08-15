@@ -33,10 +33,6 @@ class TeacherFormWindow:
         self.window.geometry("600x700")
         self.window.resizable(False, False)
         
-        # Modal
-        self.window.grab_set()
-        self.window.focus_set()
-        
         # Centraliza
         self.center_window()
         
@@ -46,6 +42,9 @@ class TeacherFormWindow:
         # Preenche dados se for edição
         if self.is_edit:
             self.populate_fields()
+            
+        # Modal - só depois da janela estar completamente criada
+        self.window.after(100, self.make_modal)
     
     def center_window(self):
         """Centraliza a janela"""
@@ -63,6 +62,15 @@ class TeacherFormWindow:
         y = parent_y + (parent_height - height) // 2
         
         self.window.geometry(f"{width}x{height}+{x}+{y}")
+    
+    def make_modal(self):
+        """Torna a janela modal após estar completamente carregada"""
+        try:
+            self.window.grab_set()
+            self.window.focus_set()
+            self.window.lift()  # Traz para frente
+        except Exception as e:
+            logging.warning(f"Não foi possível tornar janela modal: {e}")
     
     def create_widgets(self):
         """Cria os widgets do formulário"""
