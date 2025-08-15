@@ -151,8 +151,8 @@ class TeacherFormWindow:
         nome_entry = ttk.Entry(personal_frame, textvariable=self.nome_var, width=50)
         nome_entry.grid(row=row, column=1, sticky="we", pady=5, columnspan=2)
         
-        # Conversão para maiúscula removida para permitir acentos
-        # self.nome_var.trace('w', self.on_name_change)
+        # Bind para converter para maiúscula preservando acentos
+        self.nome_var.trace('w', self.on_name_change)
         
         row += 1
         
@@ -379,9 +379,13 @@ class TeacherFormWindow:
             ).pack(side=tk.LEFT, padx=5)
     
     def on_name_change(self, *args):
-        """Converte nome para maiúscula"""
+        """Converte nome para maiúscula preservando acentos"""
         current = self.nome_var.get()
-        if current != current.upper():
+        
+        # Converte para maiúscula preservando acentos portugueses
+        upper_with_accents = current.upper()
+        
+        if current != upper_with_accents:
             # Salva posição do cursor
             cursor_pos = 0
             try:
@@ -392,8 +396,8 @@ class TeacherFormWindow:
             except:
                 pass
             
-            # Atualiza valor
-            self.nome_var.set(current.upper())
+            # Atualiza valor com maiúscula preservando acentos
+            self.nome_var.set(upper_with_accents)
             
             # Restaura posição do cursor
             try:
@@ -573,7 +577,7 @@ class TeacherFormWindow:
             
         teacher_data = {
             'siape': self.siape_var.get().strip(),
-            'nome': self.nome_var.get().strip(),
+            'nome': self.nome_var.get().strip().upper(),
             'data_nascimento': self.data_nascimento_var.get().strip(),
             'sexo': self.sexo_var.get(),
             'email': self.email_nome_var.get().strip() + '@fab.mil.br',
