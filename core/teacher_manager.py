@@ -236,7 +236,7 @@ class TeacherManager:
         
         # Campos que devem ser monitorados
         monitored_fields = [
-            'nome', 'data_nascimento', 'sexo',
+            'nome', 'data_nascimento', 'sexo', 'estado', 'email', 'telefone',
             'carga_horaria', 'carreira', 'data_ingresso', 'status',
             'area_atuacao', 'pos_graduacao', 'graduacao', 'instituicao_graduacao',
             'curso_pos', 'instituicao_pos'
@@ -305,7 +305,7 @@ class TeacherManager:
                 teacher_issues = []
                 
                 # Valida dados obrigatórios
-                required_fields = ['siape', 'nome', 'data_nascimento', 'carga_horaria', 'carreira']
+                required_fields = ['siape', 'nome', 'data_nascimento', 'estado', 'email', 'telefone', 'carga_horaria', 'carreira']
                 for field in required_fields:
                     if not teacher.get(field):
                         teacher_issues.append(f"Campo obrigatório ausente: {field}")

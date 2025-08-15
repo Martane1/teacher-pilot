@@ -108,8 +108,8 @@ class ValidatorManager:
     def validate_required_fields(self, data):
         """Valida campos obrigatórios"""
         required_fields = [
-            'siape', 'nome', 'data_nascimento', 'sexo',
-            'carga_horaria', 'carreira', 'data_ingresso', 'pos_graduacao'
+            'siape', 'nome', 'data_nascimento', 'sexo', 'estado',
+            'email', 'telefone', 'carga_horaria', 'carreira', 'data_ingresso', 'pos_graduacao'
         ]
         
         missing_fields = []
@@ -198,6 +198,26 @@ class ValidatorManager:
         
         return errors
     
+    def validate_fab_email(self, email_nome):
+        """Valida parte do nome do email institucional (antes do @fab.mil.br)"""
+        if not email_nome or not email_nome.strip():
+            return False
+        
+        # Permite apenas letras, números e pontos
+        import re
+        pattern = r'^[a-zA-Z0-9\.]+$'
+        return re.match(pattern, email_nome.strip()) is not None
+    
+    def validate_telefone_brasileiro(self, telefone):
+        """Valida telefone brasileiro no formato xx-9-xxxx-xxxx"""
+        if not telefone:
+            return False
+        
+        # Remove espaços e verifica formato
+        telefone_clean = telefone.strip()
+        pattern = r'^\d{2}-9-\d{4}-\d{4}$'
+        return re.match(pattern, telefone_clean) is not None
+    
     def validate_teacher_data(self, data):
         """Validação completa dos dados do professor"""
         all_errors = []
@@ -227,14 +247,34 @@ class ValidatorManager:
             if not self.validate_date(data_ing):
                 all_errors.append("Data de ingresso inválida (formato: DD-MM-AAAA)")
             
-            # Validações de email e telefone (opcionais)
+            # Validações de email institucional (obrigatório)
             email = data.get('email', '').strip()
-            if email and not self.validate_email(email):
-                all_errors.append("Email inválido")
+            if email:
+                if not email.endswith('@fab.mil.br'):
+                    all_errors.append("Email deve ser do domínio @fab.mil.br")
+                else:
+                    email_nome = email.replace('@fab.mil.br', '')
+                    if not self.validate_fab_email(email_nome):
+                        all_errors.append("Nome do email deve conter apenas letras, números e pontos")
+            else:
+                all_errors.append("Email institucional é obrigatório")
             
+            # Validações de telefone (obrigatório)
             telefone = data.get('telefone', '').strip()
-            if telefone and not self.validate_phone(telefone):
-                all_errors.append("Telefone inválido")
+            if telefone:
+                if not self.validate_telefone_brasileiro(telefone):
+                    all_errors.append("Telefone deve estar no formato xx-9-xxxx-xxxx")
+            else:
+                all_errors.append("Telefone é obrigatório")
+            
+            # Validação de estado
+            estado = data.get('estado', '').strip()
+            if estado:
+                from recursos.constants import ESTADOS_COMPLETOS
+                if estado not in ESTADOS_COMPLETOS:
+                    all_errors.append("Estado inválido")
+            else:
+                all_errors.append("Estado é obrigatório")
             
             # Valores restritos
             restricted_errors = self.validate_restricted_values(data)
@@ -285,6 +325,15 @@ class ValidatorManager:
                     else:
                         cleaned_data[field] = value
             
+            # Limpa email institucional
+            if 'email' in cleaned_data and cleaned_data['email']:
+                email = str(cleaned_data['email']).strip().lower()
+                if not email.endswith('@fab.mil.br'):
+                    email_nome = email.replace('@fab.mil.br', '')
+                    cleaned_data['email'] = f"{email_nome}@fab.mil.br"
+                else:
+                    cleaned_data['email'] = email
+            
             # Limpa SIAPE (apenas números)
             if 'siape' in cleaned_data:
                 siape = re.sub(r'\D', '', str(cleaned_data['siape']))
@@ -301,8 +350,7 @@ class ValidatorManager:
                     cleaned_data['telefone'] = f"({phone[:2]}) {phone[2:6]}-{phone[6:]}"
             
             # Remove campos vazios opcionais
-            optional_fields = ['email', 'telefone', 'area_atuacao',
-                             'graduacao', 'instituicao_graduacao', 'curso_pos', 'instituicao_pos']
+            optional_fields = ['area_atuacao', 'graduacao', 'instituicao_graduacao', 'curso_pos', 'instituicao_pos']
             
             for field in optional_fields:
                 if field in cleaned_data and not str(cleaned_data[field]).strip():

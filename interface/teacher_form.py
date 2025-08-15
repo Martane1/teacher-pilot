@@ -9,7 +9,7 @@ from datetime import datetime
 import logging
 
 from core.validators import ValidatorManager
-from recursos.constants import CARGAS_HORARIAS, CARREIRAS, POS_GRADUACAO, ESTADOS
+from recursos.constants import CARGAS_HORARIAS, CARREIRAS, POS_GRADUACAO, ESTADOS_COMPLETOS
 
 class TeacherFormWindow:
     """Janela do formulário de professor"""
@@ -177,7 +177,42 @@ class TeacherFormWindow:
         
         row += 1
         
-        # Estado civil removido por questões de privacidade
+        # Estado (UF de nascimento)
+        ttk.Label(personal_frame, text="Estado (UF):*").grid(row=row, column=0, sticky=tk.W, pady=5)
+        self.estado_var = tk.StringVar()
+        ttk.Combobox(
+            personal_frame,
+            textvariable=self.estado_var,
+            values=list(ESTADOS_COMPLETOS.keys()),
+            state="readonly",
+            width=10
+        ).grid(row=row, column=1, sticky=tk.W, pady=5)
+        
+        row += 1
+        
+        # Email institucional
+        ttk.Label(personal_frame, text="Email Institucional:*").grid(row=row, column=0, sticky=tk.W, pady=5)
+        email_frame = ttk.Frame(personal_frame)
+        email_frame.grid(row=row, column=1, sticky="we", pady=5, columnspan=2)
+        
+        self.email_nome_var = tk.StringVar()
+        email_entry = ttk.Entry(email_frame, textvariable=self.email_nome_var, width=20)
+        email_entry.pack(side=tk.LEFT)
+        ttk.Label(email_frame, text="@fab.mil.br", foreground="blue").pack(side=tk.LEFT, padx=5)
+        
+        row += 1
+        
+        # Telefone celular
+        ttk.Label(personal_frame, text="Telefone Celular:*").grid(row=row, column=0, sticky=tk.W, pady=5)
+        self.telefone_var = tk.StringVar()
+        telefone_entry = ttk.Entry(personal_frame, textvariable=self.telefone_var, width=20)
+        telefone_entry.grid(row=row, column=1, sticky=tk.W, pady=5)
+        ttk.Label(personal_frame, text="(xx-9-xxxx-xxxx)", foreground="gray").grid(row=row, column=2, sticky=tk.W, padx=5)
+        
+        # Bind para formatar telefone automaticamente
+        self.telefone_var.trace('w', self.format_telefone)
+        
+        row += 1
     
     def create_professional_section(self, parent):
         """Cria seção de dados profissionais"""
@@ -353,6 +388,15 @@ class TeacherFormWindow:
         self.nome_var.set(self.teacher_data.get('nome', ''))
         self.data_nascimento_var.set(self.teacher_data.get('data_nascimento', ''))
         self.sexo_var.set(self.teacher_data.get('sexo', ''))
+        self.estado_var.set(self.teacher_data.get('estado', ''))
+        
+        # Email e telefone
+        email_completo = self.teacher_data.get('email', '')
+        if '@fab.mil.br' in email_completo:
+            self.email_nome_var.set(email_completo.replace('@fab.mil.br', ''))
+        else:
+            self.email_nome_var.set(email_completo)
+        self.telefone_var.set(self.teacher_data.get('telefone', ''))
         
         # Dados profissionais
         self.carga_horaria_var.set(self.teacher_data.get('carga_horaria', ''))
@@ -375,6 +419,9 @@ class TeacherFormWindow:
         self.nome_var.set('')
         self.data_nascimento_var.set('')
         self.sexo_var.set('')
+        self.estado_var.set('')
+        self.email_nome_var.set('')
+        self.telefone_var.set('')
         
         # Dados profissionais
         self.carga_horaria_var.set('')
@@ -402,6 +449,9 @@ class TeacherFormWindow:
             'Nome': self.nome_var.get().strip(),
             'Data de Nascimento': self.data_nascimento_var.get().strip(),
             'Sexo': self.sexo_var.get(),
+            'Estado': self.estado_var.get(),
+            'Email Institucional': self.email_nome_var.get().strip(),
+            'Telefone': self.telefone_var.get().strip(),
             'Carga Horária': self.carga_horaria_var.get(),
             'Carreira': self.carreira_var.get(),
             'Data de Ingresso': self.data_ingresso_var.get().strip(),
@@ -427,6 +477,16 @@ class TeacherFormWindow:
         data_ing = self.data_ingresso_var.get().strip()
         if not self.validator.validate_date(data_ing):
             errors.append("Data de ingresso inválida (use DD-MM-AAAA)")
+        
+        # Validação do email institucional
+        email_nome = self.email_nome_var.get().strip()
+        if not self.validator.validate_fab_email(email_nome):
+            errors.append("Email institucional deve conter apenas letras, números e pontos")
+        
+        # Validação do telefone
+        telefone = self.telefone_var.get().strip()
+        if not self.validator.validate_telefone_brasileiro(telefone):
+            errors.append("Telefone deve estar no formato xx-9-xxxx-xxxx")
         
         # Verifica se SIAPE já existe
         if not self.is_edit:
@@ -455,6 +515,9 @@ class TeacherFormWindow:
             'nome': self.nome_var.get().strip().upper(),
             'data_nascimento': self.data_nascimento_var.get().strip(),
             'sexo': self.sexo_var.get(),
+            'estado': self.estado_var.get(),
+            'email': self.email_nome_var.get().strip() + '@fab.mil.br',
+            'telefone': self.telefone_var.get().strip(),
             'carga_horaria': self.carga_horaria_var.get(),
             'carreira': self.carreira_var.get(),
             'data_ingresso': self.data_ingresso_var.get().strip(),
@@ -502,3 +565,15 @@ class TeacherFormWindow:
             logging.error(f"Erro ao salvar professor: {e}")
             self.status_var.set("Erro interno do sistema")
             messagebox.showerror("Erro", f"Erro ao salvar professor:\n{e}")
+    
+    def format_telefone(self, *args):
+        """Formata telefone automaticamente enquanto digita"""
+        current = self.telefone_var.get()
+        # Remove caracteres não numéricos
+        digits = ''.join(filter(str.isdigit, current))
+        
+        # Formata conforme o padrão brasileiro (xx-9-xxxx-xxxx)
+        if len(digits) >= 11:
+            formatted = f"{digits[:2]}-{digits[2]}-{digits[3:7]}-{digits[7:11]}"
+            if current != formatted:
+                self.telefone_var.set(formatted)
