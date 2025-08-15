@@ -1,0 +1,113 @@
+{
+  "schools": {
+    "IFPE - Campus Recife": {
+      "codigo": "PE01",
+      "endereco": "Av. Prof. Luís Freire, 500 - Cidade Universitária",
+      "cidade": "Recife",
+      "estado": "PE",
+      "telefone": "(81) 2125-1600"
+    },
+    "IFPE - Campus Olinda": {
+      "codigo": "PE02",
+      "endereco": "Rua Márcio Canuto, 210 - Nossa Senhora do Amparo",
+      "cidade": "Olinda",
+      "estado": "PE",
+      "telefone": "(81) 3412-5000"
+    },
+    "IFPE - Campus Jaboatão": {
+      "codigo": "PE03",
+      "endereco": "BR-104, Km 56 - Sucupira",
+      "cidade": "Jaboatão dos Guararapes",
+      "estado": "PE",
+      "telefone": "(81) 3186-5000"
+    },
+    "IFPE - Campus Vitória": {
+      "codigo": "PE04",
+      "endereco": "Rua Sebastião Cavalcanti, 158 - Vitória de Santo Antão",
+      "cidade": "Vitória de Santo Antão",
+      "estado": "PE",
+      "telefone": "(81) 3523-8100"
+    },
+    "IFPE - Campus Palmares": {
+      "codigo": "PE05",
+      "endereco": "BR-101 Sul, Km 83 - Engenho Noruega",
+      "cidade": "Palmares",
+      "estado": "PE",
+      "telefone": "(81) 3661-9500"
+    },
+    "IFPE - Campus Garanhuns": {
+      "codigo": "PE06",
+      "endereco": "Av. Rui Barbosa, s/n - Vila Kennedy",
+      "cidade": "Garanhuns",
+      "estado": "PE",
+      "telefone": "(87) 3761-4304"
+    },
+    "IFPE - Campus Caruaru": {
+      "codigo": "PE07",
+      "endereco": "Rodovia BR-104, Km 59,2 - Fazenda Riachão",
+      "cidade": "Caruaru",
+      "estado": "PE",
+      "telefone": "(81) 3706-8700"
+    },
+    "IFPE - Campus Pesqueira": {
+      "codigo": "PE08",
+      "endereco": "Rodovia BR-232, Km 214 - Prado",
+      "cidade": "Pesqueira",
+      "estado": "PE",
+      "telefone": "(87) 3835-1929"
+    },
+    "IFPE - Campus Cabo": {
+      "codigo": "PE09",
+      "endereco": "Av. Beira Rio, s/n - Vila Velha",
+      "cidade": "Cabo de Santo Agostinho",
+      "estado": "PE",
+      "telefone": "(81) 3518-8900"
+    },
+    "IFPE - Campus Barreiros": {
+      "codigo": "PE10",
+      "endereco": "Fazenda Sapé, s/n - Zona Rural",
+      "cidade": "Barreiros",
+      "estado": "PE",
+      "telefone": "(81) 3675-1400"
+    },
+    "IFPE - Campus Belo Jardim": {
+      "codigo": "PE11",
+      "endereco": "Av. Sebastião Rodrigues da Costa, s/n - São Pedro",
+      "cidade": "Belo Jardim",
+      "estado": "PE",
+      "telefone": "(81) 3726-4900"
+    },
+    "IFPE - Campus Afogados da Ingazeira": {
+      "codigo": "PE12",
+      "endereco": "Rodovia PE-366, s/n - DNER",
+      "cidade": "Afogados da Ingazeira",
+      "estado": "PE",
+      "telefone": "(87) 3838-2100"
+    },
+    "IFPE - Campus Abreu e Lima": {
+      "codigo": "PE13",
+      "endereco": "Rua Venâncio João da Costa, s/n - Fosfato",
+      "cidade": "Abreu e Lima",
+      "estado": "PE",
+      "telefone": "(81) 3362-7777"
+    },
+    "IFPE - Campus Ipojuca": {
+      "codigo": "PE14",
+      "endereco": "Rodovia PE-060, s/n - Ipojuca",
+      "cidade": "Ipojuca",
+      "estado": "PE",
+      "telefone": "(81) 3511-4100"
+    },
+    "IFPE - Campus Igarassu": {
+      "codigo": "PE15",
+      "endereco": "Rodovia PE-015, Km 12 - Cruz de Rebouças",
+      "cidade": "Igarassu",
+      "estado": "PE",
+      "telefone": "(81) 3543-3600"
+    }
+  },
+  "metadata": {
+    "created_at": "2025-08-15T12:55:31.486035",
+    "version": "1.0"
+  }
+}

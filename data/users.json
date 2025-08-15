@@ -1,0 +1,137 @@
+{
+  "ifpe_-_campus_recife": {
+    "admin": {
+      "password": "f129f66f739f3122b6bdfe797e33c1a1aa8e0056f4bfa0b4169ea21a0b32640b",
+      "level": "admin",
+      "created_at": "2025-08-15T12:55:32.269300",
+      "last_login": null,
+      "active": true
+    }
+  },
+  "ifpe_-_campus_olinda": {
+    "admin": {
+      "password": "f129f66f739f3122b6bdfe797e33c1a1aa8e0056f4bfa0b4169ea21a0b32640b",
+      "level": "admin",
+      "created_at": "2025-08-15T12:55:32.269317",
+      "last_login": null,
+      "active": true
+    }
+  },
+  "ifpe_-_campus_jaboatão": {
+    "admin": {
+      "password": "f129f66f739f3122b6bdfe797e33c1a1aa8e0056f4bfa0b4169ea21a0b32640b",
+      "level": "admin",
+      "created_at": "2025-08-15T12:55:32.269323",
+      "last_login": null,
+      "active": true
+    }
+  },
+  "ifpe_-_campus_vitória": {
+    "admin": {
+      "password": "f129f66f739f3122b6bdfe797e33c1a1aa8e0056f4bfa0b4169ea21a0b32640b",
+      "level": "admin",
+      "created_at": "2025-08-15T12:55:32.269328",
+      "last_login": null,
+      "active": true
+    }
+  },
+  "ifpe_-_campus_palmares": {
+    "admin": {
+      "password": "f129f66f739f3122b6bdfe797e33c1a1aa8e0056f4bfa0b4169ea21a0b32640b",
+      "level": "admin",
+      "created_at": "2025-08-15T12:55:32.269333",
+      "last_login": null,
+      "active": true
+    }
+  },
+  "ifpe_-_campus_garanhuns": {
+    "admin": {
+      "password": "f129f66f739f3122b6bdfe797e33c1a1aa8e0056f4bfa0b4169ea21a0b32640b",
+      "level": "admin",
+      "created_at": "2025-08-15T12:55:32.269337",
+      "last_login": null,
+      "active": true
+    }
+  },
+  "ifpe_-_campus_caruaru": {
+    "admin": {
+      "password": "f129f66f739f3122b6bdfe797e33c1a1aa8e0056f4bfa0b4169ea21a0b32640b",
+      "level": "admin",
+      "created_at": "2025-08-15T12:55:32.269341",
+      "last_login": null,
+      "active": true
+    }
+  },
+  "ifpe_-_campus_pesqueira": {
+    "admin": {
+      "password": "f129f66f739f3122b6bdfe797e33c1a1aa8e0056f4bfa0b4169ea21a0b32640b",
+      "level": "admin",
+      "created_at": "2025-08-15T12:55:32.269348",
+      "last_login": null,
+      "active": true
+    }
+  },
+  "ifpe_-_campus_cabo": {
+    "admin": {
+      "password": "f129f66f739f3122b6bdfe797e33c1a1aa8e0056f4bfa0b4169ea21a0b32640b",
+      "level": "admin",
+      "created_at": "2025-08-15T12:55:32.269358",
+      "last_login": null,
+      "active": true
+    }
+  },
+  "ifpe_-_campus_barreiros": {
+    "admin": {
+      "password": "f129f66f739f3122b6bdfe797e33c1a1aa8e0056f4bfa0b4169ea21a0b32640b",
+      "level": "admin",
+      "created_at": "2025-08-15T12:55:32.269361",
+      "last_login": null,
+      "active": true
+    }
+  },
+  "ifpe_-_campus_belo_jardim": {
+    "admin": {
+      "password": "f129f66f739f3122b6bdfe797e33c1a1aa8e0056f4bfa0b4169ea21a0b32640b",
+      "level": "admin",
+      "created_at": "2025-08-15T12:55:32.269365",
+      "last_login": null,
+      "active": true
+    }
+  },
+  "ifpe_-_campus_afogados_da_ingazeira": {
+    "admin": {
+      "password": "f129f66f739f3122b6bdfe797e33c1a1aa8e0056f4bfa0b4169ea21a0b32640b",
+      "level": "admin",
+      "created_at": "2025-08-15T12:55:32.269369",
+      "last_login": null,
+      "active": true
+    }
+  },
+  "ifpe_-_campus_abreu_e_lima": {
+    "admin": {
+      "password": "f129f66f739f3122b6bdfe797e33c1a1aa8e0056f4bfa0b4169ea21a0b32640b",
+      "level": "admin",
+      "created_at": "2025-08-15T12:55:32.269372",
+      "last_login": null,
+      "active": true
+    }
+  },
+  "ifpe_-_campus_ipojuca": {
+    "admin": {
+      "password": "f129f66f739f3122b6bdfe797e33c1a1aa8e0056f4bfa0b4169ea21a0b32640b",
+      "level": "admin",
+      "created_at": "2025-08-15T12:55:32.269554",
+      "last_login": null,
+      "active": true
+    }
+  },
+  "ifpe_-_campus_igarassu": {
+    "admin": {
+      "password": "f129f66f739f3122b6bdfe797e33c1a1aa8e0056f4bfa0b4169ea21a0b32640b",
+      "level": "admin",
+      "created_at": "2025-08-15T12:55:32.269561",
+      "last_login": null,
+      "active": true
+    }
+  }
+}

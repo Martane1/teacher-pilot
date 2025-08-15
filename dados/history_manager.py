@@ -6,7 +6,7 @@ Gerenciador de Histórico - Sistema DIRENS
 import json
 import os
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
 import threading
 from typing import List, Dict, Any, Optional
 
