@@ -1,0 +1,19 @@
+{
+  "siape": "2424242",
+  "escola": "AFA",
+  "created_at": "2025-08-15T16:51:09.523473",
+  "entries": [
+    {
+      "siape": "2424242",
+      "escola": "AFA",
+      "action": "CREATE",
+      "user": "admin",
+      "timestamp": "2025-08-15T16:51:09.523436",
+      "field": "professor",
+      "old_value": null,
+      "new_value": "Novo professor criado",
+      "notes": "Professor PQD DE PANTUFA criado com SIAPE 2424242"
+    }
+  ],
+  "last_updated": "2025-08-15T16:51:09.523480"
+}

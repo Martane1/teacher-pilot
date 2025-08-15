@@ -11,7 +11,7 @@ from tkinter import messagebox
 import sys
 import os
 import logging
-from datetime import datetime
+from recursos.utils import get_brazilian_datetime, format_brazilian_datetime
 
 # Adicionar o diretório atual ao path para importações
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -37,16 +37,36 @@ class SistemaDIRENS:
         if not os.path.exists(log_dir):
             os.makedirs(log_dir)
             
-        log_filename = os.path.join(log_dir, f"direns_{datetime.now().strftime('%Y%m%d')}.log")
+        log_filename = os.path.join(log_dir, f"direns_{get_brazilian_datetime().strftime('%Y%m%d')}.log")
         
-        logging.basicConfig(
-            level=logging.INFO,
-            format='%(asctime)s - %(levelname)s - %(module)s - %(message)s',
-            handlers=[
-                logging.FileHandler(log_filename, encoding='utf-8'),
-                logging.StreamHandler()
-            ]
-        )
+        # Configura logging com horário brasileiro
+        import logging
+        from datetime import datetime, timezone, timedelta
+        
+        class BrazilianFormatter(logging.Formatter):
+            def formatTime(self, record, datefmt=None):
+                # Fuso horário brasileiro (UTC-3)
+                tz = timezone(timedelta(hours=-3))
+                dt = datetime.fromtimestamp(record.created, tz=tz)
+                if datefmt:
+                    return dt.strftime(datefmt)
+                else:
+                    return dt.strftime('%Y-%m-%d %H:%M:%S')
+        
+        formatter = BrazilianFormatter('%(asctime)s - %(levelname)s - %(module)s - %(message)s')
+        
+        # Configura handlers
+        file_handler = logging.FileHandler(log_filename, encoding='utf-8')
+        file_handler.setFormatter(formatter)
+        
+        console_handler = logging.StreamHandler()
+        console_handler.setFormatter(formatter)
+        
+        # Configura root logger
+        logger = logging.getLogger()
+        logger.setLevel(logging.INFO)
+        logger.addHandler(file_handler)
+        logger.addHandler(console_handler)
         
         logging.info("Sistema DIRENS iniciado")
     

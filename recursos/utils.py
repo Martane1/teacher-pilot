@@ -8,7 +8,7 @@ import os
 import sys
 import json
 import logging
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Optional, List, Dict, Any, Union
 import tkinter as tk
 from tkinter import messagebox
@@ -99,7 +99,7 @@ def calculate_age(birth_date: str, reference_date: Optional[str] = None) -> Opti
         if reference_date:
             ref = datetime.strptime(reference_date, "%d-%m-%Y")
         else:
-            ref = datetime.now()
+            ref = get_brazilian_datetime().replace(tzinfo=None)
         
         age = ref.year - birth.year
         
@@ -218,7 +218,7 @@ def backup_file(filepath: str, backup_dir: str = "backups") -> Optional[str]:
         # Nome do backup com timestamp
         filename = os.path.basename(filepath)
         name, ext = os.path.splitext(filename)
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        timestamp = get_brazilian_datetime().strftime("%Y%m%d_%H%M%S")
         backup_filename = f"{name}_backup_{timestamp}{ext}"
         backup_path = os.path.join(backup_dir, backup_filename)
         
@@ -285,9 +285,23 @@ def clean_string(text: str, remove_accents: bool = False) -> str:
     
     return cleaned
 
+def get_brazilian_timezone():
+    """Retorna o fuso horário brasileiro (UTC-3)"""
+    return timezone(timedelta(hours=-3))
+
+def get_brazilian_datetime() -> datetime:
+    """Retorna data/hora atual no fuso horário brasileiro"""
+    return datetime.now(get_brazilian_timezone())
+
+def format_brazilian_datetime(dt: datetime = None, format_str: str = "%d/%m/%Y %H:%M:%S") -> str:
+    """Formata data/hora no formato brasileiro"""
+    if dt is None:
+        dt = get_brazilian_datetime()
+    return dt.strftime(format_str)
+
 def generate_unique_id() -> str:
-    """Gera ID único baseado em timestamp"""
-    return datetime.now().strftime("%Y%m%d_%H%M%S_%f")[:-3]
+    """Gera ID único baseado em timestamp brasileiro"""
+    return get_brazilian_datetime().strftime("%Y%m%d_%H%M%S_%f")[:-3]
 
 def is_valid_email(email: str) -> bool:
     """Valida formato de email"""

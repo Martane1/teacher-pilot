@@ -6,7 +6,7 @@ Configurações do Sistema DIRENS
 import os
 import json
 import logging
-from datetime import datetime
+from recursos.utils import get_brazilian_datetime, format_brazilian_datetime
 from typing import Dict, Any
 
 class Config:
@@ -30,7 +30,7 @@ class Config:
                 "version": "1.0.0",
                 "description": "Sistema de Controle de Professores DIRENS",
                 "author": "Sistema DIRENS",
-                "created_at": datetime.now().isoformat()
+                "created_at": get_brazilian_datetime().isoformat()
             },
             "database": {
                 "auto_backup": True,
@@ -109,7 +109,7 @@ class Config:
                 os.makedirs(config_dir)
             
             # Atualiza timestamp
-            self.config["system"]["last_updated"] = datetime.now().isoformat()
+            self.config["system"]["last_updated"] = get_brazilian_datetime().isoformat()
             
             with open(self.config_file, 'w', encoding='utf-8') as f:
                 json.dump(self.config, f, indent=2, ensure_ascii=False, default=str)
@@ -207,7 +207,7 @@ class Config:
         """Exporta configurações para arquivo"""
         try:
             export_data = {
-                "exported_at": datetime.now().isoformat(),
+                "exported_at": get_brazilian_datetime().isoformat(),
                 "system_info": {
                     "name": self.get("system", "name"),
                     "version": self.get("system", "version")
@@ -241,7 +241,7 @@ class Config:
                 return False
             
             # Faz backup da configuração atual
-            backup_file = f"{self.config_file}.backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+            backup_file = f"{self.config_file}.backup_{get_brazilian_datetime().strftime('%Y%m%d_%H%M%S')}"
             if os.path.exists(self.config_file):
                 import shutil
                 shutil.copy2(self.config_file, backup_file)

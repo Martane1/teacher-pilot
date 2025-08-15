@@ -6,7 +6,7 @@ Gerenciador de Exportações - Sistema DIRENS
 import csv
 import os
 import logging
-from datetime import datetime
+from recursos.utils import get_brazilian_datetime, format_brazilian_datetime
 from reportlab.lib.pagesizes import A4, letter
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, PageBreak
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
@@ -30,7 +30,7 @@ class ExportManager:
     def export_csv(self, teachers, school):
         """Exporta professores para CSV"""
         try:
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            timestamp = get_brazilian_datetime().strftime("%Y%m%d_%H%M%S")
             filename = f"professores_{school.replace(' ', '_')}_{timestamp}.csv"
             filepath = os.path.join(self.exports_dir, filename)
             
@@ -77,7 +77,7 @@ class ExportManager:
     def export_pdf(self, teachers, school):
         """Exporta professores para PDF"""
         try:
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            timestamp = get_brazilian_datetime().strftime("%Y%m%d_%H%M%S")
             filename = f"relatorio_professores_{school.replace(' ', '_')}_{timestamp}.pdf"
             filepath = os.path.join(self.exports_dir, filename)
             
@@ -119,7 +119,7 @@ class ExportManager:
             
             # Informações gerais
             info_text = f"""
-            <b>Data de Geração:</b> {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}<br/>
+            <b>Data de Geração:</b> {format_brazilian_datetime()}<br/>
             <b>Total de Professores:</b> {len(teachers)}<br/>
             <b>Sistema:</b> DIRENS - Controle de Professores v1.0
             """
@@ -205,7 +205,7 @@ class ExportManager:
             
             # Rodapé
             elements.append(Spacer(1, 30))
-            footer_text = f"Relatório gerado pelo Sistema DIRENS - {datetime.now().strftime('%d/%m/%Y %H:%M')}"
+            footer_text = f"Relatório gerado pelo Sistema DIRENS - {format_brazilian_datetime(format_str='%d/%m/%Y %H:%M')}"
             footer = Paragraph(footer_text, styles['Normal'])
             elements.append(footer)
             
@@ -222,7 +222,7 @@ class ExportManager:
     def export_pdf_with_fields(self, teachers, school, selected_fields):
         """Exporta professores para PDF com campos selecionados"""
         try:
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            timestamp = get_brazilian_datetime().strftime("%Y%m%d_%H%M%S")
             filename = f"relatorio_personalizado_{school.replace(' ', '_')}_{timestamp}.pdf"
             filepath = os.path.join(self.exports_dir, filename)
             
@@ -264,7 +264,7 @@ class ExportManager:
             
             # Informações gerais
             info_text = f"""
-            <b>Data de Geração:</b> {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}<br/>
+            <b>Data de Geração:</b> {format_brazilian_datetime()}<br/>
             <b>Total de Professores:</b> {len(teachers)}<br/>
             <b>Campos Incluídos:</b> {len(selected_fields)}<br/>
             <b>Sistema:</b> DIRENS - Controle de Professores v1.0
@@ -340,7 +340,7 @@ class ExportManager:
             
             # Rodapé
             elements.append(Spacer(1, 30))
-            footer_text = f"Relatório personalizado gerado pelo Sistema DIRENS - {datetime.now().strftime('%d/%m/%Y %H:%M')}"
+            footer_text = f"Relatório personalizado gerado pelo Sistema DIRENS - {format_brazilian_datetime(format_str='%d/%m/%Y %H:%M')}"
             footer = Paragraph(footer_text, styles['Normal'])
             elements.append(footer)
             
@@ -378,7 +378,7 @@ class ExportManager:
     def export_detailed_pdf(self, teachers, school):
         """Exporta relatório PDF detalhado com todos os campos"""
         try:
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            timestamp = get_brazilian_datetime().strftime("%Y%m%d_%H%M%S")
             filename = f"relatorio_detalhado_{school.replace(' ', '_')}_{timestamp}.pdf"
             filepath = os.path.join(self.exports_dir, filename)
             
@@ -477,7 +477,7 @@ class ExportManager:
             from openpyxl import Workbook
             from openpyxl.styles import Font, PatternFill, Alignment
             
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            timestamp = get_brazilian_datetime().strftime("%Y%m%d_%H%M%S")
             filename = f"professores_{school.replace(' ', '_')}_{timestamp}.xlsx"
             filepath = os.path.join(self.exports_dir, filename)
             

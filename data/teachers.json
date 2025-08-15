@@ -69,12 +69,35 @@
         "criado_por": "admin",
         "data_exclusao": "2025-08-15T16:40:40.849312",
         "excluido_por": "admin"
+      },
+      "2424242": {
+        "siape": "2424242",
+        "nome": "PQD DE PANTUFA",
+        "data_nascimento": "24-12-1990",
+        "sexo": "M",
+        "email": "pqdPQD@fab.mil.br",
+        "telefone_celular": "24-9-2424-2424",
+        "telefone_fixo": "24-2424-2424",
+        "carga_horaria": "20H",
+        "carreira": "MS",
+        "data_ingresso": "24-12-2024",
+        "status": "Ativo",
+        "area_atuacao": "PQD",
+        "pos_graduacao": "DOUTORADO",
+        "graduacao": "PQD_EAD",
+        "instituicao_graduacao": "PQD",
+        "curso_pos": "PQD_EAD_PLUS",
+        "instituicao_pos": "PQD_A DISTANCIA",
+        "escola": "AFA",
+        "data_criacao": "2025-08-15T16:51:09.520958",
+        "data_atualizacao": "2025-08-15T16:51:09.520965",
+        "criado_por": "admin"
       }
     }
   },
   "metadata": {
     "created_at": "2025-08-15T12:55:31.485325",
     "version": "1.0",
-    "last_updated": "2025-08-15T16:40:40.849952"
+    "last_updated": "2025-08-15T16:51:09.521288"
   }
 }
