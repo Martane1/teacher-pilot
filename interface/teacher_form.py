@@ -139,9 +139,9 @@ class TeacherFormWindow:
         siape_entry = ttk.Entry(personal_frame, textvariable=self.siape_var, width=20)
         siape_entry.grid(row=row, column=1, sticky=tk.W, pady=5)
         
-        # Desabilita SIAPE em edição
-        if self.is_edit:
-            siape_entry.config(state='readonly')
+        # SIAPE agora pode ser editado conforme solicitado pelo usuário
+        # if self.is_edit:
+        #     siape_entry.config(state='readonly')
         
         row += 1
         
@@ -428,9 +428,15 @@ class TeacherFormWindow:
         if not self.validator.validate_date(data_ing):
             errors.append("Data de ingresso inválida (use DD-MM-AAAA)")
         
-        # Verifica se SIAPE já existe (apenas para novo professor)
+        # Verifica se SIAPE já existe
         if not self.is_edit:
+            # Novo professor - verifica se SIAPE já existe
             if self.teacher_manager.teacher_exists(siape, self.school):
+                errors.append("SIAPE já cadastrado nesta escola")
+        else:
+            # Edição - permite o mesmo SIAPE ou verifica se o novo SIAPE já existe
+            original_siape = self.teacher_data.get('siape', '') if self.teacher_data else ''
+            if siape != original_siape and self.teacher_manager.teacher_exists(siape, self.school):
                 errors.append("SIAPE já cadastrado nesta escola")
         
         return errors
