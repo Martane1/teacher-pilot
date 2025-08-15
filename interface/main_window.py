@@ -13,8 +13,10 @@ from interface.field_selector import FieldSelectorWindow
 from interface.history_window import HistoryWindow
 from interface.backup_window import BackupWindow
 from interface.statistics_window import StatisticsWindow
+from interface.discipline_form import DisciplineFormWindow
 from core.teacher_manager import TeacherManager
 from core.export_manager import ExportManager
+from core.discipline_manager import DisciplineManager
 from recursos.constants import CARGAS_HORARIAS, CARREIRAS, POS_GRADUACAO
 
 class MainWindow:
@@ -26,6 +28,7 @@ class MainWindow:
         self.sistema = sistema
         self.teacher_manager = TeacherManager()
         self.export_manager = ExportManager()
+        self.discipline_manager = DisciplineManager()
         
         # Configurações da janela
         self.root.title(f"Sistema DIRENS - {sistema.current_school}")
@@ -100,6 +103,7 @@ class MainWindow:
         arquivo_menu = tk.Menu(menubar, tearoff=0)
         menubar.add_cascade(label="Arquivo", menu=arquivo_menu)
         arquivo_menu.add_command(label="Novo Professor", command=self.new_teacher, accelerator="Ctrl+N")
+        arquivo_menu.add_command(label="Nova Disciplina", command=self.new_discipline, accelerator="Ctrl+D")
         arquivo_menu.add_separator()
         arquivo_menu.add_command(label="Exportar CSV", command=self.export_csv)
         arquivo_menu.add_command(label="Exportar PDF", command=self.export_pdf)
@@ -128,6 +132,7 @@ class MainWindow:
         
         # Atalhos do teclado
         self.root.bind('<Control-n>', lambda e: self.new_teacher())
+        self.root.bind('<Control-d>', lambda e: self.new_discipline())
         self.root.bind('<Control-q>', lambda e: self.on_close())
         self.root.bind('<F2>', lambda e: self.edit_teacher())
         self.root.bind('<Delete>', lambda e: self.delete_teacher())
@@ -144,6 +149,12 @@ class MainWindow:
             toolbar,
             text="Novo Professor",
             command=self.new_teacher
+        ).pack(side=tk.LEFT, padx=2)
+        
+        ttk.Button(
+            toolbar,
+            text="Nova Disciplina",
+            command=self.new_discipline
         ).pack(side=tk.LEFT, padx=2)
         
         ttk.Separator(toolbar, orient=tk.VERTICAL).pack(side=tk.LEFT, fill=tk.Y, padx=5)
@@ -553,6 +564,16 @@ class MainWindow:
             self.teacher_manager, 
             self.sistema.current_school, 
             callback=self.refresh_data,
+            current_user=self.sistema.current_user,
+            discipline_manager=self.discipline_manager
+        )
+    
+    def new_discipline(self):
+        """Abre formulário para nova disciplina"""
+        DisciplineFormWindow(
+            self.root,
+            self.discipline_manager,
+            callback=self.refresh_data,
             current_user=self.sistema.current_user
         )
     
@@ -576,7 +597,8 @@ class MainWindow:
                     self.sistema.current_school,
                     teacher_data=professor_completo,
                     callback=self.refresh_data,
-                    current_user=self.sistema.current_user
+                    current_user=self.sistema.current_user,
+                    discipline_manager=self.discipline_manager
                 )
             else:
                 error_msg = f"Não foi possível carregar os dados do professor.\nSIAPE: {selected.get('siape')}\nEscola: {self.sistema.current_school}"

@@ -14,7 +14,7 @@ from recursos.constants import CARGAS_HORARIAS, CARREIRAS, POS_GRADUACAO, DDDS_B
 class TeacherFormWindow:
     """Janela do formulário de professor"""
     
-    def __init__(self, parent, teacher_manager, school, teacher_data=None, callback=None, current_user='admin'):
+    def __init__(self, parent, teacher_manager, school, teacher_data=None, callback=None, current_user='admin', discipline_manager=None):
         """Inicializa o formulário"""
         self.parent = parent
         self.teacher_manager = teacher_manager
@@ -22,6 +22,7 @@ class TeacherFormWindow:
         self.teacher_data = teacher_data
         self.callback = callback
         self.current_user = current_user
+        self.discipline_manager = discipline_manager
         self.validator = ValidatorManager()
         
         # Determina se é edição ou novo
@@ -413,6 +414,35 @@ class TeacherFormWindow:
         ).grid(row=row, column=1, sticky=tk.W, pady=5)
         
         row += 1
+        
+        # Disciplina
+        ttk.Label(acad_frame, text="Disciplina:*").grid(row=row, column=0, sticky=tk.W, pady=5)
+        self.disciplina_var = tk.StringVar()
+        
+        # Frame para disciplina com botão de atualizar
+        disciplina_frame = ttk.Frame(acad_frame)
+        disciplina_frame.grid(row=row, column=1, columnspan=2, sticky="we", pady=5)
+        
+        self.disciplina_combo = ttk.Combobox(
+            disciplina_frame,
+            textvariable=self.disciplina_var,
+            state="readonly",
+            width=40
+        )
+        self.disciplina_combo.pack(side=tk.LEFT)
+        
+        # Botão para atualizar lista de disciplinas
+        ttk.Button(
+            disciplina_frame,
+            text="⟳",
+            command=self.refresh_disciplines,
+            width=3
+        ).pack(side=tk.LEFT, padx=(5, 0))
+        
+        # Carrega disciplinas inicialmente
+        self.refresh_disciplines()
+        
+        row += 1
     
     def create_buttons(self, parent):
         """Cria os botões do formulário"""
@@ -494,6 +524,21 @@ class TeacherFormWindow:
         
         # Dados acadêmicos
         self.pos_graduacao_var.set(self.teacher_data.get('pos_graduacao', ''))
+        
+        # Disciplina
+        disciplina_saved = self.teacher_data.get('disciplina', '')
+        if disciplina_saved:
+            # Se a disciplina salva está na lista atual, seleciona
+            disciplines_list = list(self.disciplina_combo['values'])
+            # Procura por código ou nome completo
+            for discipline in disciplines_list:
+                if (disciplina_saved in discipline or 
+                    discipline.startswith(disciplina_saved.split(' - ')[0] if ' - ' in disciplina_saved else disciplina_saved)):
+                    self.disciplina_var.set(discipline)
+                    break
+            # Se não encontrou, define o valor salvo
+            if not self.disciplina_var.get():
+                self.disciplina_var.set(disciplina_saved)
     
     def clear_form(self):
         """Limpa todos os campos do formulário"""
@@ -517,6 +562,7 @@ class TeacherFormWindow:
         
         # Dados acadêmicos
         self.pos_graduacao_var.set('')
+        self.disciplina_var.set('')
         
         self.status_var.set('')
     
@@ -536,7 +582,8 @@ class TeacherFormWindow:
             'Carga Horária': self.carga_horaria_var.get(),
             'Carreira': self.carreira_var.get(),
             'Data de Ingresso': self.data_ingresso_var.get().strip(),
-            'Pós-graduação': self.pos_graduacao_var.get()
+            'Pós-graduação': self.pos_graduacao_var.get(),
+            'Disciplina': self.disciplina_var.get()
         }
         
         for field, value in required_fields.items():
@@ -632,6 +679,7 @@ class TeacherFormWindow:
             'status': self.status_prof_var.get() or 'Ativo',
             'area_atuacao': self.area_atuacao_var.get().strip(),
             'pos_graduacao': self.pos_graduacao_var.get(),
+            'disciplina': self._extract_discipline_code(self.disciplina_var.get()),
             'escola': self.school,
             'data_criacao': datetime.now().isoformat() if not self.is_edit else (self.teacher_data.get('data_criacao') if self.teacher_data else datetime.now().isoformat()),
             'data_atualizacao': datetime.now().isoformat()
@@ -693,3 +741,25 @@ class TeacherFormWindow:
             formatted = f"{digits[:4]}-{digits[4:8]}"
             if current != formatted:
                 self.numero_fixo_var.set(formatted)
+    
+    def refresh_disciplines(self):
+        """Atualiza a lista de disciplinas disponíveis"""
+        try:
+            if self.discipline_manager:
+                # Carrega disciplinas ativas formatadas como "CÓDIGO - NOME"
+                disciplines = self.discipline_manager.get_discipline_names_with_codes()
+                self.disciplina_combo['values'] = disciplines
+            else:
+                # Fallback se não há discipline_manager
+                self.disciplina_combo['values'] = ["Nenhuma disciplina cadastrada"]
+        except Exception as e:
+            logging.error(f"Erro ao carregar disciplinas: {e}")
+            self.disciplina_combo['values'] = ["Erro ao carregar disciplinas"]
+    
+    def _extract_discipline_code(self, discipline_selection):
+        """Extrai o código da disciplina da seleção 'CÓDIGO - NOME'"""
+        if not discipline_selection or ' - ' not in discipline_selection:
+            return discipline_selection
+        
+        # Pega apenas a parte do código (antes do " - ")
+        return discipline_selection.split(' - ')[0].strip()
