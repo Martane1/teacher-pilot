@@ -303,12 +303,20 @@ class ValidatorManager:
             elif len(nome) > 100:
                 all_errors.append("Nome muito longo (máximo 100 caracteres)")
             
-            # Validação específica para caracteres portugueses (permite acentos)
+            # Validação simples - aceita qualquer caractere alfabético incluindo acentos
             if nome:
-                # Aceita letras, espaços e acentos portugueses específicos
-                portuguese_chars = r'^[A-Za-zÀÁÂÃÄÅàáâãäåÈÉÊËèéêëÌÍÎÏìíîïÒÓÔÕÖØòóôõöøÙÚÛÜùúûüÝýÿÇçÑñ\s]+$'
-                if not re.match(portuguese_chars, nome):
-                    all_errors.append("Nome deve conter apenas letras e espaços")
+                # Remove espaços para verificar se restam caracteres válidos
+                nome_sem_espacos = nome.replace(' ', '')
+                if nome_sem_espacos:
+                    # Verifica se contém apenas letras (incluindo acentuadas) e espaços
+                    # Aceita qualquer caractere Unicode que seja uma letra
+                    chars_invalidos = []
+                    for char in nome:
+                        if not (char.isalpha() or char.isspace()):
+                            chars_invalidos.append(char)
+                    
+                    if chars_invalidos:
+                        all_errors.append(f"Nome contém caracteres inválidos: {', '.join(set(chars_invalidos))}")
             
             return {
                 'valid': len(all_errors) == 0,

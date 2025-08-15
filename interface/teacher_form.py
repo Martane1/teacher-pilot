@@ -187,41 +187,40 @@ class TeacherFormWindow:
         # Nome completo
         ttk.Label(personal_frame, text="Nome Completo:*").grid(row=row, column=0, sticky=tk.W, pady=5)
         
-        # Entry com suporte específico para acentos (Mac, Windows, Linux)
+        # Campo de nome com suporte completo a caracteres acentuados
         self.nome_var = tk.StringVar()
         
-        # Configuração específica para Mac
-        system_name = platform.system().lower()
-        if system_name == 'darwin':  # Mac
-            # No Mac, usa tk.Entry ao invés de ttk.Entry para melhor suporte Unicode
-            nome_entry = tk.Entry(
-                personal_frame,
-                textvariable=self.nome_var,
-                width=50,
-                font=('Arial', 10),
-                relief='solid',
-                borderwidth=1
-            )
-            # Configura input method para Mac
-            nome_entry.bind('<KeyPress>', self._handle_accent_input)
-        else:
-            # Windows e Linux - usa ttk.Entry normal
-            nome_entry = ttk.Entry(
-                personal_frame,
-                textvariable=self.nome_var,
-                width=50
-            )
+        # Usa Text widget para suporte completo a Unicode
+        nome_frame = ttk.Frame(personal_frame)
+        nome_frame.grid(row=row, column=1, sticky="we", pady=5, columnspan=2)
+        nome_frame.grid_columnconfigure(0, weight=1)
         
-        nome_entry.grid(row=row, column=1, sticky="we", pady=5, columnspan=2)
+        self.nome_text = tk.Text(
+            nome_frame,
+            height=1,
+            width=50,
+            font=('Arial', 10),
+            wrap=tk.NONE,
+            relief='solid',
+            borderwidth=1
+        )
+        self.nome_text.grid(row=0, column=0, sticky="we")
         
-        # Teste imediato de acentos
+        # Impede quebra de linha e múltiplas linhas
+        def limit_to_single_line(event):
+            if event.keysym == 'Return':
+                return 'break'
+            return None
+        
+        self.nome_text.bind('<KeyPress>', limit_to_single_line)
+        
+        # Teste de acentos
         try:
-            test_accent = 'á'
-            nome_entry.insert(0, test_accent)
-            nome_entry.delete(0, tk.END)
-            print(f"Sistema {system_name}: Suporte a acentos configurado com sucesso")
+            self.nome_text.insert('1.0', 'Teste: áéíóúãõç')
+            self.nome_text.delete('1.0', tk.END)
+            print("Suporte a acentos: OK")
         except Exception as e:
-            print(f"Aviso - Configuração de acentos {system_name}: {e}")
+            print(f"Erro acentos: {e}")
         
         row += 1
         
@@ -459,7 +458,10 @@ class TeacherFormWindow:
     
     def get_nome_value(self):
         """Obtém o valor atual do nome"""
-        return self.nome_var.get().strip()
+        try:
+            return self.nome_text.get('1.0', tk.END).strip()
+        except:
+            return self.nome_var.get().strip()
     
     def populate_fields(self):
         """Preenche os campos com dados do professor"""
@@ -468,7 +470,12 @@ class TeacherFormWindow:
         
         # Dados pessoais
         self.siape_var.set(self.teacher_data.get('siape', ''))
-        self.nome_var.set(self.teacher_data.get('nome', ''))
+        # Preenche nome no Text widget
+        try:
+            self.nome_text.delete('1.0', tk.END)
+            self.nome_text.insert('1.0', self.teacher_data.get('nome', ''))
+        except:
+            self.nome_var.set(self.teacher_data.get('nome', ''))
         self.data_nascimento_var.set(self.teacher_data.get('data_nascimento', ''))
         self.sexo_var.set(self.teacher_data.get('sexo', ''))
         
@@ -513,7 +520,11 @@ class TeacherFormWindow:
         """Limpa todos os campos do formulário"""
         # Dados pessoais
         self.siape_var.set('')
-        self.nome_var.set('')
+        # Limpa nome no Text widget
+        try:
+            self.nome_text.delete('1.0', tk.END)
+        except:
+            self.nome_var.set('')
         self.data_nascimento_var.set('')
         self.sexo_var.set('')
         self.email_nome_var.set('')
@@ -638,7 +649,7 @@ class TeacherFormWindow:
             
         teacher_data = {
             'siape': self.siape_var.get().strip(),
-            'nome': self.nome_var.get().strip().upper(),  # Converte para maiúscula só ao salvar
+            'nome': self.get_nome_value().upper(),  # Converte para maiúscula só ao salvar
             'data_nascimento': self.data_nascimento_var.get().strip(),
             'sexo': self.sexo_var.get(),
             'email': self.email_nome_var.get().strip() + '@fab.mil.br',
