@@ -30,7 +30,7 @@ class TeacherFormWindow:
         # Cria a janela
         self.window = tk.Toplevel(parent)
         self.window.title("Editar Professor" if self.is_edit else "Novo Professor")
-        self.window.geometry("600x700")
+        self.window.geometry("800x700")  # Janela mais larga
         self.window.resizable(False, False)
         
         
@@ -56,13 +56,16 @@ class TeacherFormWindow:
         parent_width = self.parent.winfo_width()
         parent_height = self.parent.winfo_height()
         
-        width = 600
+        width = 800
         height = 700
         
         x = parent_x + (parent_width - width) // 2
         y = parent_y + (parent_height - height) // 2
         
         self.window.geometry(f"{width}x{height}+{x}+{y}")
+        
+        # Torna redimensionável temporariamente para testar
+        self.window.resizable(True, True)
     
     def make_modal(self):
         """Torna a janela modal após estar completamente carregada"""
@@ -157,35 +160,54 @@ class TeacherFormWindow:
         nome_frame.grid(row=row, column=1, sticky="we", pady=5, columnspan=2)
         nome_frame.grid_columnconfigure(0, weight=1)
         
-        # Entry principal
+        # Entry com suporte especial para acentos
         nome_entry = ttk.Entry(
             nome_frame,
             textvariable=self.nome_var,
-            width=50
+            width=60,  # Campo mais largo
+            font=('Arial', 10)
         )
         nome_entry.grid(row=0, column=0, sticky="we")
+        nome_entry.focus_set()  # Foca automaticamente
         
-        # Monitora TODAS as teclas pressionadas
-        def debug_keypress(event):
+        # Configuração especial para composição de acentos
+        def handle_key_event(event):
             print(f"TECLA: {event.keysym} | CHAR: '{event.char}' | CODE: {event.keycode}")
+            
+            # Para Alt+letra (acentos), força a inserção manual
+            if event.state & 0x08:  # Alt pressionado
+                accent_map = {
+                    'a': 'á', 'e': 'é', 'i': 'í', 'o': 'ó', 'u': 'ú',
+                    'A': 'Á', 'E': 'É', 'I': 'Í', 'O': 'Ó', 'U': 'Ú',
+                    'c': 'ç', 'C': 'Ç', 'n': 'ñ', 'N': 'Ñ'
+                }
+                
+                char = event.char.lower() if event.char else ''
+                if char in accent_map:
+                    # Insere o caractere acentuado diretamente
+                    accent_char = accent_map[char]
+                    current_pos = nome_entry.index(tk.INSERT)
+                    current_text = self.nome_var.get()
+                    new_text = current_text[:current_pos] + accent_char + current_text[current_pos:]
+                    self.nome_var.set(new_text)
+                    nome_entry.icursor(current_pos + 1)
+                    print(f">>> ACENTO INSERIDO: '{accent_char}'")
+                    return 'break'  # Bloqueia o processamento normal
+            
+            # Para caracteres acentuados diretos
             if event.char and ord(event.char) > 127:
                 print(f">>> ACENTO DETECTADO: '{event.char}' (Unicode: {ord(event.char)})")
+                
+            return None  # Permite processamento normal
         
-        # Monitora mudanças no campo
-        def debug_change(*args):
-            valor = self.nome_var.get()
-            print(f"VALOR ATUAL: '{valor}' | CHARS: {[c for c in valor]}")
+        nome_entry.bind('<KeyPress>', handle_key_event)
         
-        nome_entry.bind('<KeyPress>', debug_keypress)
-        nome_entry.bind('<KeyRelease>', debug_keypress)
-        self.nome_var.trace('w', debug_change)
-        
-        # Botão de teste direto
+        # Botão de teste
         test_button = ttk.Button(
             nome_frame, 
-            text="Teste",
-            command=lambda: self.nome_var.set("José María Conceição"),
-            width=8
+            text="Teste Acentos",
+            command=lambda: self.nome_var.set("José María Conceição Araújo"),
+            width=12
         )
         test_button.grid(row=0, column=1, padx=(5, 0))
         
