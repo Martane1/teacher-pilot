@@ -302,9 +302,12 @@ class ValidatorManager:
             elif len(nome) > 100:
                 all_errors.append("Nome muito longo (máximo 100 caracteres)")
             
-            # Verifica se nome contém apenas letras e espaços (incluindo todos os acentos portugueses)
-            if nome and not re.match(r'^[A-ZÀ-ÿa-zÀ-ÿÇçÑñ\s]+$', nome, re.IGNORECASE):
-                all_errors.append("Nome deve conter apenas letras e espaços")
+            # Validação mais permissiva para acentos (aceita todos os caracteres Unicode de letras)
+            if nome:
+                # Remove espaços e verifica se sobrou alguma coisa
+                nome_clean = ''.join(nome.split())
+                if nome_clean and not all(c.isalpha() or c.isspace() for c in nome):
+                    all_errors.append("Nome deve conter apenas letras e espaços")
             
             return {
                 'valid': len(all_errors) == 0,
@@ -329,12 +332,9 @@ class ValidatorManager:
             
             for field in text_fields:
                 if field in cleaned_data and cleaned_data[field]:
-                    # Remove espaços extras e converte nome para maiúscula (preservando acentos)
+                    # Remove apenas espaços extras, sem conversão durante validação
                     value = str(cleaned_data[field]).strip()
-                    if field == 'nome':
-                        cleaned_data[field] = value.upper()
-                    else:
-                        cleaned_data[field] = value
+                    cleaned_data[field] = value
             
             # Limpa email institucional
             if 'email' in cleaned_data and cleaned_data['email']:
