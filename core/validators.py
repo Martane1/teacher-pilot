@@ -108,8 +108,8 @@ class ValidatorManager:
     def validate_required_fields(self, data):
         """Valida campos obrigatórios"""
         required_fields = [
-            'siape', 'nome', 'data_nascimento', 'sexo', 'estado',
-            'email', 'telefone', 'carga_horaria', 'carreira', 'data_ingresso', 'pos_graduacao'
+            'siape', 'nome', 'data_nascimento', 'sexo',
+            'email', 'telefone_celular', 'carga_horaria', 'carreira', 'data_ingresso', 'pos_graduacao'
         ]
         
         missing_fields = []
@@ -208,15 +208,15 @@ class ValidatorManager:
         pattern = r'^[a-zA-Z0-9\.]+$'
         return re.match(pattern, email_nome.strip()) is not None
     
-    def validate_telefone_brasileiro(self, telefone):
-        """Valida telefone brasileiro no formato xx-9-xxxx-xxxx"""
-        if not telefone:
+    def validate_numero_telefone(self, numero):
+        """Valida número de telefone no formato xxxx-xxxx"""
+        if not numero:
             return False
         
         # Remove espaços e verifica formato
-        telefone_clean = telefone.strip()
-        pattern = r'^\d{2}-9-\d{4}-\d{4}$'
-        return re.match(pattern, telefone_clean) is not None
+        numero_clean = numero.strip()
+        pattern = r'^\d{4}-\d{4}$'
+        return re.match(pattern, numero_clean) is not None
     
     def validate_teacher_data(self, data):
         """Validação completa dos dados do professor"""
@@ -259,22 +259,33 @@ class ValidatorManager:
             else:
                 all_errors.append("Email institucional é obrigatório")
             
-            # Validações de telefone (obrigatório)
-            telefone = data.get('telefone', '').strip()
-            if telefone:
-                if not self.validate_telefone_brasileiro(telefone):
-                    all_errors.append("Telefone deve estar no formato xx-9-xxxx-xxxx")
+            # Validações de telefone celular (obrigatório)
+            telefone_celular = data.get('telefone_celular', '').strip()
+            if telefone_celular:
+                from recursos.constants import DDDS_BRASIL
+                # Verifica formato DDD-9-xxxx-xxxx
+                pattern = r'^\d{2}-9-\d{4}-\d{4}$'
+                if not re.match(pattern, telefone_celular):
+                    all_errors.append("Telefone celular deve estar no formato dd-9-xxxx-xxxx")
+                else:
+                    ddd = telefone_celular.split('-')[0]
+                    if ddd not in DDDS_BRASIL:
+                        all_errors.append("DDD inválido")
             else:
-                all_errors.append("Telefone é obrigatório")
+                all_errors.append("Telefone celular é obrigatório")
             
-            # Validação de estado
-            estado = data.get('estado', '').strip()
-            if estado:
-                from recursos.constants import ESTADOS_COMPLETOS
-                if estado not in ESTADOS_COMPLETOS:
-                    all_errors.append("Estado inválido")
-            else:
-                all_errors.append("Estado é obrigatório")
+            # Validação de telefone fixo (opcional)
+            telefone_fixo = data.get('telefone_fixo', '').strip()
+            if telefone_fixo:
+                from recursos.constants import DDDS_BRASIL
+                # Verifica formato DDD-xxxx-xxxx
+                pattern = r'^\d{2}-\d{4}-\d{4}$'
+                if not re.match(pattern, telefone_fixo):
+                    all_errors.append("Telefone fixo deve estar no formato dd-xxxx-xxxx")
+                else:
+                    ddd = telefone_fixo.split('-')[0]
+                    if ddd not in DDDS_BRASIL:
+                        all_errors.append("DDD do telefone fixo inválido")
             
             # Valores restritos
             restricted_errors = self.validate_restricted_values(data)
@@ -350,7 +361,7 @@ class ValidatorManager:
                     cleaned_data['telefone'] = f"({phone[:2]}) {phone[2:6]}-{phone[6:]}"
             
             # Remove campos vazios opcionais
-            optional_fields = ['area_atuacao', 'graduacao', 'instituicao_graduacao', 'curso_pos', 'instituicao_pos']
+            optional_fields = ['telefone_fixo', 'area_atuacao', 'graduacao', 'instituicao_graduacao', 'curso_pos', 'instituicao_pos']
             
             for field in optional_fields:
                 if field in cleaned_data and not str(cleaned_data[field]).strip():

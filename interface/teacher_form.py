@@ -9,7 +9,7 @@ from datetime import datetime
 import logging
 
 from core.validators import ValidatorManager
-from recursos.constants import CARGAS_HORARIAS, CARREIRAS, POS_GRADUACAO, ESTADOS_COMPLETOS
+from recursos.constants import CARGAS_HORARIAS, CARREIRAS, POS_GRADUACAO, DDDS_BRASIL
 
 class TeacherFormWindow:
     """Janela do formulário de professor"""
@@ -177,19 +177,6 @@ class TeacherFormWindow:
         
         row += 1
         
-        # Estado (UF de nascimento)
-        ttk.Label(personal_frame, text="Estado (UF):*").grid(row=row, column=0, sticky=tk.W, pady=5)
-        self.estado_var = tk.StringVar()
-        ttk.Combobox(
-            personal_frame,
-            textvariable=self.estado_var,
-            values=list(ESTADOS_COMPLETOS.keys()),
-            state="readonly",
-            width=10
-        ).grid(row=row, column=1, sticky=tk.W, pady=5)
-        
-        row += 1
-        
         # Email institucional
         ttk.Label(personal_frame, text="Email Institucional:*").grid(row=row, column=0, sticky=tk.W, pady=5)
         email_frame = ttk.Frame(personal_frame)
@@ -204,13 +191,51 @@ class TeacherFormWindow:
         
         # Telefone celular
         ttk.Label(personal_frame, text="Telefone Celular:*").grid(row=row, column=0, sticky=tk.W, pady=5)
-        self.telefone_var = tk.StringVar()
-        telefone_entry = ttk.Entry(personal_frame, textvariable=self.telefone_var, width=20)
-        telefone_entry.grid(row=row, column=1, sticky=tk.W, pady=5)
-        ttk.Label(personal_frame, text="(xx-9-xxxx-xxxx)", foreground="gray").grid(row=row, column=2, sticky=tk.W, padx=5)
+        celular_frame = ttk.Frame(personal_frame)
+        celular_frame.grid(row=row, column=1, sticky="w", pady=5, columnspan=2)
         
-        # Bind para formatar telefone automaticamente
-        self.telefone_var.trace('w', self.format_telefone)
+        self.ddd_celular_var = tk.StringVar()
+        ttk.Combobox(
+            celular_frame,
+            textvariable=self.ddd_celular_var,
+            values=DDDS_BRASIL,
+            state="readonly",
+            width=8
+        ).pack(side=tk.LEFT)
+        ttk.Label(celular_frame, text="-9-", foreground="blue").pack(side=tk.LEFT)
+        
+        self.numero_celular_var = tk.StringVar()
+        celular_entry = ttk.Entry(celular_frame, textvariable=self.numero_celular_var, width=15)
+        celular_entry.pack(side=tk.LEFT)
+        ttk.Label(celular_frame, text="(xxxx-xxxx)", foreground="gray").pack(side=tk.LEFT, padx=5)
+        
+        # Bind para formatar número do celular
+        self.numero_celular_var.trace('w', self.format_numero_celular)
+        
+        row += 1
+        
+        # Telefone fixo
+        ttk.Label(personal_frame, text="Telefone Fixo:").grid(row=row, column=0, sticky=tk.W, pady=5)
+        fixo_frame = ttk.Frame(personal_frame)
+        fixo_frame.grid(row=row, column=1, sticky="w", pady=5, columnspan=2)
+        
+        self.ddd_fixo_var = tk.StringVar()
+        ttk.Combobox(
+            fixo_frame,
+            textvariable=self.ddd_fixo_var,
+            values=DDDS_BRASIL,
+            state="readonly",
+            width=8
+        ).pack(side=tk.LEFT)
+        ttk.Label(fixo_frame, text="-", foreground="blue").pack(side=tk.LEFT)
+        
+        self.numero_fixo_var = tk.StringVar()
+        fixo_entry = ttk.Entry(fixo_frame, textvariable=self.numero_fixo_var, width=15)
+        fixo_entry.pack(side=tk.LEFT)
+        ttk.Label(fixo_frame, text="(xxxx-xxxx)", foreground="gray").pack(side=tk.LEFT, padx=5)
+        
+        # Bind para formatar número do fixo
+        self.numero_fixo_var.trace('w', self.format_numero_fixo)
         
         row += 1
     
@@ -388,15 +413,29 @@ class TeacherFormWindow:
         self.nome_var.set(self.teacher_data.get('nome', ''))
         self.data_nascimento_var.set(self.teacher_data.get('data_nascimento', ''))
         self.sexo_var.set(self.teacher_data.get('sexo', ''))
-        self.estado_var.set(self.teacher_data.get('estado', ''))
         
-        # Email e telefone
+        # Email
         email_completo = self.teacher_data.get('email', '')
         if '@fab.mil.br' in email_completo:
             self.email_nome_var.set(email_completo.replace('@fab.mil.br', ''))
         else:
             self.email_nome_var.set(email_completo)
-        self.telefone_var.set(self.teacher_data.get('telefone', ''))
+            
+        # Telefone celular
+        celular = self.teacher_data.get('telefone_celular', '')
+        if celular and '-9-' in celular:
+            partes = celular.split('-')
+            if len(partes) >= 3:
+                self.ddd_celular_var.set(partes[0])
+                self.numero_celular_var.set('-'.join(partes[2:]))
+        
+        # Telefone fixo
+        fixo = self.teacher_data.get('telefone_fixo', '')
+        if fixo and '-' in fixo:
+            partes = fixo.split('-', 1)
+            if len(partes) == 2:
+                self.ddd_fixo_var.set(partes[0])
+                self.numero_fixo_var.set(partes[1])
         
         # Dados profissionais
         self.carga_horaria_var.set(self.teacher_data.get('carga_horaria', ''))
@@ -419,9 +458,11 @@ class TeacherFormWindow:
         self.nome_var.set('')
         self.data_nascimento_var.set('')
         self.sexo_var.set('')
-        self.estado_var.set('')
         self.email_nome_var.set('')
-        self.telefone_var.set('')
+        self.ddd_celular_var.set('')
+        self.numero_celular_var.set('')
+        self.ddd_fixo_var.set('')
+        self.numero_fixo_var.set('')
         
         # Dados profissionais
         self.carga_horaria_var.set('')
@@ -449,9 +490,9 @@ class TeacherFormWindow:
             'Nome': self.nome_var.get().strip(),
             'Data de Nascimento': self.data_nascimento_var.get().strip(),
             'Sexo': self.sexo_var.get(),
-            'Estado': self.estado_var.get(),
             'Email Institucional': self.email_nome_var.get().strip(),
-            'Telefone': self.telefone_var.get().strip(),
+            'DDD Celular': self.ddd_celular_var.get(),
+            'Número Celular': self.numero_celular_var.get().strip(),
             'Carga Horária': self.carga_horaria_var.get(),
             'Carreira': self.carreira_var.get(),
             'Data de Ingresso': self.data_ingresso_var.get().strip(),
@@ -483,10 +524,22 @@ class TeacherFormWindow:
         if not self.validator.validate_fab_email(email_nome):
             errors.append("Email institucional deve conter apenas letras, números e pontos")
         
-        # Validação do telefone
-        telefone = self.telefone_var.get().strip()
-        if not self.validator.validate_telefone_brasileiro(telefone):
-            errors.append("Telefone deve estar no formato xx-9-xxxx-xxxx")
+        # Validação do telefone celular
+        ddd_celular = self.ddd_celular_var.get()
+        numero_celular = self.numero_celular_var.get().strip()
+        if not self.validator.validate_numero_telefone(numero_celular):
+            errors.append("Número do celular deve estar no formato xxxx-xxxx")
+        
+        # Validação do telefone fixo (opcional)
+        ddd_fixo = self.ddd_fixo_var.get()
+        numero_fixo = self.numero_fixo_var.get().strip()
+        if ddd_fixo or numero_fixo:  # Se um foi preenchido, ambos devem estar
+            if not ddd_fixo:
+                errors.append("DDD do telefone fixo é obrigatório")
+            if not numero_fixo:
+                errors.append("Número do telefone fixo é obrigatório")
+            elif not self.validator.validate_numero_telefone(numero_fixo):
+                errors.append("Número do fixo deve estar no formato xxxx-xxxx")
         
         # Verifica se SIAPE já existe
         if not self.is_edit:
@@ -510,14 +563,22 @@ class TeacherFormWindow:
             return
         
         # Prepara dados
+        # Monta telefone celular
+        telefone_celular = f"{self.ddd_celular_var.get()}-9-{self.numero_celular_var.get()}" if self.ddd_celular_var.get() and self.numero_celular_var.get() else ''
+        
+        # Monta telefone fixo (opcional)
+        telefone_fixo = ''
+        if self.ddd_fixo_var.get() and self.numero_fixo_var.get():
+            telefone_fixo = f"{self.ddd_fixo_var.get()}-{self.numero_fixo_var.get()}"
+            
         teacher_data = {
             'siape': self.siape_var.get().strip(),
             'nome': self.nome_var.get().strip().upper(),
             'data_nascimento': self.data_nascimento_var.get().strip(),
             'sexo': self.sexo_var.get(),
-            'estado': self.estado_var.get(),
             'email': self.email_nome_var.get().strip() + '@fab.mil.br',
-            'telefone': self.telefone_var.get().strip(),
+            'telefone_celular': telefone_celular,
+            'telefone_fixo': telefone_fixo,
             'carga_horaria': self.carga_horaria_var.get(),
             'carreira': self.carreira_var.get(),
             'data_ingresso': self.data_ingresso_var.get().strip(),
@@ -566,14 +627,26 @@ class TeacherFormWindow:
             self.status_var.set("Erro interno do sistema")
             messagebox.showerror("Erro", f"Erro ao salvar professor:\n{e}")
     
-    def format_telefone(self, *args):
-        """Formata telefone automaticamente enquanto digita"""
-        current = self.telefone_var.get()
+    def format_numero_celular(self, *args):
+        """Formata número do celular automaticamente (xxxx-xxxx)"""
+        current = self.numero_celular_var.get()
         # Remove caracteres não numéricos
         digits = ''.join(filter(str.isdigit, current))
         
-        # Formata conforme o padrão brasileiro (xx-9-xxxx-xxxx)
-        if len(digits) >= 11:
-            formatted = f"{digits[:2]}-{digits[2]}-{digits[3:7]}-{digits[7:11]}"
+        # Formata conforme o padrão xxxx-xxxx
+        if len(digits) >= 8:
+            formatted = f"{digits[:4]}-{digits[4:8]}"
             if current != formatted:
-                self.telefone_var.set(formatted)
+                self.numero_celular_var.set(formatted)
+    
+    def format_numero_fixo(self, *args):
+        """Formata número do fixo automaticamente (xxxx-xxxx)"""
+        current = self.numero_fixo_var.get()
+        # Remove caracteres não numéricos
+        digits = ''.join(filter(str.isdigit, current))
+        
+        # Formata conforme o padrão xxxx-xxxx
+        if len(digits) >= 8:
+            formatted = f"{digits[:4]}-{digits[4:8]}"
+            if current != formatted:
+                self.numero_fixo_var.set(formatted)
