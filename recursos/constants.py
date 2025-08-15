@@ -5,6 +5,14 @@ Constantes do Sistema DIRENS
 
 # Escolas subordinadas à DIRENS
 ESCOLAS = {
+    "DIRENS": {
+        "codigo": "DIRENS01",
+        "nome_completo": "Diretoria de Ensino da Aeronáutica",
+        "endereco": "Av. Marechal Fontenelle, 1000 - Campo dos Afonsos",
+        "cidade": "Rio de Janeiro",
+        "estado": "RJ",
+        "telefone": "(21) 2441-5000"
+    },
     "AFA": {
         "codigo": "AFA01",
         "nome_completo": "Academia da Força Aérea",

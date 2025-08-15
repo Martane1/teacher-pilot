@@ -14,6 +14,7 @@ from interface.history_window import HistoryWindow
 from interface.backup_window import BackupWindow
 from interface.statistics_window import StatisticsWindow
 from interface.discipline_form import DisciplineFormWindow
+from interface.schools_window import SchoolsWindow
 from core.teacher_manager import TeacherManager
 from core.export_manager import ExportManager
 from core.discipline_manager import DisciplineManager
@@ -121,6 +122,8 @@ class MainWindow:
         # Menu Ferramentas
         tools_menu = tk.Menu(menubar, tearoff=0)
         menubar.add_cascade(label="Ferramentas", menu=tools_menu)
+        tools_menu.add_command(label="Todas as Escolas", command=self.show_all_schools)
+        tools_menu.add_separator()
         tools_menu.add_command(label="Estatísticas", command=self.show_statistics)
         tools_menu.add_command(label="Backups", command=self.show_backups)
         tools_menu.add_command(label="Atualizar", command=self.refresh_data, accelerator="F5")
@@ -177,6 +180,12 @@ class MainWindow:
             toolbar,
             text="Histórico",
             command=self.show_history
+        ).pack(side=tk.LEFT, padx=2)
+        
+        ttk.Button(
+            toolbar,
+            text="Todas as Escolas",
+            command=self.show_all_schools
         ).pack(side=tk.LEFT, padx=2)
         
         ttk.Button(
@@ -657,6 +666,10 @@ class MainWindow:
     def show_backups(self):
         """Mostra janela de backups"""
         BackupWindow(self.root, callback=self.refresh_data)
+    
+    def show_all_schools(self):
+        """Mostra janela com todas as escolas"""
+        SchoolsWindow(self.root)
     
     def export_csv(self):
         """Exporta para CSV"""

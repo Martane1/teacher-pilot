@@ -1,8 +1,19 @@
 {
-  "disciplinas": {},
+  "disciplinas": {
+    "PTG1": {
+      "codigo": "PTG1",
+      "nome": "PTG",
+      "requisito_especifico": "TESTES PORTUGA",
+      "active": true,
+      "created_by": "admin",
+      "updated_by": "admin",
+      "created_at": "2025-08-15T19:32:25.622839-03:00"
+    }
+  },
   "metadata": {
     "created_at": "2025-08-15T16:33:20.192621-03:00",
     "version": "1.0.0",
-    "total_disciplines": 0
+    "total_disciplines": 1,
+    "last_updated": "2025-08-15T19:32:25.622991-03:00"
   }
 }

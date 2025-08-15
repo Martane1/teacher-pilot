@@ -17,6 +17,16 @@ This is a desktop application for managing teachers in the DIRENS (Diretoria de 
   - Support for á, é, í, ó, ú, â, ê, ô, ã, õ, ç characters
 - Updated validation system to accommodate simplified form structure
 - Improved form layout and window sizing for better usability
+- **Added DIRENS to login options**: DIRENS now appears as a school option in login screen
+- **Created Schools Overview feature**:
+  - Added "Todas as Escolas" button in toolbar and menu
+  - New dedicated window showing all DIRENS schools with details
+  - Displays school information, codes, addresses, and contact details
+  - Export functionality for schools list
+- **Simplified discipline registration form**:
+  - Reduced to only 3 fields: Código, Nome da Disciplina, Requisito Específico
+  - Larger text area for "Requisito Específico" field with scrollbar
+  - Updated form validation for new simplified structure
 
 ## User Preferences
 
