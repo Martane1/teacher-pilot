@@ -275,21 +275,6 @@ class DataManager:
             logging.error(f"Erro na busca de professores: {e}")
             return []
     
-    def get_all_teachers(self):
-        """Retorna todos os professores de todas as escolas"""
-        try:
-            data = self.load_json(self.teachers_file)
-            teachers = data.get("teachers", {})
-            
-            all_teachers = []
-            for school, school_teachers in teachers.items():
-                all_teachers.extend(school_teachers.values())
-            
-            return all_teachers
-            
-        except Exception as e:
-            logging.error(f"Erro ao listar todos os professores: {e}")
-            return []
     
     def get_teachers_count_by_school(self):
         """Retorna contagem de professores por escola"""
