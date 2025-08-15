@@ -30,8 +30,8 @@ class TeacherFormWindow:
         # Cria a janela
         self.window = tk.Toplevel(parent)
         self.window.title("Editar Professor" if self.is_edit else "Novo Professor")
-        self.window.geometry("800x700")  # Janela mais larga
-        self.window.resizable(False, False)
+        self.window.geometry("1000x750")  # Janela ainda mais larga
+        self.window.resizable(True, True)  # Permite redimensionar
         
         
         # Centraliza
@@ -56,8 +56,8 @@ class TeacherFormWindow:
         parent_width = self.parent.winfo_width()
         parent_height = self.parent.winfo_height()
         
-        width = 800
-        height = 700
+        width = 1000
+        height = 750
         
         x = parent_x + (parent_width - width) // 2
         y = parent_y + (parent_height - height) // 2
@@ -229,10 +229,6 @@ class TeacherFormWindow:
         ttk.Button(accent_frame, text="ç", command=add_cedilla, width=3,
                   ).grid(row=0, column=2, padx=1)
         
-        # Botão de exemplo
-        ttk.Button(accent_frame, text="Exemplo", width=7,
-                  command=lambda: self.nome_var.set("José María Conceição"),
-                  ).grid(row=0, column=3, padx=2)
         
         row += 2  # Pula duas linhas por causa das instruções
         
