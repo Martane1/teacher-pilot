@@ -219,6 +219,141 @@ class ExportManager:
             logging.error(f"Erro ao exportar PDF: {e}")
             raise
     
+    def export_pdf_with_fields(self, teachers, school, selected_fields):
+        """Exporta professores para PDF com campos selecionados"""
+        try:
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = f"relatorio_personalizado_{school.replace(' ', '_')}_{timestamp}.pdf"
+            filepath = os.path.join(self.exports_dir, filename)
+            
+            # Cria documento PDF em orientação paisagem
+            from reportlab.lib.pagesizes import landscape
+            doc = SimpleDocTemplate(
+                filepath,
+                pagesize=landscape(A4),
+                rightMargin=20,
+                leftMargin=20,
+                topMargin=30,
+                bottomMargin=30
+            )
+            
+            # Estilos
+            styles = getSampleStyleSheet()
+            title_style = ParagraphStyle(
+                'CustomTitle',
+                parent=styles['Heading1'],
+                fontSize=16,
+                spaceAfter=30,
+                alignment=TA_CENTER
+            )
+            
+            subtitle_style = ParagraphStyle(
+                'CustomSubtitle',
+                parent=styles['Heading2'],
+                fontSize=12,
+                spaceAfter=20,
+                alignment=TA_LEFT
+            )
+            
+            # Elementos do documento
+            elements = []
+            
+            # Título
+            title = Paragraph(f"RELATÓRIO PERSONALIZADO DE PROFESSORES<br/>{school}", title_style)
+            elements.append(title)
+            
+            # Informações gerais
+            info_text = f"""
+            <b>Data de Geração:</b> {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}<br/>
+            <b>Total de Professores:</b> {len(teachers)}<br/>
+            <b>Campos Incluídos:</b> {len(selected_fields)}<br/>
+            <b>Sistema:</b> DIRENS - Controle de Professores v1.0
+            """
+            
+            info_para = Paragraph(info_text, styles['Normal'])
+            elements.append(info_para)
+            elements.append(Spacer(1, 20))
+            
+            # Lista de professores
+            if teachers:
+                elements.append(Paragraph("LISTA DE PROFESSORES", subtitle_style))
+                
+                # Cabeçalho da tabela com campos selecionados
+                headers = [field['label'] for field in selected_fields]
+                table_data = [headers]
+                
+                # Dados dos professores
+                for teacher in sorted(teachers, key=lambda x: x.get('nome', '')):
+                    row = []
+                    for field in selected_fields:
+                        field_key = field['key']
+                        value = teacher.get(field_key, '')
+                        
+                        # Limita tamanho do texto baseado no tipo de campo
+                        if field_key == 'nome':
+                            value = str(value)[:25]
+                        elif field_key in ['data_nascimento', 'data_ingresso']:
+                            value = str(value)[:10]
+                        elif field_key == 'siape':
+                            value = str(value)[:7]
+                        elif field_key == 'sexo':
+                            value = str(value)[:1]
+                        elif field_key in ['carga_horaria', 'carreira', 'status']:
+                            value = str(value)[:8]
+                        elif field_key in ['pos_graduacao']:
+                            value = str(value)[:12]
+                        else:
+                            value = str(value)[:15]
+                        
+                        row.append(value)
+                    
+                    table_data.append(row)
+                
+                # Calcula larguras das colunas baseado no número de campos
+                num_fields = len(selected_fields)
+                if num_fields <= 6:
+                    font_size_header = 9
+                    font_size_data = 8
+                elif num_fields <= 10:
+                    font_size_header = 8
+                    font_size_data = 7
+                else:
+                    font_size_header = 7
+                    font_size_data = 6
+                
+                # Cria tabela
+                teachers_table = Table(table_data, repeatRows=1)
+                teachers_table.setStyle(TableStyle([
+                    ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+                    ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                    ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                    ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                    ('FONTSIZE', (0, 0), (-1, 0), font_size_header),
+                    ('FONTSIZE', (0, 1), (-1, -1), font_size_data),
+                    ('BOTTOMPADDING', (0, 0), (-1, 0), 8),
+                    ('BACKGROUND', (0, 1), (-1, -1), colors.white),
+                    ('GRID', (0, 0), (-1, -1), 1, colors.black),
+                    ('VALIGN', (0, 0), (-1, -1), 'MIDDLE')
+                ]))
+                
+                elements.append(teachers_table)
+            
+            # Rodapé
+            elements.append(Spacer(1, 30))
+            footer_text = f"Relatório personalizado gerado pelo Sistema DIRENS - {datetime.now().strftime('%d/%m/%Y %H:%M')}"
+            footer = Paragraph(footer_text, styles['Normal'])
+            elements.append(footer)
+            
+            # Gera o PDF
+            doc.build(elements)
+            
+            logging.info(f"PDF personalizado exportado: {filepath}")
+            return filepath
+            
+        except Exception as e:
+            logging.error(f"Erro ao exportar PDF personalizado: {e}")
+            raise
+    
     def generate_statistics(self, teachers):
         """Gera estatísticas para o relatório"""
         if not teachers:

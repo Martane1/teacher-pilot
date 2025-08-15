@@ -9,6 +9,7 @@ import logging
 from datetime import datetime
 
 from interface.teacher_form import TeacherFormWindow
+from interface.field_selector import FieldSelectorWindow
 from interface.history_window import HistoryWindow
 from interface.backup_window import BackupWindow
 from interface.statistics_window import StatisticsWindow
@@ -573,15 +574,36 @@ class MainWindow:
             messagebox.showerror("Erro", f"Erro ao exportar CSV:\n{e}")
     
     def export_pdf(self):
-        """Exporta para PDF"""
+        """Abre janela de seleção de campos e exporta PDF"""
         try:
-            self.status_var.set("Exportando PDF...")
-            
+            # Obtém lista de professores
             professores = self.teacher_manager.get_teachers_by_school(self.sistema.current_school)
-            filepath = self.export_manager.export_pdf(professores, self.sistema.current_school)
             
-            self.status_var.set("PDF exportado com sucesso")
-            messagebox.showinfo("Sucesso", f"Relatório exportado para:\n{filepath}")
+            if not professores:
+                messagebox.showwarning("Aviso", "Nenhum professor encontrado para exportar.")
+                return
+            
+            # Callback quando campos forem selecionados
+            def on_fields_selected(selected_fields):
+                try:
+                    self.status_var.set("Exportando PDF...")
+                    
+                    filepath = self.export_manager.export_pdf_with_fields(
+                        professores, 
+                        self.sistema.current_school,
+                        selected_fields
+                    )
+                    
+                    self.status_var.set("PDF exportado com sucesso")
+                    messagebox.showinfo("Sucesso", f"Relatório exportado para:\n{filepath}")
+                    
+                except Exception as e:
+                    logging.error(f"Erro ao exportar PDF: {e}")
+                    self.status_var.set("Erro na exportação")
+                    messagebox.showerror("Erro", f"Erro ao exportar PDF:\n{e}")
+            
+            # Abre janela de seleção de campos
+            field_selector = FieldSelectorWindow(self.root, on_fields_selected)
             
         except Exception as e:
             logging.error(f"Erro ao exportar PDF: {e}")
