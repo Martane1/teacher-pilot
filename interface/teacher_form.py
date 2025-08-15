@@ -165,16 +165,33 @@ class TeacherFormWindow:
         
         # Nome completo
         ttk.Label(personal_frame, text="Nome Completo:*").grid(row=row, column=0, sticky=tk.W, pady=5)
+        
+        # Frame para nome e botões de acento
+        nome_frame = ttk.Frame(personal_frame)
+        nome_frame.grid(row=row, column=1, sticky="we", pady=5, columnspan=2)
+        nome_frame.grid_columnconfigure(0, weight=1)
+        
         self.nome_var = tk.StringVar()
-        # Entry sem validação para permitir todos os caracteres
-        nome_entry = ttk.Entry(personal_frame, textvariable=self.nome_var, width=50)
-        nome_entry.grid(row=row, column=1, sticky="we", pady=5, columnspan=2)
+        self.nome_entry = ttk.Entry(nome_frame, textvariable=self.nome_var, width=40)
+        self.nome_entry.grid(row=0, column=0, sticky="we", padx=(0, 5))
         
-        # Bind para converter maiúscula apenas quando sai do campo
-        nome_entry.bind('<FocusOut>', self.on_name_focus_out)
+        # Botões de acentos
+        accents_frame = ttk.Frame(nome_frame)
+        accents_frame.grid(row=0, column=1)
         
-        # Força encoding UTF-8
-        nome_entry.configure(font=('Arial', 10))
+        # Botões para acentos comuns
+        accents = ['á', 'é', 'í', 'ó', 'ú', 'â', 'ê', 'ô', 'ã', 'õ', 'ç']
+        for i, accent in enumerate(accents):
+            btn = ttk.Button(
+                accents_frame,
+                text=accent,
+                width=3,
+                command=lambda a=accent: self.insert_accent(a)
+            )
+            btn.grid(row=i//6, column=i%6, padx=1, pady=1)
+        
+        # Bind para converter maiúscula quando sai do campo
+        self.nome_entry.bind('<FocusOut>', self.on_name_focus_out)
         
         row += 1
         
@@ -399,6 +416,25 @@ class TeacherFormWindow:
                 command=self.clear_form,
                 width=15
             ).pack(side=tk.LEFT, padx=5)
+    
+    def insert_accent(self, accent):
+        """Insere acento na posição atual do cursor"""
+        try:
+            # Obtém posição do cursor
+            cursor_pos = self.nome_entry.index(tk.INSERT)
+            current_text = self.nome_var.get()
+            
+            # Insere o acento na posição do cursor
+            new_text = current_text[:cursor_pos] + accent + current_text[cursor_pos:]
+            self.nome_var.set(new_text)
+            
+            # Move cursor para após o acento inserido
+            self.nome_entry.icursor(cursor_pos + 1)
+            self.nome_entry.focus_set()
+        except Exception as e:
+            # Se falhar, apenas adiciona ao final
+            current_text = self.nome_var.get()
+            self.nome_var.set(current_text + accent)
     
     def on_name_focus_out(self, event):
         """Converte nome para maiúscula quando sai do campo"""
