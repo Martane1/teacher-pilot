@@ -413,6 +413,13 @@ class TeacherFormWindow:
         ).grid(row=row, column=1, sticky=tk.W, pady=5)
         
         row += 1
+        
+        # Graduação
+        ttk.Label(acad_frame, text="Graduação:*").grid(row=row, column=0, sticky=tk.W, pady=5)
+        self.graduacao_var = tk.StringVar()
+        ttk.Entry(acad_frame, textvariable=self.graduacao_var, width=40).grid(row=row, column=1, sticky="we", pady=5)
+        
+        row += 1
     
     def create_buttons(self, parent):
         """Cria os botões do formulário"""
@@ -494,6 +501,7 @@ class TeacherFormWindow:
         
         # Dados acadêmicos
         self.pos_graduacao_var.set(self.teacher_data.get('pos_graduacao', ''))
+        self.graduacao_var.set(self.teacher_data.get('graduacao', ''))
     
     def clear_form(self):
         """Limpa todos os campos do formulário"""
@@ -517,6 +525,7 @@ class TeacherFormWindow:
         
         # Dados acadêmicos
         self.pos_graduacao_var.set('')
+        self.graduacao_var.set('')
         
         self.status_var.set('')
     
@@ -632,6 +641,7 @@ class TeacherFormWindow:
             'status': self.status_prof_var.get() or 'Ativo',
             'area_atuacao': self.area_atuacao_var.get().strip(),
             'pos_graduacao': self.pos_graduacao_var.get(),
+            'graduacao': self.graduacao_var.get().strip(),
             'escola': self.school,
             'data_criacao': datetime.now().isoformat() if not self.is_edit else (self.teacher_data.get('data_criacao') if self.teacher_data else datetime.now().isoformat()),
             'data_atualizacao': datetime.now().isoformat()

@@ -110,7 +110,7 @@ class ValidatorManager:
         """Valida campos obrigatórios"""
         required_fields = [
             'siape', 'nome', 'data_nascimento', 'sexo',
-            'email', 'telefone_celular', 'carga_horaria', 'carreira', 'data_ingresso', 'pos_graduacao'
+            'email', 'telefone_celular', 'carga_horaria', 'carreira', 'data_ingresso', 'pos_graduacao', 'graduacao'
         ]
         
         missing_fields = []
@@ -190,7 +190,12 @@ class ValidatorManager:
             except Exception:
                 pass
         
-        # Validação de graduação removida - campos removidos do formulário
+        # Valida consistência de formação
+        pos_graduacao = data.get('pos_graduacao')
+        graduacao = data.get('graduacao', '').strip()
+        
+        if pos_graduacao in ['ESPECIALIZAÇÃO', 'MESTRADO', 'DOUTORADO'] and not graduacao:
+            errors.append("Graduação é obrigatória para pós-graduação")
         
         return errors
     
@@ -318,8 +323,7 @@ class ValidatorManager:
         
         try:
             # Limpa e formata campos de texto
-            text_fields = ['nome', 'graduacao', 'curso_pos', 'area_atuacao', 
-                          'instituicao_graduacao', 'instituicao_pos']
+            text_fields = ['nome', 'graduacao', 'area_atuacao']
             
             for field in text_fields:
                 if field in cleaned_data and cleaned_data[field]:
@@ -352,7 +356,7 @@ class ValidatorManager:
                     cleaned_data['telefone'] = f"({phone[:2]}) {phone[2:6]}-{phone[6:]}"
             
             # Remove campos vazios opcionais
-            optional_fields = ['telefone_fixo', 'area_atuacao', 'graduacao', 'instituicao_graduacao', 'curso_pos', 'instituicao_pos']
+            optional_fields = ['telefone_fixo', 'area_atuacao']
             
             for field in optional_fields:
                 if field in cleaned_data and not str(cleaned_data[field]).strip():
