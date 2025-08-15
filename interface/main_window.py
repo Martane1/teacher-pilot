@@ -58,11 +58,11 @@ class MainWindow:
         # Cria a interface
         self.create_widgets()
         
-        # Carrega dados iniciais
-        self.refresh_data()
-        
         # Configura fechamento
         self.root.protocol("WM_DELETE_WINDOW", self.on_close)
+        
+        # Carrega dados iniciais (depois da criação da interface)
+        self.refresh_data()
     
     def create_widgets(self):
         """Cria os widgets da interface"""
