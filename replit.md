@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a desktop application for managing teachers in the DIRENS (Instituto Federal de Pernambuco) educational system. Built with Python and Tkinter, it provides a comprehensive interface for managing teacher data across multiple IFPE campuses. The system handles teacher registration, data validation, backup management, statistics generation, and export capabilities with a focus on Brazilian educational institution requirements.
+This is a desktop application for managing teachers in the DIRENS (Diretoria de Ensino da Aeronáutica) educational system. Built with Python and Tkinter, it provides a comprehensive interface for managing teacher data across multiple Brazilian Air Force educational institutions. The system handles teacher registration, data validation, backup management, statistics generation, and export capabilities with a focus on Brazilian Air Force educational requirements.
 
 ## User Preferences
 
@@ -84,5 +84,5 @@ The application follows a modular MVC-style architecture with clear separation o
 
 ### Integration Points
 - **Brazilian Educational System**: SIAPE teacher identification integration
-- **IFPE Campus Network**: Multi-campus teacher management
+- **Air Force Educational Network**: Multi-institution teacher management across AFA, CBNB, CIAAR, CTRB, ECE, EEAR, EPCAR, EAOAR, ECEMAR, and UNIFA
 - **Government Standards**: CPF validation and Brazilian date formats

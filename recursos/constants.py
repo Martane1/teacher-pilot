@@ -5,110 +5,85 @@ Constantes do Sistema DIRENS
 
 # Escolas subordinadas à DIRENS
 ESCOLAS = {
-    "IFPE - Campus Recife": {
-        "codigo": "PE01",
-        "endereco": "Av. Prof. Luís Freire, 500 - Cidade Universitária",
-        "cidade": "Recife",
-        "estado": "PE",
-        "telefone": "(81) 2125-1600"
+    "AFA": {
+        "codigo": "AFA01",
+        "nome_completo": "Academia da Força Aérea",
+        "endereco": "Rodovia Marechal do Ar Márcio de Souza e Mello, s/n",
+        "cidade": "Pirassununga",
+        "estado": "SP",
+        "telefone": "(19) 3565-1234"
     },
-    "IFPE - Campus Olinda": {
-        "codigo": "PE02", 
-        "endereco": "Rua Márcio Canuto, 210 - Nossa Senhora do Amparo",
-        "cidade": "Olinda",
-        "estado": "PE",
-        "telefone": "(81) 3412-5000"
+    "CBNB": {
+        "codigo": "CBNB01",
+        "nome_completo": "Colégio Brigadeiro Newton Braga",
+        "endereco": "Av. Mal. Fontenelle, 1000 - Sulacap",
+        "cidade": "Rio de Janeiro",
+        "estado": "RJ",
+        "telefone": "(21) 3441-9000"
     },
-    "IFPE - Campus Jaboatão": {
-        "codigo": "PE03",
-        "endereco": "BR-104, Km 56 - Sucupira",
-        "cidade": "Jaboatão dos Guararapes", 
-        "estado": "PE",
-        "telefone": "(81) 3186-5000"
+    "CIAAR": {
+        "codigo": "CIAAR01",
+        "nome_completo": "Centro de Instrução e Adaptação da Aeronáutica",
+        "endereco": "Av. Marechal Fontenelle, 1000 - Campo dos Afonsos",
+        "cidade": "Rio de Janeiro",
+        "estado": "RJ",
+        "telefone": "(21) 2441-7000"
     },
-    "IFPE - Campus Vitória": {
-        "codigo": "PE04",
-        "endereco": "Rua Sebastião Cavalcanti, 158 - Vitória de Santo Antão",
-        "cidade": "Vitória de Santo Antão",
-        "estado": "PE", 
-        "telefone": "(81) 3523-8100"
+    "CTRB": {
+        "codigo": "CTRB01",
+        "nome_completo": "Colégio Tenente Rêgo Barros",
+        "endereco": "Av. Júlio César, 9001 - Val-de-Cans",
+        "cidade": "Belém",
+        "estado": "PA",
+        "telefone": "(91) 3210-4000"
     },
-    "IFPE - Campus Palmares": {
-        "codigo": "PE05",
-        "endereco": "BR-101 Sul, Km 83 - Engenho Noruega",
-        "cidade": "Palmares",
-        "estado": "PE",
-        "telefone": "(81) 3661-9500"
+    "ECE": {
+        "codigo": "ECE01",
+        "nome_completo": "Escola Caminho das Estrelas",
+        "endereco": "Rua Santos Dumont, 149 - Centro",
+        "cidade": "São José dos Campos",
+        "estado": "SP",
+        "telefone": "(12) 3947-5000"
     },
-    "IFPE - Campus Garanhuns": {
-        "codigo": "PE06",
-        "endereco": "Av. Rui Barbosa, s/n - Vila Kennedy", 
-        "cidade": "Garanhuns",
-        "estado": "PE",
-        "telefone": "(87) 3761-4304"
+    "EEAR": {
+        "codigo": "EEAR01",
+        "nome_completo": "Escola de Especialista de Aeronáutica",
+        "endereco": "Av. Marechal do Ar Márcio de Souza e Mello, 321",
+        "cidade": "Guaratinguetá",
+        "estado": "SP",
+        "telefone": "(12) 3125-9000"
     },
-    "IFPE - Campus Caruaru": {
-        "codigo": "PE07",
-        "endereco": "Rodovia BR-104, Km 59,2 - Fazenda Riachão",
-        "cidade": "Caruaru",
-        "estado": "PE",
-        "telefone": "(81) 3706-8700"
+    "EPCAR": {
+        "codigo": "EPCAR01",
+        "nome_completo": "Escola Preparatória de Cadetes do Ar",
+        "endereco": "Rod. MG-179, Km 3 - Aeroporto",
+        "cidade": "Barbacena",
+        "estado": "MG",
+        "telefone": "(32) 3339-4000"
     },
-    "IFPE - Campus Pesqueira": {
-        "codigo": "PE08",
-        "endereco": "Rodovia BR-232, Km 214 - Prado",
-        "cidade": "Pesqueira", 
-        "estado": "PE",
-        "telefone": "(87) 3835-1929"
+    "EAOAR": {
+        "codigo": "EAOAR01",
+        "nome_completo": "Escola de Aperfeiçoamento de Oficiais da Aeronáutica",
+        "endereco": "Av. Marechal Fontenelle, 1000 - Campo dos Afonsos",
+        "cidade": "Rio de Janeiro",
+        "estado": "RJ",
+        "telefone": "(21) 2441-8000"
     },
-    "IFPE - Campus Cabo": {
-        "codigo": "PE09",
-        "endereco": "Av. Beira Rio, s/n - Vila Velha",
-        "cidade": "Cabo de Santo Agostinho",
-        "estado": "PE",
-        "telefone": "(81) 3518-8900"
+    "ECEMAR": {
+        "codigo": "ECEMAR01",
+        "nome_completo": "Escola de Comando Estado Maior da Aeronáutica",
+        "endereco": "Av. Marechal Fontenelle, 1000 - Campo dos Afonsos",
+        "cidade": "Rio de Janeiro",
+        "estado": "RJ",
+        "telefone": "(21) 2441-9000"
     },
-    "IFPE - Campus Barreiros": {
-        "codigo": "PE10",
-        "endereco": "Fazenda Sapé, s/n - Zona Rural",
-        "cidade": "Barreiros",
-        "estado": "PE", 
-        "telefone": "(81) 3675-1400"
-    },
-    "IFPE - Campus Belo Jardim": {
-        "codigo": "PE11",
-        "endereco": "Av. Sebastião Rodrigues da Costa, s/n - São Pedro",
-        "cidade": "Belo Jardim",
-        "estado": "PE",
-        "telefone": "(81) 3726-4900"
-    },
-    "IFPE - Campus Afogados da Ingazeira": {
-        "codigo": "PE12",
-        "endereco": "Rodovia PE-366, s/n - DNER",
-        "cidade": "Afogados da Ingazeira",
-        "estado": "PE",
-        "telefone": "(87) 3838-2100"
-    },
-    "IFPE - Campus Abreu e Lima": {
-        "codigo": "PE13",
-        "endereco": "Rua Venâncio João da Costa, s/n - Fosfato",
-        "cidade": "Abreu e Lima", 
-        "estado": "PE",
-        "telefone": "(81) 3362-7777"
-    },
-    "IFPE - Campus Ipojuca": {
-        "codigo": "PE14",
-        "endereco": "Rodovia PE-060, s/n - Ipojuca",
-        "cidade": "Ipojuca",
-        "estado": "PE",
-        "telefone": "(81) 3511-4100"
-    },
-    "IFPE - Campus Igarassu": {
-        "codigo": "PE15",
-        "endereco": "Rodovia PE-015, Km 12 - Cruz de Rebouças",
-        "cidade": "Igarassu",
-        "estado": "PE",
-        "telefone": "(81) 3543-3600"
+    "UNIFA": {
+        "codigo": "UNIFA01",
+        "nome_completo": "Universidade da Força Aérea",
+        "endereco": "Estrada de Jacarepaguá, 9007 - Jacarepaguá",
+        "cidade": "Rio de Janeiro",
+        "estado": "RJ",
+        "telefone": "(21) 2136-7000"
     }
 }
 
