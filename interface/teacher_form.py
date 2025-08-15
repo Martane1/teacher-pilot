@@ -200,6 +200,21 @@ class TeacherFormWindow:
                     self.nome_var.set(new_text)
                     nome_entry.icursor(cursor_pos)
         
+        def add_circumflex():
+            """Adiciona acento circunflexo (^) na última letra digitada"""
+            text = self.nome_var.get()
+            cursor_pos = nome_entry.index(tk.INSERT)
+            
+            if cursor_pos > 0:
+                last_char = text[cursor_pos-1:cursor_pos]
+                circumflex_map = {'a': 'â', 'e': 'ê', 'o': 'ô', 
+                                 'A': 'Â', 'E': 'Ê', 'O': 'Ô'}
+                
+                if last_char in circumflex_map:
+                    new_text = text[:cursor_pos-1] + circumflex_map[last_char] + text[cursor_pos:]
+                    self.nome_var.set(new_text)
+                    nome_entry.icursor(cursor_pos)
+        
         def add_cedilla():
             """Adiciona cedilha (ç) no C"""
             text = self.nome_var.get()
@@ -224,10 +239,12 @@ class TeacherFormWindow:
         # Botões de acento
         ttk.Button(accent_frame, text="´", command=add_acute_accent, width=3,
                   ).grid(row=0, column=0, padx=1)
+        ttk.Button(accent_frame, text="^", command=add_circumflex, width=3,
+                  ).grid(row=0, column=1, padx=1)
         ttk.Button(accent_frame, text="~", command=add_tilde, width=3,
-                  ).grid(row=0, column=1, padx=1)  
+                  ).grid(row=0, column=2, padx=1)  
         ttk.Button(accent_frame, text="ç", command=add_cedilla, width=3,
-                  ).grid(row=0, column=2, padx=1)
+                  ).grid(row=0, column=3, padx=1)
         
         
         row += 2  # Pula duas linhas por causa das instruções
