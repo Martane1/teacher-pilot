@@ -478,27 +478,39 @@ class MainWindow:
     
     def edit_teacher(self):
         """Edita o professor selecionado"""
-        selected = self.get_selected_teacher()
-        if not selected:
-            messagebox.showwarning("Aviso", "Selecione um professor para editar")
-            return
-        
-        # Carrega dados completos do professor
-        professor_completo = self.teacher_manager.get_teacher_by_siape(
-            selected['siape'], self.sistema.current_school
-        )
-        
-        if professor_completo:
-            TeacherFormWindow(
-                self.root, 
-                self.teacher_manager, 
-                self.sistema.current_school,
-                teacher_data=professor_completo,
-                callback=self.refresh_data,
-                current_user=self.sistema.current_user
+        try:
+            selected = self.get_selected_teacher()
+            if not selected:
+                messagebox.showwarning("Aviso", "Selecione um professor para editar")
+                return
+            
+            logging.info(f"Editando professor: SIAPE={selected.get('siape')}, Escola={self.sistema.current_school}")
+            
+            # Carrega dados completos do professor
+            professor_completo = self.teacher_manager.get_teacher_by_siape(
+                selected['siape'], self.sistema.current_school
             )
-        else:
-            messagebox.showerror("Erro", "Não foi possível carregar os dados do professor")
+            
+            logging.info(f"Dados carregados: {professor_completo is not None}")
+            
+            if professor_completo:
+                TeacherFormWindow(
+                    self.root, 
+                    self.teacher_manager, 
+                    self.sistema.current_school,
+                    teacher_data=professor_completo,
+                    callback=self.refresh_data,
+                    current_user=self.sistema.current_user
+                )
+            else:
+                error_msg = f"Não foi possível carregar os dados do professor.\nSIAPE: {selected.get('siape')}\nEscola: {self.sistema.current_school}"
+                logging.error(error_msg)
+                messagebox.showerror("Erro", error_msg)
+                
+        except Exception as e:
+            error_msg = f"Erro ao editar professor: {e}"
+            logging.error(error_msg)
+            messagebox.showerror("Erro", error_msg)
     
     def delete_teacher(self):
         """Exclui o professor selecionado"""
