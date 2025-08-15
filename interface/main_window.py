@@ -490,14 +490,35 @@ class MainWindow:
             siape = selected['siape']
             school = self.sistema.current_school
             
-            # Test direct data access
+            # Test direct data access with detailed debugging
             import json
             with open('data/teachers.json', 'r', encoding='utf-8') as f:
                 data = json.load(f)
                 teachers = data.get("teachers", {})
                 school_teachers = teachers.get(school, {})
                 direct_result = school_teachers.get(siape)
-                logging.info(f"Direct data access: school={school}, teachers_in_school={list(school_teachers.keys())}, found={direct_result is not None}")
+                
+                # Detailed debugging
+                logging.info(f"SIAPE search value: '{siape}' (type: {type(siape)})")
+                logging.info(f"Available SIAPE keys: {[(k, type(k)) for k in school_teachers.keys()]}")
+                logging.info(f"Direct lookup result: {direct_result is not None}")
+                
+                # Try both string and int versions
+                siape_str = str(siape)
+                siape_int = int(siape) if siape.isdigit() else None
+                
+                result_str = school_teachers.get(siape_str)
+                result_int = school_teachers.get(siape_int) if siape_int else None
+                
+                logging.info(f"String lookup '{siape_str}': {result_str is not None}")
+                if siape_int:
+                    logging.info(f"Integer lookup {siape_int}: {result_int is not None}")
+                
+                # Use the working result
+                if result_str:
+                    direct_result = result_str
+                elif result_int:
+                    direct_result = result_int
             
             # Carrega dados completos do professor
             professor_completo = self.teacher_manager.get_teacher_by_siape(siape, school)
