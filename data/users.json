@@ -1,7 +1,7 @@
 {
   "direns": {
     "admin": {
-      "password": "admintcu",
+      "password": "e7498c41490218b3d686f0d11c828d5d1c23f11904a08cf5a9142f1cf59f77f5",
       "level": "admin",
       "created_at": "2025-08-15T19:45:00.000000",
       "last_login": "2025-08-16T13:43:43.580555",
@@ -10,7 +10,7 @@
   },
   "afa": {
     "admin": {
-      "password": "admintcu",
+      "password": "e7498c41490218b3d686f0d11c828d5d1c23f11904a08cf5a9142f1cf59f77f5",
       "level": "admin",
       "created_at": "2025-08-15T13:29:14.722807",
       "last_login": "2025-08-15T23:56:47.885832",
@@ -19,7 +19,7 @@
   },
   "cbnb": {
     "admin": {
-      "password": "admintcu",
+      "password": "e7498c41490218b3d686f0d11c828d5d1c23f11904a08cf5a9142f1cf59f77f5",
       "level": "admin",
       "created_at": "2025-08-15T13:29:14.722819",
       "last_login": "2025-08-15T23:57:23.898704",
@@ -28,7 +28,7 @@
   },
   "ciaar": {
     "admin": {
-      "password": "admintcu",
+      "password": "e7498c41490218b3d686f0d11c828d5d1c23f11904a08cf5a9142f1cf59f77f5",
       "level": "admin",
       "created_at": "2025-08-15T13:29:14.722825",
       "last_login": null,
@@ -37,7 +37,7 @@
   },
   "ctrb": {
     "admin": {
-      "password": "admintcu",
+      "password": "e7498c41490218b3d686f0d11c828d5d1c23f11904a08cf5a9142f1cf59f77f5",
       "level": "admin",
       "created_at": "2025-08-15T13:29:14.722828",
       "last_login": null,
@@ -46,7 +46,7 @@
   },
   "ece": {
     "admin": {
-      "password": "admintcu",
+      "password": "e7498c41490218b3d686f0d11c828d5d1c23f11904a08cf5a9142f1cf59f77f5",
       "level": "admin",
       "created_at": "2025-08-15T13:29:14.722830",
       "last_login": null,
@@ -55,7 +55,7 @@
   },
   "eear": {
     "admin": {
-      "password": "admintcu",
+      "password": "e7498c41490218b3d686f0d11c828d5d1c23f11904a08cf5a9142f1cf59f77f5",
       "level": "admin",
       "created_at": "2025-08-15T13:29:14.722832",
       "last_login": null,
@@ -64,7 +64,7 @@
   },
   "epcar": {
     "admin": {
-      "password": "admintcu",
+      "password": "e7498c41490218b3d686f0d11c828d5d1c23f11904a08cf5a9142f1cf59f77f5",
       "level": "admin",
       "created_at": "2025-08-15T13:29:14.722835",
       "last_login": null,
@@ -73,7 +73,7 @@
   },
   "eaoar": {
     "admin": {
-      "password": "admintcu",
+      "password": "e7498c41490218b3d686f0d11c828d5d1c23f11904a08cf5a9142f1cf59f77f5",
       "level": "admin",
       "created_at": "2025-08-15T13:29:14.722839",
       "last_login": null,
@@ -82,7 +82,7 @@
   },
   "ecemar": {
     "admin": {
-      "password": "admintcu",
+      "password": "e7498c41490218b3d686f0d11c828d5d1c23f11904a08cf5a9142f1cf59f77f5",
       "level": "admin",
       "created_at": "2025-08-15T13:29:14.722842",
       "last_login": null,
@@ -91,7 +91,7 @@
   },
   "unifa": {
     "admin": {
-      "password": "admintcu",
+      "password": "e7498c41490218b3d686f0d11c828d5d1c23f11904a08cf5a9142f1cf59f77f5",
       "level": "admin",
       "created_at": "2025-08-15T13:29:14.722844",
       "last_login": null,
