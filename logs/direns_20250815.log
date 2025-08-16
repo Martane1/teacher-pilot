@@ -1,0 +1,451 @@
+2025-08-15 12:55:31,484 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 12:55:31,484 - INFO - main - Diretório criado: data
+2025-08-15 12:55:31,485 - INFO - main - Diretório criado: backups
+2025-08-15 12:55:31,485 - INFO - main - Diretório criado: exports
+2025-08-15 12:55:32,270 - INFO - auth - Usuários padrão criados
+2025-08-15 12:55:49,094 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 12:56:29,555 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 13:03:58,825 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 13:28:13,787 - WARNING - login - Falha no login: admin - AFA
+2025-08-15 13:28:16,874 - WARNING - login - Falha no login: admin - AFA
+2025-08-15 13:28:30,771 - WARNING - login - Falha no login: admin - CBNB
+2025-08-15 13:29:14,669 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 13:29:14,723 - INFO - auth - Usuários padrão criados
+2025-08-15 13:30:18,329 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 13:30:18,329 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 13:30:18,333 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 13:30:20,790 - INFO - font_manager - generated new fontManager
+2025-08-15 13:30:22,734 - ERROR - login - Erro no login: bad argument "zoomed": must be normal, iconic, or withdrawn
+2025-08-15 13:31:41,313 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 13:38:46,139 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 13:38:46,140 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 13:38:46,169 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 13:38:47,484 - ERROR - main_window - Erro ao carregar dados: 'MainWindow' object has no attribute 'status_var'
+2025-08-15 13:38:47,493 - ERROR - main_window - Erro ao carregar dados: 'MainWindow' object has no attribute 'status_var'
+2025-08-15 13:38:47,494 - ERROR - main_window - Erro ao carregar dados: 'MainWindow' object has no attribute 'status_var'
+2025-08-15 13:43:23,727 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 13:58:52,134 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 13:58:52,134 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 13:58:52,136 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 13:58:52,855 - ERROR - main_window - Erro ao carregar dados: 'MainWindow' object has no attribute 'tree'
+2025-08-15 13:59:10,345 - ERROR - main_window - Erro ao carregar dados: 'MainWindow' object has no attribute 'tree'
+2025-08-15 13:59:12,433 - ERROR - main_window - Erro ao carregar dados: 'MainWindow' object has no attribute 'tree'
+2025-08-15 14:05:22,613 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 14:06:26,796 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 14:06:26,796 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 14:06:26,798 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 14:06:27,502 - ERROR - main_window - Erro ao carregar dados: 'MainWindow' object has no attribute 'tree'
+2025-08-15 14:06:57,770 - ERROR - main_window - Erro ao carregar dados: 'MainWindow' object has no attribute 'tree'
+2025-08-15 14:07:00,873 - ERROR - main_window - Erro ao carregar dados: 'MainWindow' object has no attribute 'tree'
+2025-08-15 14:08:02,608 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 14:08:30,487 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 14:08:30,487 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 14:08:30,489 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 14:13:14,148 - INFO - data_manager - Professor salvo: 1234567 - AFA
+2025-08-15 14:13:14,148 - INFO - history_manager - Entrada de histórico adicionada: 1234567 - CREATE
+2025-08-15 14:13:14,149 - INFO - teacher_manager - Professor criado: 1234567 - IVAN MARTANE
+2025-08-15 14:17:11,400 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 14:17:48,688 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 14:17:48,688 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 14:17:48,690 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 14:19:32,916 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 14:19:49,142 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 14:19:49,142 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 14:19:49,145 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 14:19:56,443 - INFO - main_window - Editando professor: SIAPE=1234567, Escola=AFA
+2025-08-15 14:19:56,444 - INFO - main_window - Dados carregados: False
+2025-08-15 14:19:56,446 - ERROR - main_window - Não foi possível carregar os dados do professor.
+SIAPE: 1234567
+Escola: AFA
+2025-08-15 14:20:03,025 - INFO - main_window - Editando professor: SIAPE=1234567, Escola=AFA
+2025-08-15 14:20:03,025 - INFO - main_window - Dados carregados: False
+2025-08-15 14:20:03,026 - ERROR - main_window - Não foi possível carregar os dados do professor.
+SIAPE: 1234567
+Escola: AFA
+2025-08-15 14:21:35,435 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 15:35:21,004 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 15:35:44,917 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 15:35:44,917 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 15:35:44,920 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 15:36:12,031 - INFO - main_window - Editando professor: SIAPE=1234567, Escola=AFA
+2025-08-15 15:36:12,033 - INFO - main_window - Direct data access: school=AFA, teachers_in_school=['1234567'], found=False
+2025-08-15 15:36:12,034 - INFO - main_window - Dados carregados via manager: False
+2025-08-15 15:36:12,034 - ERROR - main_window - Não foi possível carregar os dados do professor.
+SIAPE: 1234567
+Escola: AFA
+2025-08-15 15:37:00,978 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 15:39:02,054 - WARNING - login - Falha no login: admin - AFA
+2025-08-15 15:39:09,972 - WARNING - login - Falha no login: admin - AFA
+2025-08-15 15:39:19,605 - WARNING - login - Falha no login: admin - AFA
+2025-08-15 15:39:21,338 - WARNING - login - Falha no login: admin - AFA
+2025-08-15 15:39:48,554 - WARNING - login - Falha no login: admin - AFA
+2025-08-15 15:39:49,522 - WARNING - login - Falha no login: admin - AFA
+2025-08-15 15:40:45,156 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 15:41:06,616 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 15:41:06,616 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 15:41:06,618 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 15:41:10,219 - INFO - main_window - Editando professor: SIAPE=1234567, Escola=AFA
+2025-08-15 15:41:10,220 - INFO - main_window - SIAPE search value: '1234567' (type: <class 'int'>)
+2025-08-15 15:41:10,220 - INFO - main_window - Available SIAPE keys: [('1234567', <class 'str'>)]
+2025-08-15 15:41:10,220 - INFO - main_window - Direct lookup result: False
+2025-08-15 15:41:10,220 - ERROR - main_window - Erro ao editar professor: 'int' object has no attribute 'isdigit'
+2025-08-15 15:41:14,680 - INFO - main_window - Editando professor: SIAPE=1234567, Escola=AFA
+2025-08-15 15:41:14,681 - INFO - main_window - SIAPE search value: '1234567' (type: <class 'int'>)
+2025-08-15 15:41:14,681 - INFO - main_window - Available SIAPE keys: [('1234567', <class 'str'>)]
+2025-08-15 15:41:14,681 - INFO - main_window - Direct lookup result: False
+2025-08-15 15:41:14,681 - ERROR - main_window - Erro ao editar professor: 'int' object has no attribute 'isdigit'
+2025-08-15 15:42:04,274 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 15:42:32,798 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 15:42:32,799 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 15:42:32,801 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 15:42:36,484 - INFO - main_window - Editando professor: SIAPE=1234567, Escola=AFA
+2025-08-15 15:42:36,484 - INFO - main_window - SIAPE search value: '1234567' (type: <class 'str'>)
+2025-08-15 15:42:36,484 - INFO - main_window - Available SIAPE keys: [('1234567', <class 'str'>)]
+2025-08-15 15:42:36,485 - INFO - main_window - Direct lookup result: True
+2025-08-15 15:42:36,485 - INFO - main_window - String lookup '1234567': True
+2025-08-15 15:42:36,485 - INFO - main_window - Integer lookup 1234567: False
+2025-08-15 15:42:36,485 - INFO - main_window - Dados carregados via manager: True
+2025-08-15 15:42:36,486 - ERROR - main_window - Erro ao editar professor: grab failed: window not viewable
+2025-08-15 15:42:40,266 - INFO - main_window - Editando professor: SIAPE=1234567, Escola=AFA
+2025-08-15 15:42:40,266 - INFO - main_window - SIAPE search value: '1234567' (type: <class 'str'>)
+2025-08-15 15:42:40,266 - INFO - main_window - Available SIAPE keys: [('1234567', <class 'str'>)]
+2025-08-15 15:42:40,266 - INFO - main_window - Direct lookup result: True
+2025-08-15 15:42:40,266 - INFO - main_window - String lookup '1234567': True
+2025-08-15 15:42:40,266 - INFO - main_window - Integer lookup 1234567: False
+2025-08-15 15:42:40,267 - INFO - main_window - Dados carregados via manager: True
+2025-08-15 15:43:18,764 - ERROR - teacher_manager - Dados inválidos: ['Data de ingresso deve ser posterior aos 18 anos']
+2025-08-15 15:43:23,488 - ERROR - teacher_manager - Dados inválidos: ['Data de ingresso deve ser posterior aos 18 anos']
+2025-08-15 15:43:37,689 - ERROR - teacher_manager - Dados inválidos: ['Data de ingresso deve ser posterior aos 18 anos']
+2025-08-15 15:43:40,488 - ERROR - teacher_manager - Dados inválidos: ['Data de ingresso deve ser posterior aos 18 anos']
+2025-08-15 15:44:56,911 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 15:46:39,955 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 15:46:39,955 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 15:46:39,957 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 15:46:42,135 - ERROR - main_window - Erro ao editar professor: grab failed: window not viewable
+2025-08-15 15:47:20,825 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 15:47:53,676 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 15:47:53,676 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 15:47:53,680 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 15:48:13,810 - INFO - data_manager - Professor salvo: 1234567 - AFA
+2025-08-15 15:48:13,811 - INFO - history_manager - Entrada de histórico adicionada: 1234567 - UPDATE
+2025-08-15 15:48:13,812 - INFO - history_manager - Entrada de histórico adicionada: 1234567 - UPDATE
+2025-08-15 15:48:13,812 - INFO - teacher_manager - Professor atualizado: 1234567 - 2 alterações
+2025-08-15 15:51:37,544 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 15:53:05,945 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 15:53:05,945 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 15:53:05,947 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 15:55:02,924 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 15:55:19,473 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 15:55:19,474 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 15:55:19,476 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 15:55:51,972 - INFO - data_manager - Professor salvo: 1234567 - AFA
+2025-08-15 15:55:51,973 - INFO - history_manager - Entrada de histórico adicionada: 1234567 - UPDATE
+2025-08-15 15:55:51,973 - INFO - teacher_manager - Professor atualizado: 1234567 - 1 alterações
+2025-08-15 16:00:37,225 - INFO - data_manager - Professor salvo: 7654321 - AFA
+2025-08-15 16:00:37,226 - INFO - history_manager - Entrada de histórico adicionada: 7654321 - CREATE
+2025-08-15 16:00:37,226 - INFO - teacher_manager - Professor criado: 7654321 - MARATANE SILVA
+2025-08-15 16:03:06,108 - INFO - main_window - Sistema encerrado pelo usuário
+2025-08-15 16:03:11,357 - INFO - main_window - Sistema encerrado pelo usuário
+2025-08-15 16:03:21,527 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 16:03:42,659 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 16:03:42,659 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 16:03:42,661 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 16:03:59,649 - INFO - export_manager - PDF exportado: exports/relatorio_professores_AFA_20250815_160359.pdf
+2025-08-15 16:06:17,984 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 16:06:55,909 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 16:06:55,909 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 16:06:55,912 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 16:06:59,317 - INFO - export_manager - PDF exportado: exports/relatorio_professores_AFA_20250815_160659.pdf
+2025-08-15 16:09:40,397 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 16:10:04,076 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 16:10:04,076 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 16:10:04,078 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 16:12:26,321 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 16:12:49,427 - WARNING - login - Falha no login: admin - AFA
+2025-08-15 16:12:56,860 - WARNING - login - Falha no login: admin - AFA
+2025-08-15 16:13:11,602 - WARNING - login - Falha no login: admin - AFA
+2025-08-15 16:13:16,261 - WARNING - login - Falha no login: admin - AFA
+2025-08-15 16:13:17,360 - WARNING - login - Falha no login: admin - AFA
+2025-08-15 16:14:22,910 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 16:14:22,912 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 16:14:22,913 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 16:21:29,343 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 16:22:00,129 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 16:22:00,129 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 16:22:00,132 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 16:31:28,114 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 16:31:48,504 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 16:35:44,591 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 16:35:51,508 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 16:37:25,600 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 16:37:25,600 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 16:37:25,602 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 16:39:54,919 - INFO - data_manager - Professor salvo: 1234566 - AFA
+2025-08-15 16:39:54,919 - INFO - history_manager - Entrada de histórico adicionada: 1234566 - CREATE
+2025-08-15 16:39:54,919 - INFO - teacher_manager - Professor criado: 1234566 - TESTE TESTE
+2025-08-15 16:40:40,850 - INFO - data_manager - Professor salvo: 1234566 - AFA
+2025-08-15 16:40:40,851 - INFO - history_manager - Entrada de histórico adicionada: 1234566 - DELETE
+2025-08-15 16:40:40,851 - INFO - teacher_manager - Professor excluído: 1234566 - TESTE TESTE
+2025-08-15 16:40:49,386 - INFO - main - Logout realizado: admin
+2025-08-15 16:43:01,645 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 16:43:09,891 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 16:48:10,292 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 16:48:10,295 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 16:48:10,297 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 16:51:09,522 - INFO - data_manager - Professor salvo: 2424242 - AFA
+2025-08-15 16:51:09,524 - INFO - history_manager - Entrada de histórico adicionada: 2424242 - CREATE
+2025-08-15 16:51:09,524 - INFO - teacher_manager - Professor criado: 2424242 - PQD DE PANTUFA
+2025-08-15 13:53:45 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 13:58:43 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 13:58:43 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 13:58:43 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 14:07:50 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 14:07:57 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 14:08:13 - INFO - auth - Login bem-sucedido: admin - CBNB
+2025-08-15 14:08:13 - INFO - login - Login bem-sucedido: admin - CBNB
+2025-08-15 14:08:13 - INFO - main - Login realizado: admin - Escola: CBNB
+2025-08-15 14:08:18 - INFO - main - Logout realizado: admin
+2025-08-15 14:08:33 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 14:08:33 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 14:08:33 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 14:13:42 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 14:16:04 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 14:16:04 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 14:16:04 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 14:18:04 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 14:19:24 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 14:19:24 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 14:19:24 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 14:20:37 - INFO - data_manager - Professor salvo: 7654321 - AFA
+2025-08-15 14:20:37 - INFO - history_manager - Entrada de histórico adicionada: 7654321 - UPDATE
+2025-08-15 14:20:37 - INFO - teacher_manager - Professor atualizado: 7654321 - 1 alterações
+2025-08-15 14:21:13 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 14:21:38 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 14:21:38 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 14:21:38 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 14:23:33 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 14:24:13 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 14:24:13 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 14:24:13 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 14:24:36 - INFO - data_manager - Professor salvo: 7654321 - AFA
+2025-08-15 14:24:36 - INFO - teacher_manager - Professor atualizado: 7654321 - 0 alterações
+2025-08-15 14:25:41 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 14:27:17 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 14:27:17 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 14:27:17 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 14:28:49 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 14:29:26 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 14:29:26 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 14:29:26 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 14:31:31 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 14:34:17 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 14:34:17 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 14:34:17 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 14:38:05 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 14:38:55 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 14:38:55 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 14:38:55 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 14:40:26 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 14:44:42 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 14:45:54 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 14:45:54 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 14:45:54 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 14:49:13 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 14:53:38 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 14:53:38 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 14:53:38 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 14:56:04 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 14:56:19 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 14:57:24 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 14:57:24 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 14:57:24 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 14:59:02 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 14:59:34 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 14:59:34 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 14:59:34 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 15:01:21 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 15:01:41 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 15:01:42 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 15:02:08 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 15:02:47 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 15:02:47 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 15:02:47 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 15:04:25 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 15:04:54 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 15:04:54 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 15:04:54 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 15:07:03 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 15:07:41 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 15:07:41 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 15:07:41 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 15:09:50 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 15:10:51 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 15:10:51 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 15:10:51 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 15:12:43 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 15:24:14 - WARNING - login - Falha no login: admins - AFA
+2025-08-15 15:24:20 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 15:24:20 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 15:24:20 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 15:25:09 - INFO - data_manager - Professor salvo: 7654321 - AFA
+2025-08-15 15:25:09 - INFO - history_manager - Entrada de histórico adicionada: 7654321 - UPDATE
+2025-08-15 15:25:09 - INFO - teacher_manager - Professor atualizado: 7654321 - 1 alterações
+2025-08-15 15:27:47 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 15:31:05 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 15:31:05 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 15:31:05 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 15:34:46 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 15:37:09 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 15:37:09 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 15:37:09 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 15:38:17 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 15:38:56 - WARNING - login - Falha no login: admin - AFA
+2025-08-15 15:39:09 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 15:39:09 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 15:39:09 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 15:41:35 - ERROR - teacher_manager - Dados inválidos: ['Graduação é obrigatória para pós-graduação']
+2025-08-15 15:41:37 - ERROR - teacher_manager - Dados inválidos: ['Graduação é obrigatória para pós-graduação']
+2025-08-15 15:41:50 - ERROR - teacher_manager - Dados inválidos: ['Graduação é obrigatória para pós-graduação']
+2025-08-15 15:42:16 - ERROR - teacher_manager - Dados inválidos: ['Graduação é obrigatória para pós-graduação']
+2025-08-15 15:42:19 - ERROR - teacher_manager - Dados inválidos: ['Graduação é obrigatória para pós-graduação']
+2025-08-15 15:43:17 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 15:45:22 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 15:45:49 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 15:45:49 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 15:45:49 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 15:47:14 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 15:47:36 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 15:47:36 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 15:47:36 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 16:05:52 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 16:06:18 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 16:06:18 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 16:06:18 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 16:07:29 - INFO - data_manager - Professor salvo: 1234567 - AFA
+2025-08-15 16:07:29 - INFO - history_manager - Entrada de histórico adicionada: 1234567 - UPDATE
+2025-08-15 16:07:29 - INFO - history_manager - Entrada de histórico adicionada: 1234567 - UPDATE
+2025-08-15 16:07:29 - INFO - history_manager - Entrada de histórico adicionada: 1234567 - UPDATE
+2025-08-15 16:07:29 - INFO - history_manager - Entrada de histórico adicionada: 1234567 - UPDATE
+2025-08-15 16:07:29 - INFO - history_manager - Entrada de histórico adicionada: 1234567 - UPDATE
+2025-08-15 16:07:29 - INFO - history_manager - Entrada de histórico adicionada: 1234567 - UPDATE
+2025-08-15 16:07:29 - INFO - teacher_manager - Professor atualizado: 1234567 - 6 alterações
+2025-08-15 16:12:52 - INFO - export_manager - CSV exportado: exports/professores_AFA_20250815_161252.csv
+2025-08-15 16:13:13 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 16:13:24 - WARNING - login - Falha no login: admin - AFA
+2025-08-15 16:13:28 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 16:13:28 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 16:13:28 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 16:13:54 - INFO - data_manager - Professor salvo: 2424242 - AFA
+2025-08-15 16:13:54 - INFO - history_manager - Entrada de histórico adicionada: 2424242 - UPDATE
+2025-08-15 16:13:54 - INFO - history_manager - Entrada de histórico adicionada: 2424242 - UPDATE
+2025-08-15 16:13:54 - INFO - history_manager - Entrada de histórico adicionada: 2424242 - UPDATE
+2025-08-15 16:13:54 - INFO - history_manager - Entrada de histórico adicionada: 2424242 - UPDATE
+2025-08-15 16:13:54 - INFO - history_manager - Entrada de histórico adicionada: 2424242 - UPDATE
+2025-08-15 16:13:54 - INFO - teacher_manager - Professor atualizado: 2424242 - 5 alterações
+2025-08-15 16:17:16 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 16:24:22 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 16:24:22 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 16:24:22 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 16:31:34 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 16:32:22 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 16:33:19 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 16:33:19 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 16:33:19 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 16:33:20 - INFO - discipline_manager - Arquivo de disciplinas criado com sucesso
+2025-08-15 16:51:51 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 16:52:02 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 16:52:02 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 16:52:02 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 16:57:31 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 17:00:58 - WARNING - login - Falha no login: direns - AFA
+2025-08-15 17:01:06 - WARNING - login - Falha no login: admin - AFA
+2025-08-15 17:01:15 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 17:01:15 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 17:01:15 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 17:03:39 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 17:05:14 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 17:05:14 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 17:05:14 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 19:31:02 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 19:31:24 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 19:31:24 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 19:31:24 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 19:32:25 - INFO - discipline_manager - Disciplinas salvas com sucesso
+2025-08-15 19:38:09 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 19:42:04 - WARNING - login - Falha no login: admin - DIRENS
+2025-08-15 19:42:17 - WARNING - login - Falha no login: admin - DIRENS
+2025-08-15 20:19:47 - WARNING - login - Falha no login: admin - DIRENS
+2025-08-15 20:20:21 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 20:20:21 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 20:20:21 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 20:21:10 - INFO - main - Logout realizado: admin
+2025-08-15 20:21:28 - WARNING - login - Falha no login: admin - DIRENS
+2025-08-15 20:22:22 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 20:22:53 - INFO - auth - Login bem-sucedido: admin - DIRENS
+2025-08-15 20:22:53 - INFO - login - Login bem-sucedido: admin - DIRENS
+2025-08-15 20:22:53 - INFO - main - Login realizado: admin - Escola: DIRENS
+2025-08-15 20:27:14 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 20:28:32 - INFO - auth - Login bem-sucedido: admin - DIRENS
+2025-08-15 20:28:32 - INFO - login - Login bem-sucedido: admin - DIRENS
+2025-08-15 20:28:32 - INFO - main - Login realizado: admin - Escola: DIRENS
+2025-08-15 20:34:37 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 20:35:16 - INFO - auth - Login bem-sucedido: admin - DIRENS
+2025-08-15 20:35:16 - INFO - login - Login bem-sucedido: admin - DIRENS
+2025-08-15 20:35:16 - INFO - main - Login realizado: admin - Escola: DIRENS
+2025-08-15 20:37:18 - INFO - column_order_window - Ordem das colunas salva para DIRENS
+2025-08-15 20:43:36 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 20:44:15 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 20:44:15 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 20:44:15 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 20:44:50 - INFO - main - Logout realizado: admin
+2025-08-15 20:45:03 - INFO - auth - Login bem-sucedido: admin - DIRENS
+2025-08-15 20:45:03 - INFO - login - Login bem-sucedido: admin - DIRENS
+2025-08-15 20:45:03 - INFO - main - Login realizado: admin - Escola: DIRENS
+2025-08-15 20:50:41 - INFO - main - Logout realizado: admin
+2025-08-15 20:50:57 - INFO - auth - Login bem-sucedido: admin - DIRENS
+2025-08-15 20:50:57 - INFO - login - Login bem-sucedido: admin - DIRENS
+2025-08-15 20:50:57 - INFO - main - Login realizado: admin - Escola: DIRENS
+2025-08-15 20:52:30 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 20:53:00 - INFO - auth - Login bem-sucedido: admin - DIRENS
+2025-08-15 20:53:00 - INFO - login - Login bem-sucedido: admin - DIRENS
+2025-08-15 20:53:00 - INFO - main - Login realizado: admin - Escola: DIRENS
+2025-08-15 20:56:32 - INFO - main - Logout realizado: admin
+2025-08-15 20:56:47 - INFO - auth - Login bem-sucedido: admin - AFA
+2025-08-15 20:56:47 - INFO - login - Login bem-sucedido: admin - AFA
+2025-08-15 20:56:47 - INFO - main - Login realizado: admin - Escola: AFA
+2025-08-15 20:57:06 - INFO - main - Logout realizado: admin
+2025-08-15 20:57:23 - INFO - auth - Login bem-sucedido: admin - CBNB
+2025-08-15 20:57:23 - INFO - login - Login bem-sucedido: admin - CBNB
+2025-08-15 20:57:23 - INFO - main - Login realizado: admin - Escola: CBNB
+2025-08-15 20:57:32 - INFO - main - Logout realizado: admin
+2025-08-15 20:57:43 - INFO - auth - Login bem-sucedido: admin - DIRENS
+2025-08-15 20:57:43 - INFO - login - Login bem-sucedido: admin - DIRENS
+2025-08-15 20:57:43 - INFO - main - Login realizado: admin - Escola: DIRENS
+2025-08-15 20:59:05 - ERROR - main_window - Não foi possível carregar os dados do professor.
+SIAPE: 1234567
+Escola: DIRENS
+2025-08-15 20:59:10 - ERROR - main_window - Não foi possível carregar os dados do professor.
+SIAPE: 7654321
+Escola: DIRENS
+2025-08-15 20:59:15 - ERROR - main_window - Não foi possível carregar os dados do professor.
+SIAPE: 7654321
+Escola: DIRENS
+2025-08-15 21:00:38 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 21:01:01 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 21:02:18 - INFO - auth - Login bem-sucedido: admin - DIRENS
+2025-08-15 21:02:18 - INFO - login - Login bem-sucedido: admin - DIRENS
+2025-08-15 21:02:18 - INFO - main - Login realizado: admin - Escola: DIRENS
+2025-08-15 21:06:12 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 21:07:01 - INFO - auth - Login bem-sucedido: admin - DIRENS
+2025-08-15 21:07:01 - INFO - login - Login bem-sucedido: admin - DIRENS
+2025-08-15 21:07:01 - INFO - main - Login realizado: admin - Escola: DIRENS
+2025-08-15 21:09:55 - INFO - main - Logout realizado: admin
+2025-08-15 21:10:05 - INFO - auth - Login bem-sucedido: admin - DIRENS
+2025-08-15 21:10:05 - INFO - login - Login bem-sucedido: admin - DIRENS
+2025-08-15 21:10:05 - INFO - main - Login realizado: admin - Escola: DIRENS
+2025-08-15 21:24:14 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 21:24:44 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 21:24:58 - INFO - main - Sistema DIRENS iniciado
+2025-08-15 21:25:50 - INFO - auth - Login bem-sucedido: admin - DIRENS
+2025-08-15 21:25:50 - INFO - login - Login bem-sucedido: admin - DIRENS
+2025-08-15 21:25:50 - INFO - main - Login realizado: admin - Escola: DIRENS

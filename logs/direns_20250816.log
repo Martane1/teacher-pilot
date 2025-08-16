@@ -1,0 +1,12 @@
+2025-08-16 10:43:19 - INFO - main - Sistema DIRENS iniciado
+2025-08-16 10:43:43 - INFO - auth - Login bem-sucedido: admin - DIRENS
+2025-08-16 10:43:43 - INFO - login - Login bem-sucedido: admin - DIRENS
+2025-08-16 10:43:43 - INFO - main - Login realizado: admin - Escola: DIRENS
+2025-08-16 10:46:33 - ERROR - main_window - Não foi possível carregar os dados do professor.
+SIAPE: 7753898
+Escola: DIRENS
+2025-08-16 10:46:37 - ERROR - main_window - Não foi possível carregar os dados do professor.
+SIAPE: 8518091
+Escola: DIRENS
+2025-08-16 11:43:00 - INFO - main - Sistema DIRENS iniciado
+2025-08-16 11:43:55 - WARNING - login - Falha no login: admin - DIRENS
