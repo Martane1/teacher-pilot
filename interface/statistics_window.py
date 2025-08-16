@@ -128,6 +128,16 @@ class StatisticsWindow:
         cards_frame = ttk.Frame(summary_frame)
         cards_frame.pack(fill=tk.X, pady=(0, 20))
         
+        # Inicializa variáveis dos cards
+        self.total_professores_var = tk.StringVar(value="0")
+        self.professores_ativos_var = tk.StringVar(value="0")
+        self.professores_40h_de_var = tk.StringVar(value="0")
+        self.professores_doutorado_var = tk.StringVar(value="0")
+        self.professores_mestrado_var = tk.StringVar(value="0")
+        self.professores_ebtt_var = tk.StringVar(value="0")
+        if self.is_direns:
+            self.escolas_ativas_var = tk.StringVar(value="0")
+        
         # Cards de estatísticas principais
         self.create_stat_card(cards_frame, "Total de Professores", "total_professores", 0, 0)
         self.create_stat_card(cards_frame, "Professores Ativos", "professores_ativos", 0, 1)
@@ -165,7 +175,7 @@ class StatisticsWindow:
         card_frame.grid(row=row, column=col, padx=5, pady=5, sticky="we")
         
         # Variável para o valor
-        var = tk.StringVar()
+        var = tk.StringVar(value="0")
         setattr(self, f"{var_name}_var", var)
         
         # Label com valor grande
@@ -466,10 +476,12 @@ class StatisticsWindow:
         try:
             # Determina layout dos gráficos
             if self.is_direns:
-                fig, ((ax1, ax2), (ax3, ax4), (ax5, ax6)) = plt.subplots(3, 2, figsize=(14, 12))
+                fig, axes = plt.subplots(3, 2, figsize=(14, 12))
+                ax1, ax2, ax3, ax4, ax5, ax6 = axes.flatten()
                 title = f'Estatísticas - {self.school} (Consolidado)'
             else:
-                fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(12, 8))
+                fig, axes = plt.subplots(2, 2, figsize=(12, 8))
+                ax1, ax2, ax3, ax4 = axes.flatten()
                 title = f'Estatísticas - {self.school}'
             
             fig.suptitle(title, fontsize=16, fontweight='bold')
@@ -507,44 +519,49 @@ class StatisticsWindow:
             
             # Gráficos adicionais para DIRENS
             if self.is_direns:
-                # Gráfico 5: Professores por escola
-                escola_data = Counter([p.get('escola', 'Não informada') for p in professores])
-                if escola_data:
-                    labels5, values5 = zip(*escola_data.most_common())
-                    ax5.bar(range(len(labels5)), values5, color='skyblue')
-                    ax5.set_title('Professores por Escola')
-                    ax5.set_xticks(range(len(labels5)))
-                    ax5.set_xticklabels(labels5, rotation=45, ha='right')
-                
-                # Gráfico 6: Comparativo de qualificação por escola
-                escola_doutorado = {}
-                escola_mestrado = {}
-                
-                for escola in ESCOLAS.keys():
-                    if escola == 'DIRENS':
-                        continue
-                    profs_escola = [p for p in professores if p.get('escola') == escola]
-                    doutorado_count = len([p for p in profs_escola if p.get('pos_graduacao') == 'DOUTORADO'])
-                    mestrado_count = len([p for p in profs_escola if p.get('pos_graduacao') == 'MESTRADO'])
+                try:
+                    # Gráfico 5: Professores por escola
+                    escola_data = Counter([p.get('escola', 'Não informada') for p in professores])
+                    if escola_data:
+                        labels5, values5 = zip(*escola_data.most_common())
+                        ax5.bar(range(len(labels5)), values5, color='skyblue')
+                        ax5.set_title('Professores por Escola')
+                        ax5.set_xticks(range(len(labels5)))
+                        ax5.set_xticklabels(labels5, rotation=45, ha='right')
                     
-                    if profs_escola:  # Só inclui escolas com professores
-                        escola_doutorado[escola] = doutorado_count
-                        escola_mestrado[escola] = mestrado_count
-                
-                if escola_doutorado or escola_mestrado:
-                    escolas = list(escola_doutorado.keys())
-                    doutorado_values = [escola_doutorado.get(e, 0) for e in escolas]
-                    mestrado_values = [escola_mestrado.get(e, 0) for e in escolas]
+                    # Gráfico 6: Comparativo de qualificação por escola
+                    escola_doutorado = {}
+                    escola_mestrado = {}
                     
-                    x = np.arange(len(escolas))
-                    width = 0.35
+                    for escola in ESCOLAS.keys():
+                        if escola == 'DIRENS':
+                            continue
+                        profs_escola = [p for p in professores if p.get('escola') == escola]
+                        doutorado_count = len([p for p in profs_escola if p.get('pos_graduacao') == 'DOUTORADO'])
+                        mestrado_count = len([p for p in profs_escola if p.get('pos_graduacao') == 'MESTRADO'])
+                        
+                        if profs_escola:  # Só inclui escolas com professores
+                            escola_doutorado[escola] = doutorado_count
+                            escola_mestrado[escola] = mestrado_count
                     
-                    ax6.bar(x - width/2, doutorado_values, width, label='Doutorado', alpha=0.8)
-                    ax6.bar(x + width/2, mestrado_values, width, label='Mestrado', alpha=0.8)
-                    ax6.set_title('Pós-Graduação por Escola')
-                    ax6.set_xticks(x)
-                    ax6.set_xticklabels(escolas, rotation=45, ha='right')
-                    ax6.legend()
+                    if escola_doutorado or escola_mestrado:
+                        escolas = list(escola_doutorado.keys())
+                        doutorado_values = [escola_doutorado.get(e, 0) for e in escolas]
+                        mestrado_values = [escola_mestrado.get(e, 0) for e in escolas]
+                        
+                        x = np.arange(len(escolas))
+                        width = 0.35
+                        
+                        ax6.bar(x - width/2, doutorado_values, width, label='Doutorado', alpha=0.8)
+                        ax6.bar(x + width/2, mestrado_values, width, label='Mestrado', alpha=0.8)
+                        ax6.set_title('Pós-Graduação por Escola')
+                        ax6.set_xticks(x)
+                        ax6.set_xticklabels(escolas, rotation=45, ha='right')
+                        ax6.legend()
+                        
+                except (ValueError, IndexError) as e:
+                    logging.warning(f"Erro ao criar gráficos adicionais DIRENS: {e}")
+                    pass
             
             plt.tight_layout()
             
