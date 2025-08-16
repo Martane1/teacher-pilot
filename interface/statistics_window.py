@@ -316,7 +316,7 @@ class StatisticsWindow:
         comparison_frame.pack(fill=tk.BOTH, expand=True)
         
         # Treeview para comparação
-        comp_columns = ("Escola", "Total", "Ativos", "Doutorado", "Mestrado", "40H DE", "EBTT")
+        comp_columns = ("Escola", "Total", "Ativos", "MS", "EBTT", "20H", "40H", "40H_DE", "Doutorado", "Mestrado")
         self.comparison_tree = ttk.Treeview(comparison_frame, columns=comp_columns, show="headings", height=15)
         
         # Configurar colunas
@@ -324,10 +324,13 @@ class StatisticsWindow:
             "Escola": 100,
             "Total": 60,
             "Ativos": 60,
+            "MS": 50,
+            "EBTT": 60,
+            "20H": 50,
+            "40H": 50,
+            "40H_DE": 70,
             "Doutorado": 80,
-            "Mestrado": 80,
-            "40H DE": 60,
-            "EBTT": 60
+            "Mestrado": 80
         }
         
         for col in comp_columns:
@@ -528,6 +531,8 @@ class StatisticsWindow:
                         ax5.set_title('Professores por Escola')
                         ax5.set_xticks(range(len(labels5)))
                         ax5.set_xticklabels(labels5, rotation=45, ha='right')
+                    else:
+                        ax5.text(0.5, 0.5, 'Sem dados', ha='center', va='center', transform=ax5.transAxes)
                     
                     # Gráfico 6: Comparativo de qualificação por escola
                     escola_doutorado = {}
@@ -558,6 +563,8 @@ class StatisticsWindow:
                         ax6.set_xticks(x)
                         ax6.set_xticklabels(escolas, rotation=45, ha='right')
                         ax6.legend()
+                    else:
+                        ax6.text(0.5, 0.5, 'Sem dados', ha='center', va='center', transform=ax6.transAxes)
                         
                 except (ValueError, IndexError) as e:
                     logging.warning(f"Erro ao criar gráficos adicionais DIRENS: {e}")
@@ -651,10 +658,13 @@ class StatisticsWindow:
                     escolas_stats[escola] = {
                         'total': len(profs_escola),
                         'ativos': len([p for p in profs_escola if p.get('status', 'Ativo') == 'Ativo']),
-                        'doutorado': len([p for p in profs_escola if p.get('pos_graduacao') == 'DOUTORADO']),
-                        'mestrado': len([p for p in profs_escola if p.get('pos_graduacao') == 'MESTRADO']),
+                        'ms': len([p for p in profs_escola if p.get('carreira') == 'MS']),
+                        'ebtt': len([p for p in profs_escola if p.get('carreira') == 'EBTT']),
+                        '20h': len([p for p in profs_escola if p.get('carga_horaria') == '20H']),
+                        '40h': len([p for p in profs_escola if p.get('carga_horaria') == '40H']),
                         '40h_de': len([p for p in profs_escola if p.get('carga_horaria') == '40H_DE']),
-                        'ebtt': len([p for p in profs_escola if p.get('carreira') == 'EBTT'])
+                        'doutorado': len([p for p in profs_escola if p.get('pos_graduacao') == 'DOUTORADO']),
+                        'mestrado': len([p for p in profs_escola if p.get('pos_graduacao') == 'MESTRADO'])
                     }
             
             # Ordena por total de professores (decrescente)
@@ -666,10 +676,13 @@ class StatisticsWindow:
                     escola,
                     stats['total'],
                     stats['ativos'],
-                    stats['doutorado'],
-                    stats['mestrado'],
+                    stats['ms'],
+                    stats['ebtt'],
+                    stats['20h'],
+                    stats['40h'],
                     stats['40h_de'],
-                    stats['ebtt']
+                    stats['doutorado'],
+                    stats['mestrado']
                 ))
             
             # Adiciona linha de totais
@@ -678,10 +691,13 @@ class StatisticsWindow:
                     "TOTAL",
                     sum(s['total'] for _, s in sorted_escolas),
                     sum(s['ativos'] for _, s in sorted_escolas),
-                    sum(s['doutorado'] for _, s in sorted_escolas),
-                    sum(s['mestrado'] for _, s in sorted_escolas),
+                    sum(s['ms'] for _, s in sorted_escolas),
+                    sum(s['ebtt'] for _, s in sorted_escolas),
+                    sum(s['20h'] for _, s in sorted_escolas),
+                    sum(s['40h'] for _, s in sorted_escolas),
                     sum(s['40h_de'] for _, s in sorted_escolas),
-                    sum(s['ebtt'] for _, s in sorted_escolas)
+                    sum(s['doutorado'] for _, s in sorted_escolas),
+                    sum(s['mestrado'] for _, s in sorted_escolas)
                 ))
             
         except Exception as e:
