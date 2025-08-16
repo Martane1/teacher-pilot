@@ -2,7 +2,7 @@
   "metadata": {
     "created_at": "2025-08-15T13:30:22.734140",
     "version": "1.0",
-    "last_updated": "2025-08-15T19:13:54.531671"
+    "last_updated": "2025-08-16T00:06:02.877912"
   },
   "teachers": {
     "AFA_1234567": {
@@ -28,6 +28,186 @@
       "escola": "AFA",
       "history_file": "data/history/history_afa_2424242.json",
       "last_updated": "2025-08-15T19:13:54.531665"
+    },
+    "AFA_3932035": {
+      "siape": "3932035",
+      "escola": "AFA",
+      "history_file": "data/history/history_afa_3932035.json",
+      "last_updated": "2025-08-16T00:06:02.724993"
+    },
+    "AFA_7753898": {
+      "siape": "7753898",
+      "escola": "AFA",
+      "history_file": "data/history/history_afa_7753898.json",
+      "last_updated": "2025-08-16T00:06:02.730669"
+    },
+    "AFA_3558076": {
+      "siape": "3558076",
+      "escola": "AFA",
+      "history_file": "data/history/history_afa_3558076.json",
+      "last_updated": "2025-08-16T00:06:02.737035"
+    },
+    "CBNB_9329024": {
+      "siape": "9329024",
+      "escola": "CBNB",
+      "history_file": "data/history/history_cbnb_9329024.json",
+      "last_updated": "2025-08-16T00:06:02.743296"
+    },
+    "CBNB_9020636": {
+      "siape": "9020636",
+      "escola": "CBNB",
+      "history_file": "data/history/history_cbnb_9020636.json",
+      "last_updated": "2025-08-16T00:06:02.747674"
+    },
+    "CBNB_2526839": {
+      "siape": "2526839",
+      "escola": "CBNB",
+      "history_file": "data/history/history_cbnb_2526839.json",
+      "last_updated": "2025-08-16T00:06:02.752039"
+    },
+    "CIAAR_1033223": {
+      "siape": "1033223",
+      "escola": "CIAAR",
+      "history_file": "data/history/history_ciaar_1033223.json",
+      "last_updated": "2025-08-16T00:06:02.756179"
+    },
+    "CIAAR_4157138": {
+      "siape": "4157138",
+      "escola": "CIAAR",
+      "history_file": "data/history/history_ciaar_4157138.json",
+      "last_updated": "2025-08-16T00:06:02.760551"
+    },
+    "CIAAR_2315043": {
+      "siape": "2315043",
+      "escola": "CIAAR",
+      "history_file": "data/history/history_ciaar_2315043.json",
+      "last_updated": "2025-08-16T00:06:02.765394"
+    },
+    "CTRB_9708046": {
+      "siape": "9708046",
+      "escola": "CTRB",
+      "history_file": "data/history/history_ctrb_9708046.json",
+      "last_updated": "2025-08-16T00:06:02.769745"
+    },
+    "CTRB_2851647": {
+      "siape": "2851647",
+      "escola": "CTRB",
+      "history_file": "data/history/history_ctrb_2851647.json",
+      "last_updated": "2025-08-16T00:06:02.774306"
+    },
+    "CTRB_1005476": {
+      "siape": "1005476",
+      "escola": "CTRB",
+      "history_file": "data/history/history_ctrb_1005476.json",
+      "last_updated": "2025-08-16T00:06:02.778835"
+    },
+    "ECE_1221729": {
+      "siape": "1221729",
+      "escola": "ECE",
+      "history_file": "data/history/history_ece_1221729.json",
+      "last_updated": "2025-08-16T00:06:02.783635"
+    },
+    "ECE_8518091": {
+      "siape": "8518091",
+      "escola": "ECE",
+      "history_file": "data/history/history_ece_8518091.json",
+      "last_updated": "2025-08-16T00:06:02.788925"
+    },
+    "ECE_3618764": {
+      "siape": "3618764",
+      "escola": "ECE",
+      "history_file": "data/history/history_ece_3618764.json",
+      "last_updated": "2025-08-16T00:06:02.793964"
+    },
+    "EEAR_9947284": {
+      "siape": "9947284",
+      "escola": "EEAR",
+      "history_file": "data/history/history_eear_9947284.json",
+      "last_updated": "2025-08-16T00:06:02.798369"
+    },
+    "EEAR_6562543": {
+      "siape": "6562543",
+      "escola": "EEAR",
+      "history_file": "data/history/history_eear_6562543.json",
+      "last_updated": "2025-08-16T00:06:02.802835"
+    },
+    "EEAR_7763537": {
+      "siape": "7763537",
+      "escola": "EEAR",
+      "history_file": "data/history/history_eear_7763537.json",
+      "last_updated": "2025-08-16T00:06:02.807156"
+    },
+    "EPCAR_7099551": {
+      "siape": "7099551",
+      "escola": "EPCAR",
+      "history_file": "data/history/history_epcar_7099551.json",
+      "last_updated": "2025-08-16T00:06:02.811760"
+    },
+    "EPCAR_8241930": {
+      "siape": "8241930",
+      "escola": "EPCAR",
+      "history_file": "data/history/history_epcar_8241930.json",
+      "last_updated": "2025-08-16T00:06:02.817415"
+    },
+    "EPCAR_9416177": {
+      "siape": "9416177",
+      "escola": "EPCAR",
+      "history_file": "data/history/history_epcar_9416177.json",
+      "last_updated": "2025-08-16T00:06:02.822259"
+    },
+    "EAOAR_1295003": {
+      "siape": "1295003",
+      "escola": "EAOAR",
+      "history_file": "data/history/history_eaoar_1295003.json",
+      "last_updated": "2025-08-16T00:06:02.827070"
+    },
+    "EAOAR_9421980": {
+      "siape": "9421980",
+      "escola": "EAOAR",
+      "history_file": "data/history/history_eaoar_9421980.json",
+      "last_updated": "2025-08-16T00:06:02.832239"
+    },
+    "EAOAR_4700973": {
+      "siape": "4700973",
+      "escola": "EAOAR",
+      "history_file": "data/history/history_eaoar_4700973.json",
+      "last_updated": "2025-08-16T00:06:02.837588"
+    },
+    "ECEMAR_2457344": {
+      "siape": "2457344",
+      "escola": "ECEMAR",
+      "history_file": "data/history/history_ecemar_2457344.json",
+      "last_updated": "2025-08-16T00:06:02.842894"
+    },
+    "ECEMAR_9628331": {
+      "siape": "9628331",
+      "escola": "ECEMAR",
+      "history_file": "data/history/history_ecemar_9628331.json",
+      "last_updated": "2025-08-16T00:06:02.847913"
+    },
+    "ECEMAR_3580476": {
+      "siape": "3580476",
+      "escola": "ECEMAR",
+      "history_file": "data/history/history_ecemar_3580476.json",
+      "last_updated": "2025-08-16T00:06:02.853345"
+    },
+    "UNIFA_8801039": {
+      "siape": "8801039",
+      "escola": "UNIFA",
+      "history_file": "data/history/history_unifa_8801039.json",
+      "last_updated": "2025-08-16T00:06:02.862824"
+    },
+    "UNIFA_3588316": {
+      "siape": "3588316",
+      "escola": "UNIFA",
+      "history_file": "data/history/history_unifa_3588316.json",
+      "last_updated": "2025-08-16T00:06:02.869427"
+    },
+    "UNIFA_9448647": {
+      "siape": "9448647",
+      "escola": "UNIFA",
+      "history_file": "data/history/history_unifa_9448647.json",
+      "last_updated": "2025-08-16T00:06:02.877905"
     }
   }
 }

@@ -1,0 +1,19 @@
+{
+  "siape": "1005476",
+  "escola": "CTRB",
+  "created_at": "2025-08-16T00:06:02.778109",
+  "entries": [
+    {
+      "siape": "1005476",
+      "escola": "CTRB",
+      "action": "CREATE",
+      "user": "system",
+      "timestamp": "2025-08-16T00:06:02.778054",
+      "field": "professor",
+      "old_value": null,
+      "new_value": "Novo professor criado",
+      "notes": "Professor Sonia Carvalho criado com SIAPE 1005476"
+    }
+  ],
+  "last_updated": "2025-08-16T00:06:02.778114"
+}

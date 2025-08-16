@@ -1,0 +1,19 @@
+{
+  "siape": "7753898",
+  "escola": "AFA",
+  "created_at": "2025-08-16T00:06:02.729992",
+  "entries": [
+    {
+      "siape": "7753898",
+      "escola": "AFA",
+      "action": "CREATE",
+      "user": "system",
+      "timestamp": "2025-08-16T00:06:02.729935",
+      "field": "professor",
+      "old_value": null,
+      "new_value": "Novo professor criado",
+      "notes": "Professor Marcia Cardoso Nascimento criado com SIAPE 7753898"
+    }
+  ],
+  "last_updated": "2025-08-16T00:06:02.729996"
+}

@@ -1,0 +1,19 @@
+{
+  "siape": "2457344",
+  "escola": "ECEMAR",
+  "created_at": "2025-08-16T00:06:02.842173",
+  "entries": [
+    {
+      "siape": "2457344",
+      "escola": "ECEMAR",
+      "action": "CREATE",
+      "user": "system",
+      "timestamp": "2025-08-16T00:06:02.842119",
+      "field": "professor",
+      "old_value": null,
+      "new_value": "Novo professor criado",
+      "notes": "Professor Renato Almeida criado com SIAPE 2457344"
+    }
+  ],
+  "last_updated": "2025-08-16T00:06:02.842177"
+}

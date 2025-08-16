@@ -1,0 +1,19 @@
+{
+  "siape": "9708046",
+  "escola": "CTRB",
+  "created_at": "2025-08-16T00:06:02.769048",
+  "entries": [
+    {
+      "siape": "9708046",
+      "escola": "CTRB",
+      "action": "CREATE",
+      "user": "system",
+      "timestamp": "2025-08-16T00:06:02.769000",
+      "field": "professor",
+      "old_value": null,
+      "new_value": "Novo professor criado",
+      "notes": "Professor Ricardo Silva Araújo criado com SIAPE 9708046"
+    }
+  ],
+  "last_updated": "2025-08-16T00:06:02.769052"
+}

@@ -1,0 +1,19 @@
+{
+  "siape": "9448647",
+  "escola": "UNIFA",
+  "created_at": "2025-08-16T00:06:02.876666",
+  "entries": [
+    {
+      "siape": "9448647",
+      "escola": "UNIFA",
+      "action": "CREATE",
+      "user": "system",
+      "timestamp": "2025-08-16T00:06:02.876586",
+      "field": "professor",
+      "old_value": null,
+      "new_value": "Novo professor criado",
+      "notes": "Professor Daniel Mendes Gomes criado com SIAPE 9448647"
+    }
+  ],
+  "last_updated": "2025-08-16T00:06:02.876670"
+}
